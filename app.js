@@ -28,14 +28,6 @@ function checkDataAvailability() {
         console.error('Ошибка: stationsData не загружены!');
         return false;
     }
-    if (typeof statusConfig === 'undefined') {
-        console.error('Ошибка: statusConfig не загружены!');
-        return false;
-    }
-    if (typeof reactorTypes === 'undefined') {
-        console.error('Ошибка: reactorTypes не загружены!');
-        return false;
-    }
     return true;
 }
 
@@ -44,7 +36,6 @@ function getStatusConfig(status) {
     if (typeof statusConfig !== 'undefined' && statusConfig[status]) {
         return statusConfig[status];
     }
-    // Возвращаем значения по умолчанию если statusConfig не загружен
     return {
         name: 'Неизвестно',
         gradient: 'linear-gradient(135deg, #aaaaaa, #777777)',
@@ -70,7 +61,6 @@ function getReactorType(type) {
     if (typeof reactorTypes !== 'undefined' && reactorTypes[type]) {
         return reactorTypes[type];
     }
-    // Возвращаем значения по умолчанию если reactorTypes не загружен
     return {
         name: 'Неизвестно',
         color: '#00a8ff',
@@ -129,6 +119,50 @@ function initMap() {
         streetLayer.addTo(map);
         console.log('Слой карты добавлен');
         
+        // Обработчики для слоев карты
+        const streetLayerBtn = document.getElementById('street-layer');
+        const satelliteLayerBtn = document.getElementById('satellite-layer');
+        
+        if (streetLayerBtn) {
+            streetLayerBtn.addEventListener('click', function() {
+                if (satelliteLayer && map.hasLayer(satelliteLayer)) {
+                    map.removeLayer(satelliteLayer);
+                }
+                if (streetLayer && !map.hasLayer(streetLayer)) {
+                    streetLayer.addTo(map);
+                }
+                updateLayerButtons('street');
+            });
+        }
+        
+        if (satelliteLayerBtn) {
+            satelliteLayerBtn.addEventListener('click', function() {
+                if (streetLayer && map.hasLayer(streetLayer)) {
+                    map.removeLayer(streetLayer);
+                }
+                if (satelliteLayer && !map.hasLayer(satelliteLayer)) {
+                    satelliteLayer.addTo(map);
+                }
+                updateLayerButtons('satellite');
+            });
+        }
+        
+        // Переключение темы
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        if (themeToggleBtn) {
+            themeToggleBtn.addEventListener('click', toggleTheme);
+        }
+        
+        // Слушатель изменения масштаба
+        let zoomEndTimeout;
+        map.on('zoomend', function() {
+            clearTimeout(zoomEndTimeout);
+            zoomEndTimeout = setTimeout(() => {
+                currentZoom = map.getZoom();
+                updateUnitMarkersVisibility();
+            }, 200);
+        });
+        
         // Инициализация остальных компонентов
         setTimeout(() => {
             initStationMarkers();
@@ -146,164 +180,6 @@ function initMap() {
     }
 }
 
-// Инициализация обработчиков событий
-function initEventListeners() {
-    console.log('Инициализация обработчиков событий...');
-    
-    // Закрытие панели станции
-    const panelCloseBtn = document.getElementById('panel-close-btn');
-    const closeSidepanelBtn = document.getElementById('close-sidepanel-btn');
-    
-    if (panelCloseBtn) {
-        panelCloseBtn.addEventListener('click', closeStationPanel);
-    }
-    
-    if (closeSidepanelBtn) {
-        closeSidepanelBtn.addEventListener('click', closeStationPanel);
-    }
-    
-    // Переключение вкладок в панели
-    document.querySelectorAll('.panel-tab').forEach(tab => {
-        tab.addEventListener('click', function() {
-            const tabName = this.dataset.tab;
-            switchTab(tabName);
-        });
-    });
-    
-    // Переключение режимов карта/статистика
-    const mapModeBtn = document.getElementById('map-mode');
-    const statsModeBtn = document.getElementById('stats-mode');
-    const mobileStatsBtn = document.getElementById('mobile-stats-btn');
-    
-    if (mapModeBtn) {
-        mapModeBtn.addEventListener('click', function() {
-            this.classList.add('active');
-            document.getElementById('stats-mode')?.classList.remove('active');
-        });
-    }
-    
-    if (statsModeBtn) {
-        statsModeBtn.addEventListener('click', function() {
-            this.classList.add('active');
-            document.getElementById('map-mode')?.classList.remove('active');
-            window.location.href = 'statistics.html';
-        });
-    }
-    
-    if (mobileStatsBtn) {
-        mobileStatsBtn.addEventListener('click', function() {
-            window.location.href = 'statistics.html';
-        });
-    }
-    
-    // Управление слоями карты
-    const streetLayerBtn = document.getElementById('street-layer');
-    const satelliteLayerBtn = document.getElementById('satellite-layer');
-    
-    if (streetLayerBtn) {
-        streetLayerBtn.addEventListener('click', function() {
-            if (satelliteLayer && map.hasLayer(satelliteLayer)) {
-                map.removeLayer(satelliteLayer);
-            }
-            if (streetLayer && !map.hasLayer(streetLayer)) {
-                streetLayer.addTo(map);
-            }
-            updateLayerButtons('street');
-        });
-    }
-    
-    if (satelliteLayerBtn) {
-        satelliteLayerBtn.addEventListener('click', function() {
-            if (streetLayer && map.hasLayer(streetLayer)) {
-                map.removeLayer(streetLayer);
-            }
-            if (satelliteLayer && !map.hasLayer(satelliteLayer)) {
-                satelliteLayer.addTo(map);
-            }
-            updateLayerButtons('satellite');
-        });
-    }
-    
-    // Переключение темы
-    const themeToggleBtn = document.getElementById('theme-toggle');
-    const menuThemeBtn = document.getElementById('menu-theme-btn');
-    
-    if (themeToggleBtn) {
-        themeToggleBtn.addEventListener('click', toggleTheme);
-    }
-    
-    if (menuThemeBtn) {
-        menuThemeBtn.addEventListener('click', toggleTheme);
-    }
-    
-    // Обработчики для модальных окон
-    const closeLayersModalBtn = document.getElementById('close-layers-modal');
-    if (closeLayersModalBtn) {
-        closeLayersModalBtn.addEventListener('click', () => {
-            document.getElementById('layers-modal').classList.remove('active');
-        });
-    }
-    
-    // Обработчики для мобильного меню слоев
-    document.querySelectorAll('.layer-option').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const layer = this.dataset.layer;
-            if (layer === 'street') {
-                if (satelliteLayer && map.hasLayer(satelliteLayer)) {
-                    map.removeLayer(satelliteLayer);
-                }
-                if (streetLayer && !map.hasLayer(streetLayer)) {
-                    streetLayer.addTo(map);
-                }
-            } else if (layer === 'satellite') {
-                if (streetLayer && map.hasLayer(streetLayer)) {
-                    map.removeLayer(streetLayer);
-                }
-                if (satelliteLayer && !map.hasLayer(satelliteLayer)) {
-                    satelliteLayer.addTo(map);
-                }
-            }
-            updateLayerButtons(layer);
-            document.getElementById('layers-modal').classList.remove('active');
-        });
-    });
-    
-    // Меню слоев для мобильных
-    const menuLayersBtn = document.getElementById('menu-layers-btn');
-    if (menuLayersBtn) {
-        menuLayersBtn.addEventListener('click', () => {
-            closeMobileMenu();
-            setTimeout(() => {
-                document.getElementById('layers-modal').classList.add('active');
-            }, 300);
-        });
-    }
-    
-    // Обработка ресайза окна
-    let resizeTimeout;
-    window.addEventListener('resize', function() {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(() => {
-            isMobile = window.innerWidth < 769;
-            updateStationMarkers();
-        }, 250);
-    });
-    
-    // Закрытие панели при клике вне ее на мобильных
-    if (isMobile) {
-        document.addEventListener('click', function(e) {
-            const stationPanel = document.getElementById('station-panel');
-            if (stationPanel && stationPanel.classList.contains('open') && 
-                !stationPanel.contains(e.target) && 
-                !e.target.closest('.custom-marker')) {
-                closeStationPanel();
-            }
-        });
-    }
-    
-    console.log('Обработчики событий инициализированы');
-}
-
 // Обновление кнопок слоев
 function updateLayerButtons(activeLayer) {
     // Десктопные кнопки
@@ -315,20 +191,12 @@ function updateLayerButtons(activeLayer) {
     
     if (activeLayer === 'street' && streetBtn) streetBtn.classList.add('active');
     if (activeLayer === 'satellite' && satelliteBtn) satelliteBtn.classList.add('active');
-    
-    // Мобильные кнопки
-    document.querySelectorAll('.layer-option').forEach(btn => {
-        btn.classList.remove('active');
-        if (btn.dataset.layer === activeLayer) {
-            btn.classList.add('active');
-        }
-    });
 }
 
 // Переключение темы
 function toggleTheme() {
     console.log('Переключение темы');
-    const icon = document.querySelector('#theme-toggle i') || document.querySelector('#menu-theme-btn i');
+    const icon = document.querySelector('#theme-toggle i');
     isDarkTheme = !isDarkTheme;
     
     if (isDarkTheme) {
@@ -338,22 +206,12 @@ function toggleTheme() {
             icon.classList.remove('fa-sun');
             icon.classList.add('fa-moon');
         }
-        // Обновляем текст кнопки в меню
-        const menuThemeText = document.querySelector('#menu-theme-btn span');
-        if (menuThemeText) {
-            menuThemeText.textContent = 'Тёмная тема';
-        }
     } else {
         document.body.classList.remove('dark-theme');
         document.body.classList.add('light-theme');
         if (icon) {
             icon.classList.remove('fa-moon');
             icon.classList.add('fa-sun');
-        }
-        // Обновляем текст кнопки в меню
-        const menuThemeText = document.querySelector('#menu-theme-btn span');
-        if (menuThemeText) {
-            menuThemeText.textContent = 'Светлая тема';
         }
     }
     
@@ -551,26 +409,38 @@ function selectStation(station) {
     selectedUnit = null;
     
     const panel = document.getElementById('station-panel');
-    panel.classList.add('open');
-    panel.scrollTop = 0;
+    if (panel) {
+        panel.classList.add('open');
+        panel.scrollTop = 0;
+    }
     
     // Обновление информации
-    document.getElementById('panel-station-name').textContent = station.name;
-    document.getElementById('total-capacity').textContent = station.totalCapacity.toLocaleString();
-    document.getElementById('units-count').textContent = station.units.length;
-    document.getElementById('panel-country').textContent = `${station.country.flag} ${station.country.name}`;
-    document.getElementById('panel-year').textContent = station.startYear;
+    const panelStationName = document.getElementById('panel-station-name');
+    const totalCapacity = document.getElementById('total-capacity');
+    const unitsCount = document.getElementById('units-count');
+    const panelCountry = document.getElementById('panel-country');
+    const panelYear = document.getElementById('panel-year');
+    const overviewDescription = document.getElementById('overview-description');
+    const locationText = document.getElementById('location-text');
+    
+    if (panelStationName) panelStationName.textContent = station.name;
+    if (totalCapacity) totalCapacity.textContent = station.totalCapacity.toLocaleString();
+    if (unitsCount) unitsCount.textContent = station.units.length;
+    if (panelCountry) panelCountry.textContent = `${station.country.flag} ${station.country.name}`;
+    if (panelYear) panelYear.textContent = station.startYear;
     
     const cleanedDescription = station.overview || "Описание отсутствует";
-    document.getElementById('overview-description').textContent = cleanedDescription;
+    if (overviewDescription) overviewDescription.textContent = cleanedDescription;
     
-    let locationText = station.location || station.locationCity || "Информация отсутствует";
-    document.getElementById('location-text').textContent = locationText;
+    let locationTextContent = station.location || station.locationCity || "Информация отсутствует";
+    if (locationText) locationText.textContent = locationTextContent;
     
     const statusBadge = document.getElementById('panel-status-badge');
-    const statusConfig = getStatusConfig(station.status);
-    statusBadge.textContent = statusConfig.name;
-    statusBadge.style.background = statusConfig.gradient;
+    if (statusBadge) {
+        const statusConfig = getStatusConfig(station.status);
+        statusBadge.textContent = statusConfig.name;
+        statusBadge.style.background = statusConfig.gradient;
+    }
     
     updateUnitsTab(station);
     updateHistoryTab(station);
@@ -847,6 +717,125 @@ function updateUnitMarkersVisibility() {
     }
 }
 
+// Инициализация обработчиков событий
+function initEventListeners() {
+    console.log('Инициализация обработчиков событий...');
+    
+    // Закрытие панели станции
+    const panelCloseBtn = document.getElementById('panel-close-btn');
+    const closeSidepanelBtn = document.getElementById('close-sidepanel-btn');
+    
+    if (panelCloseBtn) {
+        panelCloseBtn.addEventListener('click', closeStationPanel);
+    }
+    
+    if (closeSidepanelBtn) {
+        closeSidepanelBtn.addEventListener('click', closeStationPanel);
+    }
+    
+    // Переключение вкладок в панели
+    document.querySelectorAll('.panel-tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+            const tabName = this.dataset.tab;
+            switchTab(tabName);
+        });
+    });
+    
+    // Переключение режимов карта/статистика
+    const mapModeBtn = document.getElementById('map-mode');
+    const statsModeBtn = document.getElementById('stats-mode');
+    const mobileStatsBtn = document.getElementById('mobile-stats-btn');
+    
+    if (mapModeBtn) {
+        mapModeBtn.addEventListener('click', function() {
+            this.classList.add('active');
+            const statsMode = document.getElementById('stats-mode');
+            if (statsMode) statsMode.classList.remove('active');
+        });
+    }
+    
+    if (statsModeBtn) {
+        statsModeBtn.addEventListener('click', function() {
+            this.classList.add('active');
+            const mapMode = document.getElementById('map-mode');
+            if (mapMode) mapMode.classList.remove('active');
+            window.location.href = 'statistics.html';
+        });
+    }
+    
+    if (mobileStatsBtn) {
+        mobileStatsBtn.addEventListener('click', function() {
+            window.location.href = 'statistics.html';
+        });
+    }
+    
+    // Кнопка фильтров на десктопе
+    const desktopFiltersBtn = document.getElementById('toggle-filters-desktop');
+    if (desktopFiltersBtn) {
+        desktopFiltersBtn.addEventListener('click', () => {
+            console.log('Переключение фильтров на десктопе');
+            const filtersPanel = document.getElementById('filters-panel');
+            if (filtersPanel) filtersPanel.classList.toggle('open');
+        });
+    }
+    
+    // Обработчики для модальных окон
+    const closeLayersModalBtn = document.getElementById('close-layers-modal');
+    if (closeLayersModalBtn) {
+        closeLayersModalBtn.addEventListener('click', () => {
+            const layersModal = document.getElementById('layers-modal');
+            if (layersModal) layersModal.classList.remove('active');
+        });
+    }
+    
+    // Обработчики для мобильного меню слоев
+    document.querySelectorAll('.layer-option').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const layer = this.dataset.layer;
+            if (layer === 'street') {
+                if (satelliteLayer && map.hasLayer(satelliteLayer)) {
+                    map.removeLayer(satelliteLayer);
+                }
+                if (streetLayer && !map.hasLayer(streetLayer)) {
+                    streetLayer.addTo(map);
+                }
+            } else if (layer === 'satellite') {
+                if (streetLayer && map.hasLayer(streetLayer)) {
+                    map.removeLayer(streetLayer);
+                }
+                if (satelliteLayer && !map.hasLayer(satelliteLayer)) {
+                    satelliteLayer.addTo(map);
+                }
+            }
+            updateLayerButtons(layer);
+            const layersModal = document.getElementById('layers-modal');
+            if (layersModal) layersModal.classList.remove('active');
+        });
+    });
+    
+    // Меню слоев для мобильных
+    const menuLayersBtn = document.getElementById('menu-layers-btn');
+    if (menuLayersBtn) {
+        menuLayersBtn.addEventListener('click', () => {
+            closeMobileMenu();
+            setTimeout(() => {
+                const layersModal = document.getElementById('layers-modal');
+                if (layersModal) layersModal.classList.add('active');
+            }, 300);
+        });
+    }
+    
+    // Обработка ресайза окна
+    let resizeTimeout;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            isMobile = window.innerWidth < 769;
+            updateStationMarkers();
+        }, 250);
+    });
+}
+
 // Инициализация мобильного меню
 function initMobileMenu() {
     console.log('Инициализация мобильного меню...');
@@ -873,16 +862,8 @@ function initMobileMenu() {
     if (mobileFiltersBtn) {
         mobileFiltersBtn.addEventListener('click', () => {
             console.log('Открытие фильтров на мобильном');
-            document.getElementById('filters-panel').classList.add('open');
-        });
-    }
-    
-    // Кнопка фильтров на десктопе
-    const desktopFiltersBtn = document.getElementById('toggle-filters-desktop');
-    if (desktopFiltersBtn) {
-        desktopFiltersBtn.addEventListener('click', () => {
-            console.log('Переключение фильтров на десктопе');
-            document.getElementById('filters-panel').classList.toggle('open');
+            const filtersPanel = document.getElementById('filters-panel');
+            if (filtersPanel) filtersPanel.classList.add('open');
         });
     }
 }
@@ -937,7 +918,7 @@ function initSearch() {
         
         if (clearMobileSearch && mobileSearchInput) {
             clearMobileSearch.addEventListener('click', () => {
-                mobileSearchInput.value = '';
+                if (mobileSearchInput) mobileSearchInput.value = '';
                 if (mobileSearchResults) mobileSearchResults.innerHTML = '';
                 mobileSearchInput.focus();
             });
