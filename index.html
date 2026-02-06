@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>МИР АЭС | Цифровой пульт управления атомной энергетикой</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body class="dark-theme">
+    <!-- Шапка сайта -->
+    <header class="header">
+        <!-- Левый сектор: Бренд -->
+        <div class="brand-section">
+            <div class="logo-container">
+                <div class="atom-logo">
+                    <div class="atom-core"></div>
+                    <div class="electron electron-1"></div>
+                    <div class="electron electron-2"></div>
+                    <div class="electron electron-3"></div>
+                    <div class="electron electron-4"></div>
+                    <div class="electron electron-5"></div>
+                    <div class="atom-ring ring-1"></div>
+                    <div class="atom-ring ring-2"></div>
+                </div>
+            </div>
+            <h1 class="brand-title">МИР АЭС</h1>
+        </div>
+        
+        <!-- Центральный сектор: Навигация и Легенда -->
+        <div class="center-section">
+            <div class="nav-buttons">
+                <button class="nav-btn active" id="map-mode">КАРТА</button>
+                <button class="nav-btn" id="stats-mode">СТАТИСТИКА</button>
+            </div>
+            <div class="search-container">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="station-search" placeholder="Поиск АЭС по названию или городу...">
+                    <div class="search-results" id="search-results"></div>
+                </div>
+            </div>
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color operational"></div>
+                    <span>Работает</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color stopped"></div>
+                    <span>Остановлен</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color construction"></div>
+                    <span>Строится</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color closed"></div>
+                    <span>Закрыт</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color abandoned"></div>
+                    <span>Заброшена</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color accident"></div>
+                    <span>Авария</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Правый сектор: Инструменты -->
+        <div class="right-section">
+            <a href="https://t.me/WorldNPP" target="_blank" class="telegram-btn" title="Канал в Telegram">
+                <i class="fab fa-telegram"></i>
+            </a>
+            <div class="vfd-clock" id="digital-clock">
+                <div class="digit-container">
+                    <div class="segment-display">
+                        <span class="hours">00</span>
+                        <span class="clock-colon">:</span>
+                        <span class="minutes">00</span>
+                        <span class="clock-colon">:</span>
+                        <span class="seconds">00</span>
+                    </div>
+                </div>
+                <div class="clock-label" id="current-date">--/--/----</div>
+            </div>
+            <div class="map-controls">
+                <button class="control-btn active" id="street-layer" title="Схема">
+                    <i class="fas fa-map"></i>
+                </button>
+                <button class="control-btn" id="satellite-layer" title="Спутник">
+                    <i class="fas fa-satellite"></i>
+                </button>
+                <button class="control-btn" id="theme-toggle" title="День/Ночь">
+                    <i class="fas fa-sun"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Кнопка для открытия фильтров -->
+    <div class="toggle-filters" id="toggle-filters-btn">
+        <i class="fas fa-filter"></i>
+    </div>
+    
+    <!-- Панель фильтров -->
+    <div class="filters-panel" id="filters-panel">
+        <div class="filter-section">
+            <div class="filter-title">СТРАНЫ</div>
+            <div class="filter-options" id="country-filters">
+                <!-- Фильтры по странам будут добавлены через JS -->
+            </div>
+        </div>
+        
+        <div class="filter-section">
+            <div class="filter-title">СТАТУС АЭС</div>
+            <div class="filter-options" id="status-filters">
+                <!-- Фильтры по статусу будут добавлены через JS -->
+            </div>
+        </div>
+        
+        <div class="filter-section">
+            <div class="filter-title">ТИП РЕАКТОРА</div>
+            <div class="filter-options" id="type-filters">
+                <!-- Фильтры по типу реактора будут добавлены через JS -->
+            </div>
+        </div>
+        
+        <button class="nav-btn" style="width:100%; margin-top:10px;" id="reset-filters">
+            СБРОСИТЬ ФИЛЬТРЫ
+        </button>
+    </div>
+    
+    <!-- Карта -->
+    <div class="map-container">
+        <div id="map"></div>
+    </div>
+    
+    <!-- Выдвижная панель информации -->
+    <div class="sidepanel" id="sidepanel">
+        <div class="panel-header">
+            <div>
+                <h2 class="station-title" id="panel-station-name">Выберите АЭС</h2>
+                <div class="status-badge" id="panel-status-badge">—</div>
+            </div>
+            <button class="close-panel" id="close-panel">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="tabs">
+            <div class="tab active" data-tab="overview">ОБЗОР</div>
+            <div class="tab" data-tab="units">ЭНЕРГОБЛОКИ</div>
+            <div class="tab" data-tab="history">ИСТОРИЯ</div>
+            <div class="tab" data-tab="facts">ФАКТЫ</div>
+        </div>
+        
+        <div class="tab-content">
+            <!-- Вкладка ОБЗОР -->
+            <div class="tab-pane active" id="overview-tab">
+                <div class="overview-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-bolt"></i></div>
+                        <div class="stat-value" id="total-capacity">—</div>
+                        <div class="stat-label">Общая мощность, МВт</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-industry"></i></div>
+                        <div class="stat-value" id="units-count">—</div>
+                        <div class="stat-label">Количество блоков</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-flag"></i></div>
+                        <div class="stat-value" id="panel-country">—</div>
+                        <div class="stat-label">Страна</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-calendar-alt"></i></div>
+                        <div class="stat-value" id="panel-year">—</div>
+                        <div class="stat-label">Год пуска</div>
+                    </div>
+                </div>
+                
+                <div class="info-block">
+                    <h3><i class="fas fa-info-circle"></i> О СТАНЦИИ</h3>
+                    <div class="overview-description" id="overview-description">
+                        Выберите атомную электростанцию на карте для просмотра подробной информации.
+                    </div>
+                </div>
+                
+                <div class="info-block">
+                    <h3><i class="fas fa-map-marker-alt"></i> МЕСТОПОЛОЖЕНИЕ</h3>
+                    <div class="location-info" id="location-info">
+                        <i class="fas fa-city"></i>
+                        <span id="location-text">—</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Вкладка ЭНЕРГОБЛОКИ -->
+            <div class="tab-pane" id="units-tab">
+                <div class="units-header">
+                    <h3>ЭНЕРГОБЛОКИ СТАНЦИИ</h3>
+                    <div class="units-summary" id="units-summary">
+                        Всего блоков: <span id="total-units">0</span> | Работает: <span id="operational-units">0</span>
+                    </div>
+                </div>
+                <div class="units-list" id="units-list">
+                    <!-- Список энергоблоков будет добавляться через JS -->
+                </div>
+            </div>
+            
+            <!-- Вкладка ИСТОРИЯ -->
+            <div class="tab-pane" id="history-tab">
+                <h3><i class="fas fa-history"></i> ИСТОРИЯ СТАНЦИИ</h3>
+                <div class="timeline" id="history-timeline">
+                    <!-- Хронология будет добавляться через JS -->
+                </div>
+            </div>
+            
+            <!-- Вкладка ФАКТЫ -->
+            <div class="tab-pane" id="facts-tab">
+                <h3><i class="fas fa-star"></i> ИНТЕРЕСНЫЕ ФАКТЫ</h3>
+                <div class="facts-grid" id="facts-list">
+                    <!-- Факты будут добавляться через JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Всплывающая подсказка -->
+    <div class="floating-tooltip" id="floating-tooltip">
+        <div class="tooltip-content">
+            <p><i class="fas fa-mouse-pointer"></i> Чтобы прочитать про АЭС, нажмите на неё</p>
+            <button class="close-tooltip" id="close-tooltip">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Подключаем скрипты -->
+    <script src="data.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
