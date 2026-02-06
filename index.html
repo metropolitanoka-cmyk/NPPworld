@@ -40,35 +40,12 @@
             <div class="search-container">
                 <div class="search-box">
                     <i class="fas fa-search"></i>
-                    <input type="text" id="station-search" placeholder="Поиск АЭС по названию или городу...">
-                    <div class="search-results" id="search-results"></div>
+                    <input type="text" id="station-search" placeholder="Поиск АЭС...">
+                    <button class="clear-search" id="clear-search" style="display:none;">
+                        <i class="fas fa-times"></i>
+                    </button>
                 </div>
-            </div>
-            <div class="legend">
-                <div class="legend-item">
-                    <div class="legend-color operational"></div>
-                    <span>Работает</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color stopped"></div>
-                    <span>Остановлен</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color construction"></div>
-                    <span>Строится</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color closed"></div>
-                    <span>Закрыт</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color abandoned"></div>
-                    <span>Заброшена</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color accident"></div>
-                    <span>Авария</span>
-                </div>
+                <div class="search-results" id="search-results"></div>
             </div>
         </div>
         
@@ -90,26 +67,89 @@
                 <div class="clock-label" id="current-date">--/--/----</div>
             </div>
             <div class="map-controls">
-                <button class="control-btn active" id="street-layer" title="Схема">
-                    <i class="fas fa-map"></i>
-                </button>
-                <button class="control-btn" id="satellite-layer" title="Спутник">
-                    <i class="fas fa-satellite"></i>
-                </button>
                 <button class="control-btn" id="theme-toggle" title="День/Ночь">
                     <i class="fas fa-sun"></i>
+                </button>
+                <button class="control-btn mobile-only" id="mobile-menu-btn" title="Меню">
+                    <i class="fas fa-bars"></i>
                 </button>
             </div>
         </div>
     </header>
     
-    <!-- Кнопка для открытия фильтров -->
-    <div class="toggle-filters" id="toggle-filters-btn">
-        <i class="fas fa-filter"></i>
+    <!-- Мобильное меню -->
+    <div class="mobile-menu" id="mobile-menu">
+        <div class="menu-header">
+            <h3>Меню</h3>
+            <button class="close-menu" id="close-menu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="menu-content">
+            <div class="legend">
+                <div class="legend-title">Легенда</div>
+                <div class="legend-grid">
+                    <div class="legend-item">
+                        <div class="legend-color operational"></div>
+                        <span>Работает</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color stopped"></div>
+                        <span>Остановлен</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color construction"></div>
+                        <span>Строится</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color closed"></div>
+                        <span>Закрыт</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color abandoned"></div>
+                        <span>Заброшена</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color accident"></div>
+                        <span>Авария</span>
+                    </div>
+                </div>
+            </div>
+            <div class="map-layers">
+                <div class="layer-title">Тип карты</div>
+                <div class="layer-buttons">
+                    <button class="layer-btn active" id="mobile-street-layer">
+                        <i class="fas fa-map"></i>
+                        <span>Схема</span>
+                    </button>
+                    <button class="layer-btn" id="mobile-satellite-layer">
+                        <i class="fas fa-satellite"></i>
+                        <span>Спутник</span>
+                    </button>
+                </div>
+            </div>
+            <button class="toggle-filters" id="mobile-filters-btn">
+                <i class="fas fa-filter"></i>
+                <span>Фильтры</span>
+            </button>
+        </div>
     </div>
+    
+    <!-- Кнопка для открытия фильтров -->
+    <button class="toggle-filters desktop-only" id="toggle-filters-btn">
+        <i class="fas fa-filter"></i>
+        <span class="filter-text">Фильтры</span>
+    </button>
     
     <!-- Панель фильтров -->
     <div class="filters-panel" id="filters-panel">
+        <div class="filter-header">
+            <h3>Фильтры</h3>
+            <button class="close-filters" id="close-filters">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
         <div class="filter-section">
             <div class="filter-title">СТРАНЫ</div>
             <div class="filter-options" id="country-filters">
@@ -131,9 +171,14 @@
             </div>
         </div>
         
-        <button class="nav-btn" style="width:100%; margin-top:10px;" id="reset-filters">
-            СБРОСИТЬ ФИЛЬТРЫ
-        </button>
+        <div class="filter-buttons">
+            <button class="filter-btn reset" id="reset-filters">
+                СБРОСИТЬ
+            </button>
+            <button class="filter-btn apply" id="apply-filters">
+                ПРИМЕНИТЬ
+            </button>
+        </div>
     </div>
     
     <!-- Карта -->
@@ -167,12 +212,12 @@
                     <div class="stat-card">
                         <div class="stat-icon"><i class="fas fa-bolt"></i></div>
                         <div class="stat-value" id="total-capacity">—</div>
-                        <div class="stat-label">Общая мощность, МВт</div>
+                        <div class="stat-label">Мощность, МВт</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-icon"><i class="fas fa-industry"></i></div>
                         <div class="stat-value" id="units-count">—</div>
-                        <div class="stat-label">Количество блоков</div>
+                        <div class="stat-label">Блоков</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-icon"><i class="fas fa-flag"></i></div>
@@ -233,10 +278,10 @@
         </div>
     </div>
 
-    <!-- Всплывающая подсказка -->
-    <div class="floating-tooltip" id="floating-tooltip">
+    <!-- Всплывающая подсказка (только для десктопа) -->
+    <div class="floating-tooltip desktop-only" id="floating-tooltip">
         <div class="tooltip-content">
-            <p><i class="fas fa-mouse-pointer"></i> Чтобы прочитать про АЭС, нажмите на неё</p>
+            <p><i class="fas fa-mouse-pointer"></i> Нажмите на АЭС для просмотра информации</p>
             <button class="close-tooltip" id="close-tooltip">
                 <i class="fas fa-times"></i>
             </button>
