@@ -4,7 +4,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    transition: background-color 0.3s, color 0.3s;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }
 
 :root {
@@ -29,6 +29,7 @@
 }
 
 .dark-theme {
+    /* Темная тема */
     --bg-primary: #0A0E14;
     --bg-secondary: #141923;
     --bg-tertiary: #1E2532;
@@ -49,6 +50,7 @@
 }
 
 .light-theme {
+    /* Светлая тема */
     --bg-primary: #F5F7FA;
     --bg-secondary: #FFFFFF;
     --bg-tertiary: #EFF2F7;
@@ -74,38 +76,45 @@ body {
     color: var(--text-primary);
     -webkit-tap-highlight-color: transparent;
     -webkit-touch-callout: none;
+    touch-action: pan-x pan-y;
+}
+
+.desktop-only {
+    display: block;
+}
+
+.mobile-only {
+    display: none !important;
 }
 
 /* ===== HEADER ===== */
 .header {
-    height: auto;
-    min-height: 130px;
+    height: 70px;
     background: var(--bg-secondary);
-    backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--border-color);
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    padding: 15px 20px;
+    padding: 0 15px;
     position: relative;
     z-index: 1000;
     box-shadow: var(--shadow);
+    flex-wrap: nowrap;
 }
 
 /* Левый сектор - Бренд */
 .brand-section {
     display: flex;
     align-items: center;
-    gap: 15px;
-    flex: 1;
-    min-width: 200px;
+    gap: 12px;
+    flex-shrink: 0;
+    min-width: 0;
 }
 
 .logo-container {
     position: relative;
-    width: 60px;
-    height: 60px;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -114,14 +123,14 @@ body {
 
 .atom-logo {
     position: relative;
-    width: 45px;
-    height: 45px;
+    width: 35px;
+    height: 35px;
 }
 
 .atom-core {
     position: absolute;
-    width: 16px;
-    height: 16px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
     background: radial-gradient(circle, var(--accent-blue) 0%, #00B8FF 100%);
     box-shadow: 0 0 15px var(--accent-blue);
@@ -129,12 +138,13 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 2;
+    animation: pulse 2s infinite alternate;
 }
 
 .electron {
     position: absolute;
-    width: 6px;
-    height: 6px;
+    width: 5px;
+    height: 5px;
     border-radius: 50%;
     background: var(--accent-green);
     top: 50%;
@@ -143,11 +153,11 @@ body {
     box-shadow: 0 0 8px var(--accent-green);
 }
 
-.electron-1 { transform: rotate(0deg) translateX(20px) rotate(0deg); }
-.electron-2 { transform: rotate(72deg) translateX(20px) rotate(0deg); }
-.electron-3 { transform: rotate(144deg) translateX(20px) rotate(0deg); }
-.electron-4 { transform: rotate(216deg) translateX(20px) rotate(0deg); }
-.electron-5 { transform: rotate(288deg) translateX(20px) rotate(0deg); }
+.electron-1 { animation: orbit1 3s linear infinite; }
+.electron-2 { animation: orbit2 3.5s linear infinite; }
+.electron-3 { animation: orbit3 4s linear infinite; }
+.electron-4 { animation: orbit4 4.5s linear infinite; }
+.electron-5 { animation: orbit5 5s linear infinite; }
 
 .atom-ring {
     position: absolute;
@@ -156,57 +166,66 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    animation: spin 20s linear infinite;
 }
 
-.ring-1 { width: 40px; height: 40px; }
-.ring-2 { width: 30px; height: 30px; }
+.ring-1 {
+    width: 35px;
+    height: 35px;
+    animation-delay: -5s;
+}
+
+.ring-2 {
+    width: 25px;
+    height: 25px;
+    animation: spin 15s linear infinite reverse;
+}
 
 .brand-title {
-    font-size: 24px;
+    font-size: 18px;
     font-weight: 800;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     background: linear-gradient(90deg, var(--text-primary), var(--accent-blue));
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
     text-shadow: 0 0 10px rgba(0, 209, 255, 0.3);
-    word-break: keep-all;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-/* Центральный сектор - Навигация, Поиск и Легенда */
+/* Центральный сектор - Навигация и Поиск */
 .center-section {
     display: flex;
-    flex-direction: column;
     align-items: center;
     gap: 15px;
-    flex: 2;
+    flex: 1;
     margin: 0 15px;
-    min-width: 300px;
-    max-width: 800px;
+    min-width: 0;
+    justify-content: center;
 }
 
 .nav-buttons {
     display: flex;
-    gap: 10px;
-    width: 100%;
-    justify-content: center;
+    gap: 8px;
+    flex-shrink: 0;
 }
 
 .nav-btn {
-    padding: 10px 20px;
+    padding: 8px 15px;
     background: var(--bg-tertiary);
     border: 1px solid var(--border-color);
     border-radius: 6px;
     color: var(--text-primary);
     font-weight: 600;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     cursor: pointer;
     transition: all 0.3s;
     position: relative;
     overflow: hidden;
-    flex: 1;
-    max-width: 200px;
-    font-size: 14px;
+    font-size: 13px;
+    white-space: nowrap;
 }
 
 .nav-btn:hover {
@@ -224,9 +243,10 @@ body {
 
 /* Стили для поиска */
 .search-container {
-    width: 100%;
-    max-width: 500px;
     position: relative;
+    flex: 1;
+    max-width: 300px;
+    min-width: 150px;
 }
 
 .search-box {
@@ -236,21 +256,22 @@ body {
 
 .search-box i {
     position: absolute;
-    left: 15px;
+    left: 12px;
     top: 50%;
     transform: translateY(-50%);
     color: var(--text-tertiary);
     z-index: 2;
+    font-size: 14px;
 }
 
 #station-search {
     width: 100%;
-    padding: 12px 20px 12px 45px;
+    padding: 10px 35px 10px 35px;
     background: var(--bg-tertiary);
     border: 1px solid var(--border-color);
     border-radius: 8px;
     color: var(--text-primary);
-    font-size: 14px;
+    font-size: 13px;
     outline: none;
     transition: all 0.3s;
 }
@@ -262,6 +283,25 @@ body {
 
 #station-search::placeholder {
     color: var(--text-tertiary);
+    font-size: 13px;
+}
+
+.clear-search {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--text-tertiary);
+    font-size: 14px;
+    cursor: pointer;
+    z-index: 2;
+    padding: 4px;
+}
+
+.clear-search:hover {
+    color: var(--accent-red);
 }
 
 .search-results {
@@ -280,7 +320,7 @@ body {
 }
 
 .search-result-item {
-    padding: 12px 20px;
+    padding: 10px 15px;
     border-bottom: 1px solid var(--border-color);
     cursor: pointer;
     transition: all 0.2s;
@@ -309,61 +349,24 @@ body {
     margin-left: auto;
 }
 
-.legend {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 8px 12px;
-    background: var(--bg-tertiary);
-    border-radius: 12px;
-    border: 1px solid var(--border-color);
-    width: 100%;
-}
-
-.legend-item {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 11px;
-    color: var(--text-secondary);
-    flex-shrink: 0;
-}
-
-.legend-color {
-    width: 12px;
-    height: 12px;
-    border-radius: 4px;
-    flex-shrink: 0;
-}
-
-.legend-color.operational { background: linear-gradient(135deg, #00FF88, #00CCAA); }
-.legend-color.stopped { background: linear-gradient(135deg, #FFCC00, #FFAA33); }
-.legend-color.construction { background: linear-gradient(135deg, #33AAFF, #0088FF); }
-.legend-color.closed { background: linear-gradient(135deg, #AAAAAA, #777777); }
-.legend-color.abandoned { background: linear-gradient(135deg, #8B4513, #A0522D); }
-.legend-color.accident { background: linear-gradient(135deg, #FF3366, #FF0055); }
-
 /* Правый сектор - Инструменты */
 .right-section {
     display: flex;
     align-items: center;
-    gap: 15px;
-    flex: 1;
-    justify-content: flex-end;
-    min-width: 300px;
+    gap: 12px;
+    flex-shrink: 0;
 }
 
 .telegram-btn {
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     background: linear-gradient(135deg, #0088CC, #24A1DE);
     color: white;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 20px;
+    font-size: 18px;
     text-decoration: none;
     transition: all 0.3s;
     box-shadow: 0 4px 15px rgba(0, 136, 204, 0.3);
@@ -377,20 +380,20 @@ body {
 
 .vfd-clock {
     font-family: 'Orbitron', monospace;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
     color: #00FF88;
     text-shadow: 0 0 5px #00FF88;
     letter-spacing: 1px;
-    padding: 8px 12px;
+    padding: 6px 10px;
     background: rgba(0, 20, 0, 0.9);
     border-radius: 8px;
     border: 1px solid rgba(0, 255, 136, 0.3);
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 5px;
-    min-width: 160px;
+    gap: 4px;
+    min-width: 140px;
     flex-shrink: 0;
 }
 
@@ -401,33 +404,33 @@ body {
 }
 
 .segment-display {
-    font-size: 22px;
+    font-size: 18px;
     font-weight: 700;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
 }
 
 .clock-colon {
     color: #00FF88;
-    margin: 0 2px;
+    margin: 0 1px;
     opacity: 1;
 }
 
 .clock-label {
-    font-size: 9px;
+    font-size: 8px;
     color: rgba(0, 255, 136, 0.7);
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     text-transform: uppercase;
 }
 
 .map-controls {
     display: flex;
-    gap: 8px;
+    gap: 6px;
     flex-shrink: 0;
 }
 
 .control-btn {
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     border-radius: 6px;
     background: var(--bg-tertiary);
     border: 1px solid var(--border-color);
@@ -454,12 +457,11 @@ body {
 /* ===== MAP CONTAINER ===== */
 .map-container {
     position: absolute;
-    top: 130px;
+    top: 70px;
     left: 0;
     width: 100%;
-    height: calc(100vh - 130px);
+    height: calc(100vh - 70px);
     z-index: 1;
-    touch-action: pan-x pan-y;
 }
 
 #map {
@@ -468,7 +470,7 @@ body {
     background: var(--map-bg);
 }
 
-/* Значки АЭС в виде пинов Google Maps - СТАТИЧНЫЕ */
+/* Значки АЭС в виде пинов - СТАТИЧНЫЕ */
 .station-pin {
     position: relative;
     width: 48px;
@@ -593,18 +595,176 @@ body {
     clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
 }
 
+/* ===== МОБИЛЬНОЕ МЕНЮ ===== */
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    right: -300px;
+    width: 280px;
+    height: 100vh;
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    border-left: 1px solid var(--border-color);
+    z-index: 2000;
+    transition: right 0.3s ease;
+    display: none;
+    flex-direction: column;
+    box-shadow: -5px 0 25px rgba(0, 0, 0, 0.3);
+}
+
+.mobile-menu.active {
+    right: 0;
+}
+
+.menu-header {
+    padding: 20px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.menu-header h3 {
+    font-size: 18px;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.close-menu {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+}
+
+.close-menu:hover {
+    background: var(--accent-red);
+    color: white;
+}
+
+.menu-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.legend-title, .layer-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--accent-blue);
+    margin-bottom: 12px;
+    display: block;
+}
+
+.legend-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.legend-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+
+.legend-color.operational { background: linear-gradient(135deg, #00FF88, #00CCAA); }
+.legend-color.stopped { background: linear-gradient(135deg, #FFCC00, #FFAA33); }
+.legend-color.construction { background: linear-gradient(135deg, #33AAFF, #0088FF); }
+.legend-color.closed { background: linear-gradient(135deg, #AAAAAA, #777777); }
+.legend-color.abandoned { background: linear-gradient(135deg, #8B4513, #A0522D); }
+.legend-color.accident { background: linear-gradient(135deg, #FF3366, #FF0055); }
+
+.layer-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.layer-btn {
+    padding: 12px 15px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.layer-btn:hover {
+    background: var(--bg-secondary);
+    border-color: var(--accent-blue);
+}
+
+.layer-btn.active {
+    background: rgba(0, 209, 255, 0.2);
+    border-color: var(--accent-blue);
+    color: var(--accent-blue);
+}
+
+.layer-btn i {
+    font-size: 16px;
+}
+
+#mobile-filters-btn {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(90deg, var(--accent-blue), #00B8FF);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+#mobile-filters-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 209, 255, 0.3);
+}
+
 /* ===== SIDEPANEL ===== */
 .sidepanel {
     position: fixed;
-    top: 130px;
-    right: -420px;
-    width: 400px;
-    height: calc(100vh - 130px);
+    top: 70px;
+    right: -400px;
+    width: 380px;
+    height: calc(100vh - 70px);
     background: var(--card-bg);
     backdrop-filter: blur(10px);
     border-left: 1px solid var(--border-color);
     z-index: 1000;
-    transition: right 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+    transition: right 0.3s ease;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -625,11 +785,12 @@ body {
 }
 
 .station-title {
-    font-size: 24px;
+    font-size: 22px;
     font-weight: 700;
     color: var(--text-primary);
     margin-bottom: 5px;
     word-break: break-word;
+    line-height: 1.3;
 }
 
 .close-panel {
@@ -671,11 +832,17 @@ body {
     background: var(--bg-tertiary);
     border-bottom: 1px solid var(--border-color);
     flex-shrink: 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.tabs::-webkit-scrollbar {
+    display: none;
 }
 
 .tab {
     flex: 1;
-    padding: 15px 5px;
+    padding: 15px 10px;
     text-align: center;
     cursor: pointer;
     font-weight: 600;
@@ -683,9 +850,7 @@ body {
     transition: all 0.3s;
     border-bottom: 3px solid transparent;
     font-size: 13px;
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    min-width: 90px;
     white-space: nowrap;
 }
 
@@ -730,7 +895,7 @@ body {
 
 /* Обзор */
 .info-block {
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     background: var(--bg-tertiary);
     padding: 15px;
     border-radius: 10px;
@@ -739,8 +904,8 @@ body {
 
 .overview-stats {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 15px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
     margin-bottom: 20px;
 }
 
@@ -751,10 +916,10 @@ body {
     border: 1px solid var(--border-color);
     text-align: center;
     transition: all 0.3s;
-    min-height: 110px;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    min-height: 90px;
 }
 
 .stat-card:hover {
@@ -763,13 +928,13 @@ body {
 }
 
 .stat-icon {
-    font-size: 20px;
+    font-size: 18px;
     color: var(--accent-blue);
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 .stat-value {
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 800;
     color: var(--accent-blue);
     margin-bottom: 5px;
@@ -777,9 +942,9 @@ body {
 }
 
 .stat-label {
-    font-size: 12px;
+    font-size: 11px;
     color: var(--text-tertiary);
-    line-height: 1.4;
+    line-height: 1.3;
 }
 
 .overview-description {
@@ -794,14 +959,14 @@ body {
     display: flex;
     align-items: flex-start;
     gap: 12px;
-    padding: 15px;
+    padding: 12px;
     background: rgba(255, 255, 255, 0.05);
     border-radius: 8px;
     border: 1px solid var(--border-color);
 }
 
 .location-info i {
-    font-size: 20px;
+    font-size: 18px;
     color: var(--accent-blue);
     flex-shrink: 0;
     margin-top: 2px;
@@ -885,18 +1050,18 @@ body {
 
 .unit-name {
     font-weight: 700;
-    font-size: 18px;
+    font-size: 16px;
     color: var(--text-primary);
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     flex: 1;
     min-width: 0;
 }
 
 .unit-type-badge {
     display: inline-block;
-    padding: 4px 12px;
+    padding: 4px 10px;
     border-radius: 15px;
     font-size: 11px;
     font-weight: 600;
@@ -923,7 +1088,7 @@ body {
 .unit-details {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 12px;
+    gap: 10px;
     font-size: 13px;
     color: var(--text-secondary);
     margin-top: 10px;
@@ -943,12 +1108,12 @@ body {
 }
 
 .unit-shape {
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
     display: inline-block;
     border-radius: 50%;
     background: var(--unit-color, var(--accent-blue));
-    margin-right: 10px;
+    margin-right: 8px;
     vertical-align: middle;
     flex-shrink: 0;
 }
@@ -956,7 +1121,7 @@ body {
 /* История */
 .timeline {
     position: relative;
-    padding-left: 30px;
+    padding-left: 25px;
 }
 
 .timeline::before {
@@ -984,18 +1149,18 @@ body {
 .year-highlight {
     font-weight: bold;
     color: var(--accent-blue);
-    font-size: 16px;
+    font-size: 15px;
     background: rgba(0, 209, 255, 0.1);
-    padding: 4px 12px;
+    padding: 4px 10px;
     border-radius: 20px;
-    min-width: 60px;
+    min-width: 55px;
     text-align: center;
 }
 
 .event-title-highlight {
     font-weight: 600;
     color: var(--text-primary);
-    font-size: 15px;
+    font-size: 14px;
     flex: 1;
     word-break: break-word;
 }
@@ -1004,7 +1169,7 @@ body {
     font-size: 14px;
     color: var(--text-secondary);
     line-height: 1.6;
-    margin-left: 70px;
+    margin-left: 65px;
     word-break: break-word;
 }
 
@@ -1018,7 +1183,7 @@ body {
 .fact-item {
     display: flex;
     align-items: flex-start;
-    gap: 15px;
+    gap: 12px;
     padding: 15px;
     background: var(--bg-tertiary);
     border-radius: 12px;
@@ -1034,8 +1199,8 @@ body {
 }
 
 .fact-icon-atom {
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     flex-shrink: 0;
     position: relative;
     display: flex;
@@ -1044,8 +1209,8 @@ body {
 }
 
 .mini-atom-core {
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
     background: var(--accent-blue);
     position: relative;
@@ -1054,14 +1219,14 @@ body {
 
 .mini-electron {
     position: absolute;
-    width: 4px;
-    height: 4px;
+    width: 3px;
+    height: 3px;
     border-radius: 50%;
     background: var(--accent-green);
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    box-shadow: 0 0 8px var(--accent-green);
+    box-shadow: 0 0 6px var(--accent-green);
 }
 
 .fact-text {
@@ -1073,35 +1238,101 @@ body {
 }
 
 /* ===== ФИЛЬТРЫ ===== */
-.filters-panel {
+.toggle-filters {
     position: fixed;
-    top: 150px;
-    left: 20px;
-    width: 300px;
-    max-width: calc(100vw - 40px);
+    top: 85px;
+    left: 15px;
+    padding: 10px 15px;
     background: var(--card-bg);
     backdrop-filter: blur(10px);
     border: 1px solid var(--border-color);
-    border-radius: 12px;
-    z-index: 900;
-    padding: 20px;
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-size: 14px;
+    cursor: pointer;
+    z-index: 901;
+    display: flex;
+    align-items: center;
+    gap: 8px;
     box-shadow: var(--shadow);
-    transform: translateX(-350px);
-    transition: transform 0.4s;
-    max-height: calc(100vh - 170px);
-    overflow-y: auto;
+    transition: all 0.3s;
+    touch-action: manipulation;
+    white-space: nowrap;
 }
 
-.filters-panel.open {
+.toggle-filters:hover {
+    background: var(--accent-blue);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.filter-text {
+    font-weight: 600;
+}
+
+.filters-panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    z-index: 2000;
+    padding: 20px;
+    box-shadow: var(--shadow);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.filters-panel.active {
     transform: translateX(0);
 }
 
-.filter-section {
+.filter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.filter-header h3 {
+    font-size: 20px;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.close-filters {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+}
+
+.close-filters:hover {
+    background: var(--accent-red);
+    color: white;
+}
+
+.filter-section {
+    margin-bottom: 25px;
 }
 
 .filter-title {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 700;
     color: var(--accent-blue);
     margin-bottom: 12px;
@@ -1139,7 +1370,6 @@ body {
     transition: all 0.3s;
     color: var(--text-secondary);
     flex-shrink: 0;
-    min-width: min-content;
 }
 
 .filter-option:hover {
@@ -1154,32 +1384,45 @@ body {
     color: white;
 }
 
-.toggle-filters {
-    position: fixed;
-    top: 160px;
-    left: 20px;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: var(--card-bg);
-    backdrop-filter: blur(10px);
-    border: 1px solid var(--border-color);
-    color: var(--text-primary);
-    font-size: 20px;
-    cursor: pointer;
-    z-index: 901;
+.filter-buttons {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: var(--shadow);
-    transition: all 0.3s;
-    touch-action: manipulation;
+    gap: 15px;
+    margin-top: auto;
+    padding-top: 20px;
 }
 
-.toggle-filters:hover {
-    background: var(--accent-blue);
+.filter-btn {
+    flex: 1;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: center;
+}
+
+.filter-btn.reset {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+.filter-btn.reset:hover {
+    background: var(--bg-secondary);
+    border-color: var(--accent-red);
+    color: var(--accent-red);
+}
+
+.filter-btn.apply {
+    background: linear-gradient(90deg, var(--accent-blue), #00B8FF);
     color: white;
-    transform: scale(1.1);
+}
+
+.filter-btn.apply:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 209, 255, 0.3);
 }
 
 /* ===== ВСПЛЫВАЮЩАЯ ПОДСКАЗКА ===== */
@@ -1190,8 +1433,8 @@ body {
     background: var(--card-bg);
     border: 1px solid var(--border-color);
     border-radius: 10px;
-    padding: 15px 20px;
-    max-width: 350px;
+    padding: 12px 15px;
+    max-width: 300px;
     box-shadow: var(--shadow);
     z-index: 1001;
     display: flex;
@@ -1215,7 +1458,7 @@ body {
 .tooltip-content {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     flex: 1;
 }
 
@@ -1249,7 +1492,7 @@ body {
     cursor: pointer;
     transition: all 0.3s;
     font-size: 14px;
-    margin-left: 15px;
+    margin-left: 10px;
     flex-shrink: 0;
 }
 
@@ -1259,218 +1502,312 @@ body {
     transform: rotate(90deg);
 }
 
+/* ===== АНИМАЦИИ ===== */
+@keyframes pulse {
+    0% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 15px var(--accent-blue); }
+    100% { transform: translate(-50%, -50%) scale(1.1); box-shadow: 0 0 25px var(--accent-blue); }
+}
+
+@keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes orbit1 {
+    0% { transform: rotate(0deg) translateX(20px) rotate(0deg); }
+    100% { transform: rotate(360deg) translateX(20px) rotate(-360deg); }
+}
+
+@keyframes orbit2 {
+    0% { transform: rotate(72deg) translateX(20px) rotate(0deg); }
+    100% { transform: rotate(432deg) translateX(20px) rotate(-360deg); }
+}
+
+@keyframes orbit3 {
+    0% { transform: rotate(144deg) translateX(20px) rotate(0deg); }
+    100% { transform: rotate(504deg) translateX(20px) rotate(-360deg); }
+}
+
+@keyframes orbit4 {
+    0% { transform: rotate(216deg) translateX(20px) rotate(0deg); }
+    100% { transform: rotate(576deg) translateX(20px) rotate(-360deg); }
+}
+
+@keyframes orbit5 {
+    0% { transform: rotate(288deg) translateX(20px) rotate(0deg); }
+    100% { transform: rotate(648deg) translateX(20px) rotate(-360deg); }
+}
+
 /* ===== ПОЛОСЫ ПРОКРУТКИ ===== */
 .tab-content::-webkit-scrollbar,
 .filter-options::-webkit-scrollbar,
-.search-results::-webkit-scrollbar {
+.search-results::-webkit-scrollbar,
+.menu-content::-webkit-scrollbar {
     width: 6px;
 }
 
 .tab-content::-webkit-scrollbar-track,
 .filter-options::-webkit-scrollbar-track,
-.search-results::-webkit-scrollbar-track {
+.search-results::-webkit-scrollbar-track,
+.menu-content::-webkit-scrollbar-track {
     background: rgba(255, 255, 255, 0.05);
 }
 
 .tab-content::-webkit-scrollbar-thumb,
 .filter-options::-webkit-scrollbar-thumb,
-.search-results::-webkit-scrollbar-thumb {
+.search-results::-webkit-scrollbar-thumb,
+.menu-content::-webkit-scrollbar-thumb {
     background: linear-gradient(to bottom, var(--accent-blue), #00B8FF);
     border-radius: 3px;
 }
 
 .tab-content::-webkit-scrollbar-thumb:hover,
 .filter-options::-webkit-scrollbar-thumb:hover,
-.search-results::-webkit-scrollbar-thumb:hover {
+.search-results::-webkit-scrollbar-thumb:hover,
+.menu-content::-webkit-scrollbar-thumb:hover {
     background: linear-gradient(to bottom, #00B8FF, var(--accent-blue));
 }
 
 /* ===== АДАПТИВНОСТЬ ===== */
-/* Большие планшеты и маленькие десктопы */
-@media (max-width: 1200px) {
+/* Большие планшеты */
+@media (max-width: 1024px) {
     .header {
-        padding: 15px;
-        gap: 15px;
-    }
-    
-    .brand-section {
-        min-width: auto;
-    }
-    
-    .center-section {
-        min-width: 250px;
-        margin: 0 10px;
-    }
-    
-    .right-section {
-        min-width: 250px;
-    }
-    
-    .sidepanel {
-        width: 350px;
-        right: -370px;
-    }
-    
-    .vfd-clock {
-        min-width: 140px;
-        font-size: 16px;
-    }
-    
-    .segment-display {
-        font-size: 20px;
-    }
-}
-
-/* Планшеты */
-@media (max-width: 992px) {
-    .header {
-        flex-wrap: wrap;
-        height: auto;
-        padding: 12px;
-        gap: 12px;
-    }
-    
-    .brand-section {
-        order: 1;
-        flex: 1 1 200px;
-    }
-    
-    .center-section {
-        order: 3;
-        flex: 1 1 100%;
-        margin: 10px 0 0 0;
-        min-width: 100%;
-    }
-    
-    .right-section {
-        order: 2;
-        flex: 1 1 auto;
-        min-width: auto;
-        justify-content: flex-end;
-    }
-    
-    .map-container {
-        top: 180px;
-        height: calc(100vh - 180px);
-    }
-    
-    .sidepanel {
-        top: 180px;
-        width: 100%;
-        right: -100%;
-        height: calc(100vh - 180px);
-    }
-    
-    .sidepanel.open {
-        right: 0;
-    }
-    
-    .filters-panel {
-        top: 200px;
-        width: 90%;
-        max-width: 400px;
-    }
-    
-    .toggle-filters {
-        top: 210px;
-    }
-    
-    .legend {
-        padding: 6px 10px;
-        gap: 8px;
-    }
-    
-    .legend-item {
-        font-size: 10px;
-    }
-    
-    .nav-buttons {
-        justify-content: center;
-    }
-    
-    .nav-btn {
-        max-width: 150px;
-        padding: 10px 15px;
-        font-size: 13px;
-    }
-}
-
-/* Мобильные устройства */
-@media (max-width: 768px) {
-    .header {
-        padding: 10px;
-        gap: 10px;
-    }
-    
-    .logo-container {
-        width: 50px;
-        height: 50px;
-    }
-    
-    .atom-logo {
-        width: 35px;
-        height: 35px;
+        padding: 0 12px;
+        height: 65px;
     }
     
     .brand-title {
-        font-size: 20px;
+        font-size: 16px;
+    }
+    
+    .logo-container {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .atom-logo {
+        width: 30px;
+        height: 30px;
     }
     
     .vfd-clock {
-        min-width: 130px;
-        padding: 6px 10px;
+        min-width: 120px;
         font-size: 14px;
-    }
-    
-    .segment-display {
-        font-size: 18px;
-        letter-spacing: 1px;
-    }
-    
-    .telegram-btn {
-        width: 35px;
-        height: 35px;
-        font-size: 18px;
-    }
-    
-    .control-btn {
-        width: 35px;
-        height: 35px;
-        font-size: 14px;
-    }
-    
-    .search-container {
-        max-width: 100%;
-    }
-    
-    #station-search {
-        font-size: 13px;
-        padding: 10px 15px 10px 40px;
-    }
-    
-    .legend {
-        gap: 6px;
         padding: 5px 8px;
     }
     
-    .legend-item {
-        font-size: 9px;
-        gap: 4px;
+    .segment-display {
+        font-size: 16px;
     }
     
-    .legend-color {
+    .search-container {
+        max-width: 250px;
+    }
+    
+    #station-search {
+        font-size: 12px;
+        padding: 8px 30px 8px 30px;
+    }
+    
+    .nav-btn {
+        padding: 7px 12px;
+        font-size: 12px;
+    }
+    
+    .map-container {
+        top: 65px;
+        height: calc(100vh - 65px);
+    }
+    
+    .sidepanel {
+        top: 65px;
+        height: calc(100vh - 65px);
+        width: 350px;
+    }
+    
+    .toggle-filters {
+        top: 80px;
+    }
+}
+
+/* Планшеты и большие телефоны */
+@media (max-width: 768px) {
+    .desktop-only {
+        display: none !important;
+    }
+    
+    .mobile-only {
+        display: flex !important;
+    }
+    
+    .header {
+        height: 60px;
+        padding: 0 10px;
+    }
+    
+    .brand-section {
+        flex: 1;
+        min-width: 0;
+    }
+    
+    .brand-title {
+        font-size: 16px;
+        max-width: 150px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    .center-section {
+        display: none;
+    }
+    
+    .right-section {
+        flex-shrink: 0;
+    }
+    
+    .vfd-clock {
+        display: none;
+    }
+    
+    .telegram-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 16px;
+    }
+    
+    .control-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 14px;
+    }
+    
+    .map-container {
+        top: 60px;
+        height: calc(100vh - 60px);
+    }
+    
+    .mobile-menu {
+        display: flex;
+    }
+    
+    .sidepanel {
+        top: 60px;
+        height: calc(100vh - 60px);
+        width: 100%;
+        right: -100%;
+    }
+    
+    .toggle-filters {
+        display: none;
+    }
+    
+    .filters-panel {
+        padding: 15px;
+    }
+    
+    .filter-options {
+        max-height: 150px;
+    }
+    
+    .station-pin {
+        width: 42px;
+        height: 42px;
+    }
+    
+    .pin-body {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .pin-body .atom {
+        width: 16px;
+        height: 16px;
+    }
+    
+    .pin-body .electron {
+        width: 2px;
+        height: 2px;
+    }
+    
+    .pin-body .electron-1 { transform: rotate(0deg) translateX(6px) rotate(0deg); }
+    .pin-body .electron-2 { transform: rotate(120deg) translateX(6px) rotate(0deg); }
+    .pin-body .electron-3 { transform: rotate(240deg) translateX(6px) rotate(0deg); }
+    
+    .pin-stem {
+        width: 3px;
+        height: 18px;
+        top: 23px;
+        left: 20px;
+    }
+    
+    .pin-shadow {
+        top: 40px;
+        left: 17px;
+    }
+}
+
+/* Маленькие телефоны */
+@media (max-width: 480px) {
+    .header {
+        height: 55px;
+        padding: 0 8px;
+    }
+    
+    .logo-container {
+        width: 32px;
+        height: 32px;
+    }
+    
+    .atom-logo {
+        width: 26px;
+        height: 26px;
+    }
+    
+    .brand-title {
+        font-size: 14px;
+        max-width: 120px;
+    }
+    
+    .telegram-btn {
+        width: 30px;
+        height: 30px;
+        font-size: 15px;
+    }
+    
+    .control-btn {
+        width: 30px;
+        height: 30px;
+        font-size: 13px;
+    }
+    
+    .atom-core {
         width: 10px;
         height: 10px;
     }
     
+    .electron {
+        width: 4px;
+        height: 4px;
+    }
+    
+    .ring-1 {
+        width: 30px;
+        height: 30px;
+    }
+    
+    .ring-2 {
+        width: 20px;
+        height: 20px;
+    }
+    
     .map-container {
-        top: 170px;
-        height: calc(100vh - 170px);
+        top: 55px;
+        height: calc(100vh - 55px);
     }
     
     .sidepanel {
-        top: 170px;
-        height: calc(100vh - 170px);
+        top: 55px;
+        height: calc(100vh - 55px);
     }
     
     .panel-header {
@@ -1478,22 +1815,13 @@ body {
     }
     
     .station-title {
-        font-size: 20px;
-    }
-    
-    .tabs {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
+        font-size: 18px;
     }
     
     .tab {
         padding: 12px 8px;
         font-size: 12px;
         min-width: 80px;
-    }
-    
-    .tab-content {
-        padding: 0;
     }
     
     .tab-pane {
@@ -1507,15 +1835,93 @@ body {
     
     .stat-card {
         padding: 12px;
-        min-height: 100px;
+        min-height: 80px;
+    }
+    
+    .stat-icon {
+        font-size: 16px;
+        margin-bottom: 6px;
     }
     
     .stat-value {
-        font-size: 20px;
+        font-size: 18px;
     }
     
     .stat-label {
-        font-size: 11px;
+        font-size: 10px;
+    }
+    
+    .mobile-menu {
+        width: 260px;
+    }
+    
+    .menu-content {
+        padding: 15px;
+    }
+    
+    .legend-grid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+    
+    .filters-panel {
+        padding: 12px;
+    }
+    
+    .filter-header h3 {
+        font-size: 18px;
+    }
+    
+    .close-filters {
+        width: 36px;
+        height: 36px;
+        font-size: 18px;
+    }
+    
+    .filter-buttons {
+        gap: 10px;
+    }
+    
+    .filter-btn {
+        padding: 12px;
+        font-size: 14px;
+    }
+}
+
+/* Очень маленькие телефоны */
+@media (max-width: 360px) {
+    .brand-title {
+        font-size: 13px;
+        max-width: 100px;
+    }
+    
+    .header {
+        padding: 0 5px;
+    }
+    
+    .control-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 12px;
+    }
+    
+    .telegram-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 14px;
+    }
+    
+    .map-container {
+        top: 55px;
+        height: calc(100vh - 55px);
+    }
+    
+    .mobile-menu {
+        width: 240px;
+    }
+    
+    .overview-stats {
+        grid-template-columns: 1fr;
     }
     
     .unit-header {
@@ -1532,258 +1938,132 @@ body {
         grid-template-columns: 1fr;
         gap: 8px;
     }
-    
-    .floating-tooltip {
-        bottom: 10px;
-        right: 10px;
-        left: 10px;
-        max-width: none;
-        padding: 12px 15px;
-    }
-    
-    .tooltip-content p {
-        font-size: 13px;
-    }
-    
-    .toggle-filters {
-        width: 45px;
-        height: 45px;
-        font-size: 18px;
-        top: 180px;
-        left: 15px;
-    }
-    
-    .filters-panel {
-        top: 190px;
-        left: 15px;
-        width: calc(100vw - 30px);
-        max-width: none;
-        padding: 15px;
-    }
-    
-    .filter-options {
-        max-height: 150px;
-    }
-    
-    .filter-option {
-        padding: 6px 12px;
-        font-size: 12px;
-    }
-}
-
-/* Маленькие мобильные устройства */
-@media (max-width: 480px) {
-    .header {
-        padding: 8px;
-        gap: 8px;
-    }
-    
-    .brand-title {
-        font-size: 18px;
-    }
-    
-    .logo-container {
-        width: 40px;
-        height: 40px;
-    }
-    
-    .atom-logo {
-        width: 30px;
-        height: 30px;
-    }
-    
-    .vfd-clock {
-        min-width: 120px;
-        padding: 5px 8px;
-        font-size: 13px;
-    }
-    
-    .segment-display {
-        font-size: 16px;
-    }
-    
-    .clock-label {
-        font-size: 8px;
-    }
-    
-    .nav-buttons {
-        flex-direction: column;
-        gap: 8px;
-    }
-    
-    .nav-btn {
-        max-width: none;
-        width: 100%;
-    }
-    
-    .map-controls {
-        gap: 5px;
-    }
-    
-    .control-btn {
-        width: 32px;
-        height: 32px;
-        font-size: 13px;
-    }
-    
-    .telegram-btn {
-        width: 32px;
-        height: 32px;
-        font-size: 16px;
-    }
-    
-    .legend {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 6px;
-        padding: 8px;
-    }
-    
-    .legend-item {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        gap: 3px;
-    }
-    
-    .legend-color {
-        width: 12px;
-        height: 12px;
-    }
-    
-    .map-container {
-        top: 200px;
-        height: calc(100vh - 200px);
-    }
-    
-    .sidepanel {
-        top: 200px;
-        height: calc(100vh - 200px);
-    }
-    
-    .overview-stats {
-        grid-template-columns: 1fr;
-    }
-    
-    .station-title {
-        font-size: 18px;
-    }
-    
-    .panel-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-    }
-    
-    .close-panel {
-        position: absolute;
-        top: 15px;
-        right: 15px;
-    }
-    
-    .toggle-filters {
-        width: 40px;
-        height: 40px;
-        font-size: 16px;
-        top: 210px;
-    }
-    
-    .filters-panel {
-        top: 220px;
-    }
-}
-
-/* Очень маленькие устройства */
-@media (max-width: 360px) {
-    .brand-title {
-        font-size: 16px;
-    }
-    
-    .vfd-clock {
-        min-width: 110px;
-        font-size: 12px;
-    }
-    
-    .segment-display {
-        font-size: 14px;
-    }
-    
-    .map-container {
-        top: 210px;
-        height: calc(100vh - 210px);
-    }
-    
-    .sidepanel {
-        top: 210px;
-        height: calc(100vh - 210px);
-    }
-    
-    .tab {
-        font-size: 11px;
-        padding: 10px 5px;
-    }
-    
-    .floating-tooltip {
-        padding: 10px;
-    }
-    
-    .tooltip-content p {
-        font-size: 12px;
-    }
 }
 
 /* Ландшафтная ориентация на мобильных */
-@media (max-height: 600px) and (orientation: landscape) {
+@media (max-height: 500px) and (orientation: landscape) {
     .header {
-        height: auto;
-        padding: 8px;
-        flex-wrap: nowrap;
+        height: 50px;
+        padding: 0 5px;
     }
     
-    .brand-section {
-        flex: 0 1 auto;
+    .brand-title {
+        font-size: 14px;
     }
     
-    .center-section {
-        display: none;
+    .logo-container {
+        width: 28px;
+        height: 28px;
     }
     
-    .right-section {
-        flex: 0 1 auto;
+    .atom-logo {
+        width: 22px;
+        height: 22px;
+    }
+    
+    .control-btn {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .telegram-btn {
+        width: 28px;
+        height: 28px;
     }
     
     .map-container {
-        top: 80px;
-        height: calc(100vh - 80px);
+        top: 50px;
+        height: calc(100vh - 50px);
     }
     
     .sidepanel {
-        top: 80px;
-        height: calc(100vh - 80px);
+        top: 50px;
+        height: calc(100vh - 50px);
+        width: 300px;
     }
     
-    .filters-panel {
-        top: 100px;
+    .mobile-menu {
+        width: 220px;
     }
     
-    .toggle-filters {
-        top: 90px;
+    .menu-header {
+        padding: 15px;
+    }
+    
+    .menu-content {
+        padding: 15px;
+        gap: 15px;
+    }
+    
+    .legend-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .panel-header {
+        padding: 12px;
+    }
+    
+    .station-title {
+        font-size: 16px;
+    }
+    
+    .tab {
+        padding: 10px 5px;
+        font-size: 11px;
+        min-width: 70px;
+    }
+    
+    .tab-pane {
+        padding: 12px;
+    }
+    
+    .overview-stats {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+    }
+    
+    .stat-card {
+        padding: 10px;
+        min-height: 70px;
+    }
+    
+    .stat-icon {
+        font-size: 14px;
+        margin-bottom: 4px;
+    }
+    
+    .stat-value {
+        font-size: 16px;
+    }
+    
+    .stat-label {
+        font-size: 9px;
     }
 }
 
-/* Оптимизация для сенсорных устройств */
-@media (hover: none) and (pointer: coarse) {
-    .nav-btn, 
-    .control-btn, 
-    .tab, 
-    .unit-card, 
-    .filter-option, 
-    .search-result-item {
-        min-height: 44px;
+/* Высокопиксельные дисплеи */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .station-pin,
+    .unit-marker,
+    .atom-core,
+    .electron {
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
     }
-    
-    .nav-btn {
-        padding: 12px 20px;
+}
+
+/* Улучшения для сенсорных устройств */
+@media (hover: none) and (pointer: coarse) {
+    .nav-btn,
+    .control-btn,
+    .tab,
+    .unit-card,
+    .filter-option,
+    .search-result-item,
+    .layer-btn,
+    .filter-btn {
+        min-height: 44px;
+        min-width: 44px;
     }
     
     .station-pin:hover {
@@ -1793,14 +2073,13 @@ body {
     .unit-marker:hover {
         transform: none;
     }
-}
-
-/* Высокопиксельные дисплеи */
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-    .atom-core,
-    .electron,
-    .pin-body .atom-core,
-    .pin-body .electron {
-        transform: translateZ(0);
+    
+    #station-search {
+        font-size: 16px; /* Увеличиваем для удобства ввода */
+    }
+    
+    .toggle-filters {
+        padding: 12px 20px;
+        font-size: 16px;
     }
 }
