@@ -2,7 +2,6 @@
 let map;
 let stationMarkers = [];
 let unitMarkers = [];
-let markersLayer;
 let currentZoom = 3;
 let selectedStation = null;
 let selectedUnit = null;
@@ -11,37 +10,14 @@ let activeFilters = {
     statuses: [],
     types: []
 };
-let isDarkTheme = true;
-let allStationsData = [];
+let isDarkTheme = true; // По умолчанию тёмная тема
+let allStationsData = []; // Заполнится из data.js
 let searchTimeout = null;
-let isMobile = window.innerWidth < 769;
-let streetLayer, satelliteLayer;
-
-// Проверка загрузки необходимых данных
-function checkDataAvailability() {
-    console.log('Проверка данных...');
-    console.log('stationsData:', typeof stationsData !== 'undefined' ? 'загружены' : 'отсутствуют');
-    console.log('statusConfig:', typeof statusConfig !== 'undefined' ? 'загружены' : 'отсутствуют');
-    console.log('reactorTypes:', typeof reactorTypes !== 'undefined' ? 'загружены' : 'отсутствуют');
-    
-    if (typeof stationsData === 'undefined') {
-        console.error('Ошибка: stationsData не загружены!');
-        return false;
-    }
-    return true;
-}
+let tooltipTimeout = null;
 
 // Функции для работы со статусами
 function getStatusConfig(status) {
-    if (typeof statusConfig !== 'undefined' && statusConfig[status]) {
-        return statusConfig[status];
-    }
-    return {
-        name: 'Неизвестно',
-        gradient: 'linear-gradient(135deg, #aaaaaa, #777777)',
-        pinColor: '#aaaaaa',
-        textColor: '#ffffff'
-    };
+    return statusConfig[status] || statusConfig.operational;
 }
 
 function getStatusText(status) {
@@ -58,182 +34,808 @@ function getPinColor(status) {
 
 // Функции для работы с типами реакторов
 function getReactorType(type) {
-    if (typeof reactorTypes !== 'undefined' && reactorTypes[type]) {
-        return reactorTypes[type];
-    }
-    return {
-        name: 'Неизвестно',
-        color: '#00a8ff',
-        icon: 'fa-cube',
-        shape: 'circle'
-    };
+    return reactorTypes[type] || reactorTypes.vver;
 }
 
 function getReactorIcon(type) {
     return getReactorType(type).icon;
 }
 
+function getReactorShapeClass(type) {
+    const shape = getReactorType(type).shape;
+    switch(shape) {
+        case 'circle': return 'unit-vver';
+        case 'square': return 'unit-rbmk';
+        case 'hexagon': return 'unit-bwr';
+        case 'pentagon': return 'unit-fast';
+        default: return 'unit-vver';
+    }
+}
+
 function getReactorColor(type) {
     return getReactorType(type).color;
 }
 
-// Инициализация карты
+// Инициализация карты (УБРАЛ ОГРАНИЧЕНИЕ НА ZOOM)
 function initMap() {
-    console.log('Инициализация карты...');
+    // Создаем карту с центром на Европе
+    map = L.map('map', {
+        center: [50, 30],
+        zoom: 3,
+        minZoom: 2,
+        zoomControl: false, // Убираем стандартный контрол zoom
+        attributionControl: false
+    });
     
-    try {
-        const center = isMobile ? [50, 30] : [40, 20];
-        const zoom = isMobile ? 3 : 3;
-        
-        map = L.map('map', {
-            center: center,
-            zoom: zoom,
-            minZoom: 2,
-            maxZoom: 18,
-            zoomControl: !isMobile,
-            attributionControl: false,
-            touchZoom: true,
-            scrollWheelZoom: !isMobile,
-            doubleClickZoom: true,
-            boxZoom: !isMobile,
-            keyboard: true,
-            dragging: true,
-            tap: true,
-            tapTolerance: 15
-        });
-        
-        console.log('Карта успешно создана');
-        
-        // Создаем слои
-        streetLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-            attribution: '© CARTO',
-            maxZoom: 19
-        });
-        
-        satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-            attribution: '© Esri',
-            maxZoom: 19
-        });
-        
-        // Добавляем слой по умолчанию
+    // Слой схемы (светлая карта)
+    const streetLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        attribution: '© CARTO'
+    });
+    
+    // Слой спутниковых снимков
+    const satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        attribution: '© Esri'
+    });
+    
+    // По умолчанию в тёмной теме показываем СХЕМУ (белую карту)
+    streetLayer.addTo(map);
+    document.getElementById('street-layer').classList.add('active');
+    document.getElementById('satellite-layer').classList.remove('active');
+    
+    // Управление слоями
+    document.getElementById('street-layer').addEventListener('click', function() {
+        map.removeLayer(satelliteLayer);
         streetLayer.addTo(map);
-        console.log('Слой карты добавлен');
-        
-        // Обработчики для слоев карты
-        const streetLayerBtn = document.getElementById('street-layer');
-        const satelliteLayerBtn = document.getElementById('satellite-layer');
-        
-        if (streetLayerBtn) {
-            streetLayerBtn.addEventListener('click', function() {
-                if (satelliteLayer && map.hasLayer(satelliteLayer)) {
-                    map.removeLayer(satelliteLayer);
-                }
-                if (streetLayer && !map.hasLayer(streetLayer)) {
-                    streetLayer.addTo(map);
-                }
-                updateLayerButtons('street');
-            });
-        }
-        
-        if (satelliteLayerBtn) {
-            satelliteLayerBtn.addEventListener('click', function() {
-                if (streetLayer && map.hasLayer(streetLayer)) {
-                    map.removeLayer(streetLayer);
-                }
-                if (satelliteLayer && !map.hasLayer(satelliteLayer)) {
-                    satelliteLayer.addTo(map);
-                }
-                updateLayerButtons('satellite');
-            });
-        }
-        
-        // Переключение темы
-        const themeToggleBtn = document.getElementById('theme-toggle');
-        if (themeToggleBtn) {
-            themeToggleBtn.addEventListener('click', toggleTheme);
-        }
-        
-        // Слушатель изменения масштаба
-        let zoomEndTimeout;
-        map.on('zoomend', function() {
-            clearTimeout(zoomEndTimeout);
-            zoomEndTimeout = setTimeout(() => {
-                currentZoom = map.getZoom();
-                updateUnitMarkersVisibility();
-            }, 200);
-        });
-        
-        // Инициализация остальных компонентов
-        setTimeout(() => {
-            initStationMarkers();
-            initFilters();
-            initSearch();
-            initMobileMenu();
-            initClock();
-            initEventListeners();
-            console.log('Все компоненты инициализированы');
-        }, 500);
-        
-    } catch (error) {
-        console.error('Ошибка при инициализации карты:', error);
-        alert('Не удалось загрузить карту. Пожалуйста, обновите страницу.');
-    }
-}
-
-// Обновление кнопок слоев
-function updateLayerButtons(activeLayer) {
-    // Десктопные кнопки
-    const streetBtn = document.getElementById('street-layer');
-    const satelliteBtn = document.getElementById('satellite-layer');
+        document.getElementById('street-layer').classList.add('active');
+        document.getElementById('satellite-layer').classList.remove('active');
+    });
     
-    if (streetBtn) streetBtn.classList.remove('active');
-    if (satelliteBtn) satelliteBtn.classList.remove('active');
+    document.getElementById('satellite-layer').addEventListener('click', function() {
+        map.removeLayer(streetLayer);
+        satelliteLayer.addTo(map);
+        document.getElementById('satellite-layer').classList.add('active');
+        document.getElementById('street-layer').classList.remove('active');
+    });
     
-    if (activeLayer === 'street' && streetBtn) streetBtn.classList.add('active');
-    if (activeLayer === 'satellite' && satelliteBtn) satelliteBtn.classList.add('active');
-}
-
-// Переключение темы
-function toggleTheme() {
-    console.log('Переключение темы');
-    const icon = document.querySelector('#theme-toggle i');
-    isDarkTheme = !isDarkTheme;
-    
-    if (isDarkTheme) {
-        document.body.classList.remove('light-theme');
-        document.body.classList.add('dark-theme');
-        if (icon) {
+    // Переключение темы
+    document.getElementById('theme-toggle').addEventListener('click', function() {
+        const icon = this.querySelector('i');
+        isDarkTheme = !isDarkTheme;
+        
+        if (isDarkTheme) {
+            // Включаем темную тему
+            document.body.classList.remove('light-theme');
+            document.body.classList.add('dark-theme');
             icon.classList.remove('fa-sun');
             icon.classList.add('fa-moon');
-        }
-    } else {
-        document.body.classList.remove('dark-theme');
-        document.body.classList.add('light-theme');
-        if (icon) {
+        } else {
+            // Включаем светлую тему
+            document.body.classList.remove('dark-theme');
+            document.body.classList.add('light-theme');
             icon.classList.remove('fa-moon');
             icon.classList.add('fa-sun');
         }
-    }
+        
+        // Обновляем маркеры для нового стиля
+        updateStationMarkers();
+    });
     
-    // Обновляем маркеры
-    setTimeout(updateStationMarkers, 100);
+    // Слушатель изменения масштаба
+    map.on('zoomend', function() {
+        currentZoom = map.getZoom();
+        updateUnitMarkersVisibility();
+    });
+    
+    // Добавляем кастомный контрол zoom
+    L.control.zoom({
+        position: 'topright'
+    }).addTo(map);
+    
+    // Инициализация маркеров станций
+    initStationMarkers();
+    
+    // Инициализация фильтров
+    initFilters();
+    
+    // Инициализация поиска
+    initSearch();
+    
+    // Инициализация подсказки
+    initTooltip();
 }
 
-// Подготовка данных станций
-function prepareStationData() {
-    console.log('Подготовка данных станций...');
+// Создание HTML для пина станции
+function createStationPinHTML(status) {
+    const pinColor = getPinColor(status);
     
-    if (typeof stationsData === 'undefined') {
-        console.error('Данные станций не загружены!');
-        allStationsData = [];
+    return `
+        <div class="station-pin">
+            <div class="pin-body" style="--pin-color: ${pinColor};">
+                <div class="atom">
+                    <div class="atom-core"></div>
+                    <div class="electron electron-1"></div>
+                    <div class="electron electron-2"></div>
+                    <div class="electron electron-3"></div>
+                </div>
+            </div>
+            <div class="pin-stem" style="background: ${pinColor};"></div>
+            <div class="pin-shadow"></div>
+        </div>
+    `;
+}
+
+// Создание маркеров для станций
+function initStationMarkers() {
+    updateStationMarkers();
+}
+
+function updateStationMarkers() {
+    // Очищаем существующие маркеры
+    stationMarkers.forEach(item => map.removeLayer(item.marker));
+    stationMarkers = [];
+    
+    // Создаем маркеры для каждой станции
+    allStationsData.forEach(station => {
+        // Проверяем фильтры
+        if (!isStationVisible(station)) return;
+        
+        // Создаем HTML для маркера
+        const markerHtml = createStationPinHTML(station.status);
+        
+        // Создаем иконку для Leaflet
+        const icon = L.divIcon({
+            html: markerHtml,
+            className: 'custom-marker',
+            iconSize: [48, 48],
+            iconAnchor: [24, 48]
+        });
+        
+        // Создаем маркер и добавляем на карту
+        const marker = L.marker(station.coords, { icon: icon })
+            .addTo(map)
+            .bindTooltip(`
+                <div style="font-weight:bold; font-size:14px;">${station.name}</div>
+                <div>${station.country.flag} ${station.country.name}</div>
+                <div>${getStatusText(station.status)}</div>
+                <div>${station.units.length} энергоблоков</div>
+            `, {
+                direction: 'top',
+                offset: [0, -20],
+                className: 'custom-tooltip'
+            });
+        
+        // Добавляем обработчик клика
+        marker.on('click', function() {
+            selectStation(station);
+        });
+        
+        // Сохраняем маркер
+        stationMarkers.push({
+            stationId: station.id,
+            marker: marker
+        });
+    });
+}
+
+// Проверка видимости станции по фильтрам
+function isStationVisible(station) {
+    // Проверяем фильтр по странам
+    if (activeFilters.countries.length > 0 && !activeFilters.countries.includes(station.country.name)) {
+        return false;
+    }
+    
+    // Проверяем фильтр по статусу
+    if (activeFilters.statuses.length > 0 && !activeFilters.statuses.includes(station.status)) {
+        return false;
+    }
+    
+    // Проверяем фильтр по типу реактора
+    if (activeFilters.types.length > 0) {
+        const stationTypes = station.units.map(unit => unit.type);
+        const hasMatchingType = stationTypes.some(type => activeFilters.types.includes(type));
+        if (!hasMatchingType) {
+            return false;
+        }
+    }
+    
+    return true;
+}
+
+// Показать/скрыть маркеры энергоблоков
+function updateUnitMarkersVisibility() {
+    // Удаляем все маркеры энергоблоков
+    unitMarkers.forEach(item => map.removeLayer(item.marker));
+    unitMarkers = [];
+    
+    // Показываем маркеры энергоблоков при zoom >= 6
+    if (currentZoom >= 6) {
+        const stationsToShow = selectedStation ? [selectedStation] : allStationsData;
+        
+        stationsToShow.forEach(station => {
+            if (!isStationVisible(station)) return;
+            
+            station.units.forEach((unit, index) => {
+                // Рассчитываем координаты для маркера блока с увеличенным отступом
+                const offset = 0.025; // Значительно увеличенное смещение
+                const angle = (index * (360 / station.units.length)) * (Math.PI / 180);
+                const unitCoords = [
+                    station.coords[0] + Math.sin(angle) * offset,
+                    station.coords[1] + Math.cos(angle) * offset
+                ];
+                
+                // Получаем данные для маркера
+                const statusConfig = getStatusConfig(unit.status);
+                const reactorType = getReactorType(unit.type);
+                const shapeClass = getReactorShapeClass(unit.type);
+                
+                // Создаем HTML для маркера блока (увеличили размер)
+                const markerHtml = `
+                    <div class="unit-marker ${shapeClass}" style="
+                        background: ${statusConfig.gradient};
+                        border-color: ${reactorType.color};
+                        font-size: 13px;
+                    ">
+                        ${unit.model.split('-')[0]}
+                    </div>
+                `;
+                
+                // Создаем иконку для Leaflet (увеличили размер)
+                const icon = L.divIcon({
+                    html: markerHtml,
+                    className: 'custom-marker',
+                    iconSize: [52, 52],
+                    iconAnchor: [26, 26]
+                });
+                
+                // Создаем маркер и добавляем на карту
+                const marker = L.marker(unitCoords, { icon: icon })
+                    .addTo(map)
+                    .bindTooltip(`
+                        <div style="font-weight:bold;">${unit.name}</div>
+                        <div>${unit.model}</div>
+                        <div>${statusConfig.name}</div>
+                        <div>${unit.capacity} МВт</div>
+                        <div>Год пуска: ${unit.startYear}</div>
+                        ${unit.endYear ? `<div>Год остановки: ${unit.endYear}</div>` : ''}
+                    `, {
+                        direction: 'right',
+                        offset: [10, 0],
+                        className: 'custom-tooltip'
+                    });
+                
+                // Добавляем обработчик клика
+                marker.on('click', function(e) {
+                    e.originalEvent.stopPropagation(); // Предотвращаем всплытие
+                    selectStation(station);
+                    selectUnit(unit);
+                });
+                
+                // Сохраняем маркер
+                unitMarkers.push({
+                    unitId: unit.id,
+                    stationId: station.id,
+                    marker: marker
+                });
+            });
+        });
+    }
+}
+
+// Выбор станции
+function selectStation(station) {
+    selectedStation = station;
+    selectedUnit = null;
+    
+    // Открываем панель
+    document.getElementById('sidepanel').classList.add('open');
+    
+    // Заполняем информацию о станции
+    document.getElementById('panel-station-name').textContent = station.name;
+    document.getElementById('total-capacity').textContent = station.totalCapacity.toLocaleString();
+    document.getElementById('units-count').textContent = station.units.length;
+    document.getElementById('panel-country').textContent = station.country.name + ' ' + station.country.flag;
+    document.getElementById('panel-year').textContent = station.startYear;
+    
+    // Удаляем цитаты из описания станции
+    const cleanedDescription = station.overview.replace(/\[citation:\d+\]/g, '');
+    document.getElementById('overview-description').textContent = cleanedDescription;
+    
+    // Добавляем информацию о местоположении (ИСПРАВЛЕНО: используем данные из станции)
+    let locationText = station.location || "Информация о ближайшем населённом пункте отсутствует";
+    document.getElementById('location-text').textContent = locationText;
+    
+    // Устанавливаем статус
+    const statusBadge = document.getElementById('panel-status-badge');
+    const statusConfig = getStatusConfig(station.status);
+    statusBadge.textContent = statusConfig.name;
+    statusBadge.style.background = statusConfig.gradient;
+    statusBadge.style.color = statusConfig.textColor;
+    
+    // Заполняем вкладку "Энергоблоки"
+    updateUnitsTab(station);
+    
+    // Заполняем вкладку "История" (с удалением цитат)
+    updateHistoryTab(station);
+    
+    // Заполняем вкладку "Факты" (с удалением цитат)
+    updateFactsTab(station);
+    
+    // Активируем первую вкладку
+    switchTab('overview');
+    
+    // Обновляем видимость маркеров энергоблоков
+    updateUnitMarkersVisibility();
+    
+    // Центрируем карту на выбранной станции
+    map.flyTo(station.coords, Math.max(currentZoom, 7), {
+        duration: 1.5,
+        easeLinearity: 0.25
+    });
+    
+    // Скрываем подсказку при выборе АЭС
+    hideTooltip();
+}
+
+// Выбор энергоблока
+function selectUnit(unit) {
+    selectedUnit = unit;
+    
+    // Переключаемся на вкладку "Энергоблоки"
+    switchTab('units');
+    
+    // Подсвечиваем выбранный блок в списке
+    document.querySelectorAll('.unit-card').forEach(card => {
+        card.classList.remove('selected');
+        if (card.dataset.unitId === unit.id) {
+            card.classList.add('selected');
+            card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    });
+}
+
+// Обновление вкладки "Энергоблоки"
+function updateUnitsTab(station) {
+    const unitsList = document.getElementById('units-list');
+    const totalUnits = document.getElementById('total-units');
+    const operationalUnits = document.getElementById('operational-units');
+    
+    unitsList.innerHTML = '';
+    
+    // Считаем статистику
+    let operationalCount = 0;
+    
+    station.units.forEach(unit => {
+        if (unit.status === 'operational') operationalCount++;
+        
+        const statusConfig = getStatusConfig(unit.status);
+        const reactorType = getReactorType(unit.type);
+        const shapeClass = getReactorShapeClass(unit.type);
+        
+        const unitCard = document.createElement('div');
+        unitCard.className = 'unit-card';
+        unitCard.dataset.unitId = unit.id;
+        unitCard.style.setProperty('--unit-color', reactorType.color);
+        
+        // Удаляем цитаты из описания блока, если оно есть
+        const cleanedDetails = unit.details ? unit.details.replace(/\[citation:\d+\]/g, '') : '';
+        
+        unitCard.innerHTML = `
+            <div class="unit-header">
+                <div class="unit-name">
+                    <span class="unit-shape ${shapeClass}"></span>
+                    ${unit.name}
+                </div>
+                <div class="unit-type-badge">${unit.model}</div>
+            </div>
+            
+            <div class="unit-years">
+                <i class="fas fa-play-circle"></i>
+                <span>Год пуска: <strong>${unit.startYear}</strong></span>
+                ${unit.endYear ? `
+                    <i class="fas fa-stop-circle"></i>
+                    <span>Год остановки: <strong>${unit.endYear}</strong></span>
+                ` : ''}
+            </div>
+            
+            <div class="unit-details">
+                <div class="unit-detail">
+                    <i class="fas fa-bolt"></i>
+                    <span>${unit.capacity} МВт</span>
+                </div>
+                <div class="unit-detail">
+                    <i class="fas fa-cube"></i>
+                    <span>${reactorType.name}</span>
+                </div>
+                <div class="unit-detail">
+                    <i class="fas fa-info-circle"></i>
+                    <span style="color: ${statusConfig.textColor}; background: ${statusConfig.gradient}; padding: 2px 8px; border-radius: 10px; font-size: 11px;">
+                        ${statusConfig.name}
+                    </span>
+                </div>
+            </div>
+            
+            ${cleanedDetails ? `
+                <div class="unit-description" style="margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border-color); font-size: 13px; color: var(--text-secondary);">
+                    ${cleanedDetails}
+                </div>
+            ` : ''}
+        `;
+        
+        unitCard.addEventListener('click', () => {
+            selectUnit(unit);
+        });
+        
+        unitsList.appendChild(unitCard);
+    });
+    
+    // Обновляем статистику
+    totalUnits.textContent = station.units.length;
+    operationalUnits.textContent = operationalCount;
+}
+
+// Обновление вкладки "История" (ИЗМЕНЕНО: без кружков, яркие заголовки, удалены цитаты)
+function updateHistoryTab(station) {
+    const timeline = document.getElementById('history-timeline');
+    timeline.innerHTML = '';
+    
+    if (!station.history || station.history.length === 0) {
+        timeline.innerHTML = `
+            <div class="no-data-message">
+                <i class="fas fa-history"></i>
+                <span>Историческая информация отсутствует</span>
+            </div>
+        `;
         return;
     }
     
+    // Сортируем события по году
+    const sortedHistory = [...station.history].sort((a, b) => {
+        const yearA = parseInt(a.year) || 0;
+        const yearB = parseInt(b.year) || 0;
+        return yearA - yearB;
+    });
+    
+    sortedHistory.forEach(event => {
+        const eventElement = document.createElement('div');
+        eventElement.className = 'history-event';
+        
+        // Удаляем цитаты из заголовка и описания
+        const cleanedTitle = (event.title || event.event).replace(/\[citation:\d+\]/g, '');
+        const cleanedDescription = event.description ? event.description.replace(/\[citation:\d+\]/g, '') : '';
+        
+        // Создаем яркий заголовок с годом и названием события
+        eventElement.innerHTML = `
+            <div class="event-year">
+                <span class="year-highlight">${event.year}</span>
+                <span class="event-title-highlight">${cleanedTitle}</span>
+            </div>
+            ${cleanedDescription ? `<div class="event-description">${cleanedDescription}</div>` : ''}
+        `;
+        
+        timeline.appendChild(eventElement);
+    });
+}
+
+// Обновление вкладки "Факты" (ИЗМЕНЕНО: вместо цифр значок атома, удалены цитаты)
+function updateFactsTab(station) {
+    const factsList = document.getElementById('facts-list');
+    factsList.innerHTML = '';
+    
+    if (!station.facts || station.facts.length === 0) {
+        factsList.innerHTML = `
+            <div class="no-data-message">
+                <i class="fas fa-info-circle"></i>
+                <span>Интересные факты отсутствуют</span>
+            </div>
+        `;
+        return;
+    }
+    
+    station.facts.forEach((fact, index) => {
+        const factElement = document.createElement('div');
+        factElement.className = 'fact-item';
+        
+        // Удаляем цитаты из факта
+        const cleanedFact = fact.replace(/\[citation:\d+\]/g, '');
+        
+        // Используем значок атома вместо цифр
+        factElement.innerHTML = `
+            <div class="fact-icon-atom">
+                <div class="mini-atom-core"></div>
+                <div class="mini-electron"></div>
+            </div>
+            <div class="fact-text">${cleanedFact}</div>
+        `;
+        
+        factsList.appendChild(factElement);
+    });
+}
+
+// Переключение вкладок
+function switchTab(tabName) {
+    // Убираем активный класс со всех вкладок
+    document.querySelectorAll('.tab').forEach(tab => {
+        tab.classList.remove('active');
+    });
+    
+    // Убираем активный класс со всех панелей
+    document.querySelectorAll('.tab-pane').forEach(pane => {
+        pane.classList.remove('active');
+    });
+    
+    // Активируем выбранную вкладку
+    document.querySelector(`.tab[data-tab="${tabName}"]`).classList.add('active');
+    document.getElementById(`${tabName}-tab`).classList.add('active');
+}
+
+// Инициализация фильтров (ИСПРАВЛЕНА ФУНКЦИЯ)
+function initFilters() {
+    // Собираем уникальные страны
+    const countries = [...new Set(allStationsData.map(station => station.country.name))].sort();
+    const countryFiltersContainer = document.getElementById('country-filters');
+    
+    // Очищаем контейнер для стран (на всякий случай)
+    countryFiltersContainer.innerHTML = '';
+    
+    // Создаем контейнер для скролла
+    const scrollContainer = document.createElement('div');
+    scrollContainer.style.maxHeight = '200px';
+    scrollContainer.style.overflowY = 'auto';
+    scrollContainer.style.paddingRight = '5px';
+    
+    // Добавляем прокручиваемую область в контейнер
+    countryFiltersContainer.appendChild(scrollContainer);
+    
+    countries.forEach(country => {
+        const option = document.createElement('div');
+        option.className = 'filter-option';
+        option.textContent = country;
+        option.dataset.country = country;
+        
+        option.addEventListener('click', function() {
+            this.classList.toggle('active');
+            updateFilters();
+        });
+        
+        scrollContainer.appendChild(option);
+    });
+    
+    // Фильтры по статусу (включая новые)
+    const statuses = Object.keys(statusConfig);
+    
+    const statusFiltersContainer = document.getElementById('status-filters');
+    
+    statuses.forEach(statusId => {
+        const status = statusConfig[statusId];
+        const option = document.createElement('div');
+        option.className = 'filter-option';
+        option.textContent = status.name;
+        option.dataset.status = statusId;
+        
+        option.addEventListener('click', function() {
+            this.classList.toggle('active');
+            updateFilters();
+        });
+        
+        statusFiltersContainer.appendChild(option);
+    });
+    
+    // Фильтры по типу реактора
+    const types = Object.keys(reactorTypes);
+    
+    const typeFiltersContainer = document.getElementById('type-filters');
+    
+    types.forEach(typeId => {
+        const type = reactorTypes[typeId];
+        const option = document.createElement('div');
+        option.className = 'filter-option';
+        option.textContent = type.name;
+        option.dataset.type = typeId;
+        
+        option.addEventListener('click', function() {
+            this.classList.toggle('active');
+            updateFilters();
+        });
+        
+        typeFiltersContainer.appendChild(option);
+    });
+    
+    // Кнопка сброса фильтров
+    document.getElementById('reset-filters').addEventListener('click', function() {
+        // Сбрасываем все активные фильтры
+        document.querySelectorAll('.filter-option.active').forEach(option => {
+            option.classList.remove('active');
+        });
+        
+        // Обновляем фильтры
+        updateFilters();
+    });
+    
+    // Кнопка переключения панели фильтров
+    document.getElementById('toggle-filters-btn').addEventListener('click', function() {
+        document.getElementById('filters-panel').classList.toggle('open');
+    });
+}
+
+// Обновление фильтров
+function updateFilters() {
+    // Собираем активные фильтры
+    activeFilters.countries = Array.from(document.querySelectorAll('#country-filters .filter-option.active'))
+        .map(option => option.dataset.country);
+    
+    activeFilters.statuses = Array.from(document.querySelectorAll('#status-filters .filter-option.active'))
+        .map(option => option.dataset.status);
+    
+    activeFilters.types = Array.from(document.querySelectorAll('#type-filters .filter-option.active'))
+        .map(option => option.dataset.type);
+    
+    // Обновляем маркеры станций
+    updateStationMarkers();
+    
+    // Обновляем маркеры энергоблоков
+    updateUnitMarkersVisibility();
+    
+    // Если есть выбранная станция, проверяем ее видимость
+    if (selectedStation && !isStationVisible(selectedStation)) {
+        document.getElementById('sidepanel').classList.remove('open');
+        selectedStation = null;
+        selectedUnit = null;
+    }
+}
+
+// Инициализация поиска
+function initSearch() {
+    const searchInput = document.getElementById('station-search');
+    const searchResults = document.getElementById('search-results');
+    
+    searchInput.addEventListener('input', function() {
+        clearTimeout(searchTimeout);
+        
+        const query = this.value.trim().toLowerCase();
+        
+        // Очищаем предыдущие результаты
+        searchResults.innerHTML = '';
+        searchResults.style.display = 'none';
+        
+        if (query.length < 2) return;
+        
+        searchTimeout = setTimeout(() => {
+            const results = allStationsData.filter(station => {
+                return station.name.toLowerCase().includes(query) || 
+                       station.locationCity?.toLowerCase().includes(query);
+            });
+            
+            if (results.length > 0) {
+                results.forEach(station => {
+                    const resultItem = document.createElement('div');
+                    resultItem.className = 'search-result-item';
+                    resultItem.innerHTML = `
+                        <div class="search-result-name">${station.name}</div>
+                        <div class="search-result-country">${station.country.flag} ${station.country.name}</div>
+                    `;
+                    
+                    resultItem.addEventListener('click', () => {
+                        selectStation(station);
+                        searchInput.value = '';
+                        searchResults.innerHTML = '';
+                        searchResults.style.display = 'none';
+                    });
+                    
+                    searchResults.appendChild(resultItem);
+                });
+                
+                searchResults.style.display = 'block';
+            }
+        }, 300);
+    });
+    
+    // Закрываем результаты при клике вне поля поиска
+    document.addEventListener('click', function(e) {
+        if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+            searchResults.style.display = 'none';
+        }
+    });
+}
+
+// Инициализация подсказки
+function initTooltip() {
+    const tooltip = document.getElementById('floating-tooltip');
+    const closeButton = document.getElementById('close-tooltip');
+    
+    // Показываем подсказку через 2 секунды после загрузки
+    setTimeout(() => {
+        tooltip.style.display = 'flex';
+    }, 2000);
+    
+    // Автоматическое скрытие через 10 секунд
+    tooltipTimeout = setTimeout(() => {
+        hideTooltip();
+    }, 12000); // 2 секунды задержка + 10 секунд показа
+    
+    // Закрытие по кнопке
+    closeButton.addEventListener('click', () => {
+        hideTooltip();
+        clearTimeout(tooltipTimeout);
+    });
+    
+    // Закрытие по клику на карту
+    map.on('click', () => {
+        hideTooltip();
+        clearTimeout(tooltipTimeout);
+    });
+}
+
+// Скрытие подсказки
+function hideTooltip() {
+    const tooltip = document.getElementById('floating-tooltip');
+    tooltip.style.display = 'none';
+}
+
+// Инициализация часов (системное время пользователя)
+function initClock() {
+    function updateClock() {
+        const now = new Date(); // Использует системное время пользователя
+        
+        // Форматируем время
+        const hours = now.getHours().toString().padStart(2, '0');
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        const seconds = now.getSeconds().toString().padStart(2, '0');
+        
+        // Форматируем дату
+        const day = now.getDate().toString().padStart(2, '0');
+        const month = (now.getMonth() + 1).toString().padStart(2, '0');
+        const year = now.getFullYear();
+        const dateStr = `${day}/${month}/${year}`;
+        
+        // Обновляем элементы
+        document.querySelector('.hours').textContent = hours;
+        document.querySelector('.minutes').textContent = minutes;
+        document.querySelector('.seconds').textContent = seconds;
+        document.getElementById('current-date').textContent = dateStr;
+    }
+    
+    // Обновляем часы каждую секунду
+    updateClock();
+    setInterval(updateClock, 1000);
+}
+
+// Обработчики событий
+document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', function() {
+        const tabName = this.dataset.tab;
+        switchTab(tabName);
+    });
+});
+
+// Закрытие панели
+document.getElementById('close-panel').addEventListener('click', function() {
+    document.getElementById('sidepanel').classList.remove('open');
+    selectedStation = null;
+    selectedUnit = null;
+    updateUnitMarkersVisibility();
+});
+
+// Переключение режимов (ИСПРАВЛЕНО: перенаправление на statistics.html)
+document.getElementById('map-mode').addEventListener('click', function() {
+    this.classList.add('active');
+    document.getElementById('stats-mode').classList.remove('active');
+});
+
+document.getElementById('stats-mode').addEventListener('click', function() {
+    this.classList.add('active');
+    document.getElementById('map-mode').classList.remove('active');
+    
+    // Перенаправляем на страницу статистики вместо показа сообщения
+    window.location.href = 'statistics.html';
+});
+
+// Инициализация при загрузке страницы
+window.addEventListener('DOMContentLoaded', function() {
+    // Копируем данные из data.js в глобальную переменную
     allStationsData = stationsData;
     
-    // Обработка данных станций
+    // Добавляем поле locationCity для поиска по городу
     allStationsData.forEach(station => {
-        // Добавляем город местоположения
         switch(station.id) {
             case "KURSK": 
                 station.locationCity = "Курчатов";
@@ -245,6 +847,7 @@ function prepareStationData() {
                 break;
             case "ZAPOROZHYE": 
                 station.locationCity = "Энергодар";
+                // Используем данные из поисковой выдачи
                 station.location = "г. Энергодар, Запорожская область, Украина";
                 break;
             case "OLKILUOTO": 
@@ -276,20 +879,23 @@ function prepareStationData() {
                 station.location = "г. Висагинас, Игналинский район, Литва";
                 break;
             default:
+                // Для всех остальных станций устанавливаем общее местоположение
                 if (!station.location) {
                     station.location = "Информация о ближайшем населённом пункте отсутствует";
                 }
         }
         
-        // Очистка текстов от ссылок
+        // Удаляем цитаты из описания станции
         if (station.overview) {
             station.overview = station.overview.replace(/\[citation:\d+\]/g, '');
         }
         
+        // Удаляем цитаты из фактов
         if (station.facts) {
             station.facts = station.facts.map(fact => fact.replace(/\[citation:\d+\]/g, ''));
         }
         
+        // Удаляем цитаты из истории
         if (station.history) {
             station.history = station.history.map(event => {
                 if (event.title) event.title = event.title.replace(/\[citation:\d+\]/g, '');
@@ -299,6 +905,7 @@ function prepareStationData() {
             });
         }
         
+        // Удаляем цитаты из описаний энергоблоков
         if (station.units) {
             station.units = station.units.map(unit => {
                 if (unit.details) {
@@ -309,932 +916,9 @@ function prepareStationData() {
         }
     });
     
-    console.log('Данные подготовлены, всего станций:', allStationsData.length);
-}
-
-// Создание маркеров станций
-function initStationMarkers() {
-    console.log('Инициализация маркеров станций...');
-    
-    markersLayer = L.layerGroup().addTo(map);
-    updateStationMarkers();
-}
-
-function updateStationMarkers() {
-    console.log('Обновление маркеров станций...');
-    
-    // Очищаем старые маркеры
-    markersLayer.clearLayers();
-    stationMarkers = [];
-    
-    // Проверяем есть ли данные
-    if (!allStationsData || allStationsData.length === 0) {
-        console.warn('Нет данных для отображения маркеров');
-        return;
-    }
-    
-    // Создаем новые маркеры
-    allStationsData.forEach(station => {
-        if (!isStationVisible(station)) return;
-        
-        const markerHtml = createStationPinHTML(station.status);
-        
-        const icon = L.divIcon({
-            html: markerHtml,
-            className: 'custom-marker',
-            iconSize: [40, 40],
-            iconAnchor: [20, 40],
-            popupAnchor: [0, -40]
-        });
-        
-        const marker = L.marker(station.coords, { icon: icon });
-        
-        marker.on('click', function() {
-            selectStation(station);
-        });
-        
-        marker.addTo(markersLayer);
-        stationMarkers.push({ stationId: station.id, marker: marker });
-    });
-    
-    console.log('Создано маркеров:', stationMarkers.length);
-}
-
-// Проверка видимости станции по фильтрам
-function isStationVisible(station) {
-    if (activeFilters.countries.length > 0 && !activeFilters.countries.includes(station.country.name)) {
-        return false;
-    }
-    
-    if (activeFilters.statuses.length > 0 && !activeFilters.statuses.includes(station.status)) {
-        return false;
-    }
-    
-    if (activeFilters.types.length > 0) {
-        const stationTypes = station.units.map(unit => unit.type);
-        const hasMatchingType = stationTypes.some(type => activeFilters.types.includes(type));
-        if (!hasMatchingType) {
-            return false;
-        }
-    }
-    
-    return true;
-}
-
-// Создание HTML для пина станции
-function createStationPinHTML(status) {
-    const pinColor = getPinColor(status);
-    
-    return `
-        <div class="station-pin">
-            <div class="pin-body" style="background: ${pinColor};">
-                <div class="atom">
-                    <div class="atom-core"></div>
-                    <div class="electron electron-1"></div>
-                    <div class="electron electron-2"></div>
-                    <div class="electron electron-3"></div>
-                </div>
-            </div>
-            <div class="pin-stem" style="background: ${pinColor};"></div>
-            <div class="pin-shadow"></div>
-        </div>
-    `;
-}
-
-// Выбор станции
-function selectStation(station) {
-    console.log('Выбор станции:', station.name);
-    
-    selectedStation = station;
-    selectedUnit = null;
-    
-    const panel = document.getElementById('station-panel');
-    if (panel) {
-        panel.classList.add('open');
-        panel.scrollTop = 0;
-    }
-    
-    // Обновление информации
-    const panelStationName = document.getElementById('panel-station-name');
-    const totalCapacity = document.getElementById('total-capacity');
-    const unitsCount = document.getElementById('units-count');
-    const panelCountry = document.getElementById('panel-country');
-    const panelYear = document.getElementById('panel-year');
-    const overviewDescription = document.getElementById('overview-description');
-    const locationText = document.getElementById('location-text');
-    
-    if (panelStationName) panelStationName.textContent = station.name;
-    if (totalCapacity) totalCapacity.textContent = station.totalCapacity.toLocaleString();
-    if (unitsCount) unitsCount.textContent = station.units.length;
-    if (panelCountry) panelCountry.textContent = `${station.country.flag} ${station.country.name}`;
-    if (panelYear) panelYear.textContent = station.startYear;
-    
-    const cleanedDescription = station.overview || "Описание отсутствует";
-    if (overviewDescription) overviewDescription.textContent = cleanedDescription;
-    
-    let locationTextContent = station.location || station.locationCity || "Информация отсутствует";
-    if (locationText) locationText.textContent = locationTextContent;
-    
-    const statusBadge = document.getElementById('panel-status-badge');
-    if (statusBadge) {
-        const statusConfig = getStatusConfig(station.status);
-        statusBadge.textContent = statusConfig.name;
-        statusBadge.style.background = statusConfig.gradient;
-    }
-    
-    updateUnitsTab(station);
-    updateHistoryTab(station);
-    updateFactsTab(station);
-    switchTab('overview');
-    updateUnitMarkersVisibility();
-    
-    // Плавное перемещение к станции
-    const zoomLevel = isMobile ? 8 : 7;
-    map.flyTo(station.coords, Math.max(currentZoom, zoomLevel), {
-        duration: 1,
-        easeLinearity: 0.25
-    });
-    
-    // На мобильных скрываем меню и поиск
-    if (isMobile) {
-        closeMobileMenu();
-        const searchModal = document.getElementById('mobile-search-modal');
-        if (searchModal) searchModal.classList.remove('active');
-    }
-}
-
-// Закрытие панели станции
-function closeStationPanel() {
-    console.log('Закрытие панели станции');
-    const panel = document.getElementById('station-panel');
-    if (panel) {
-        panel.classList.remove('open');
-    }
-    selectedStation = null;
-    selectedUnit = null;
-    updateUnitMarkersVisibility();
-}
-
-// Переключение вкладок
-function switchTab(tabName) {
-    console.log('Переключение на вкладку:', tabName);
-    
-    document.querySelectorAll('.panel-tab').forEach(tab => {
-        tab.classList.remove('active');
-    });
-    
-    document.querySelectorAll('.tab-content').forEach(content => {
-        content.classList.remove('active');
-    });
-    
-    const activeTab = document.querySelector(`.panel-tab[data-tab="${tabName}"]`);
-    const activeContent = document.getElementById(`${tabName}-tab`);
-    
-    if (activeTab) activeTab.classList.add('active');
-    if (activeContent) activeContent.classList.add('active');
-}
-
-// Обновление вкладки "Энергоблоки"
-function updateUnitsTab(station) {
-    console.log('Обновление вкладки энергоблоков для станции:', station.name);
-    
-    const unitsList = document.getElementById('units-list');
-    const totalUnits = document.getElementById('total-units');
-    const operationalUnits = document.getElementById('operational-units');
-    
-    if (!unitsList) {
-        console.error('Элемент units-list не найден');
-        return;
-    }
-    
-    unitsList.innerHTML = '';
-    
-    let operationalCount = 0;
-    
-    station.units.forEach(unit => {
-        if (unit.status === 'operational') operationalCount++;
-        
-        const statusConfig = getStatusConfig(unit.status);
-        const reactorType = getReactorType(unit.type);
-        
-        const unitCard = document.createElement('div');
-        unitCard.className = 'unit-card';
-        unitCard.dataset.unitId = unit.id;
-        
-        unitCard.innerHTML = `
-            <div class="unit-header">
-                <div class="unit-name">${unit.name}</div>
-                <div class="unit-type-badge">${unit.model}</div>
-            </div>
-            <div class="unit-info">
-                <div class="unit-detail">
-                    <i class="fas fa-bolt"></i>
-                    <span>${unit.capacity} МВт</span>
-                </div>
-                <div class="unit-detail">
-                    <i class="fas fa-cube"></i>
-                    <span>${reactorType.name}</span>
-                </div>
-            </div>
-            <div class="unit-footer">
-                <div class="unit-year">Год пуска: ${unit.startYear}</div>
-                <div class="unit-status" style="background: ${statusConfig.gradient}; color: white; padding: 2px 10px; border-radius: 12px; font-size: 12px;">
-                    ${statusConfig.name}
-                </div>
-            </div>
-        `;
-        
-        unitCard.addEventListener('click', () => {
-            selectUnit(unit);
-            document.querySelectorAll('.unit-card').forEach(card => {
-                card.classList.remove('selected');
-            });
-            unitCard.classList.add('selected');
-        });
-        
-        unitsList.appendChild(unitCard);
-    });
-    
-    if (totalUnits) totalUnits.textContent = station.units.length;
-    if (operationalUnits) operationalUnits.textContent = operationalCount;
-    
-    console.log('Обновлено энергоблоков:', station.units.length);
-}
-
-// Выбор энергоблока
-function selectUnit(unit) {
-    console.log('Выбор энергоблока:', unit.name);
-    selectedUnit = unit;
-    switchTab('units');
-}
-
-// Обновление вкладки "История"
-function updateHistoryTab(station) {
-    console.log('Обновление истории станции:', station.name);
-    
-    const timeline = document.getElementById('history-timeline');
-    if (!timeline) return;
-    
-    timeline.innerHTML = '';
-    
-    if (!station.history || station.history.length === 0) {
-        timeline.innerHTML = `
-            <div class="no-data-message">
-                <i class="fas fa-history"></i>
-                <span>Историческая информация отсутствует</span>
-            </div>
-        `;
-        return;
-    }
-    
-    const sortedHistory = [...station.history].sort((a, b) => {
-        const yearA = parseInt(a.year) || 0;
-        const yearB = parseInt(b.year) || 0;
-        return yearA - yearB;
-    });
-    
-    sortedHistory.forEach(event => {
-        const eventElement = document.createElement('div');
-        eventElement.className = 'history-event';
-        
-        const cleanedTitle = (event.title || event.event).replace(/\[citation:\d+\]/g, '');
-        const cleanedDescription = event.description ? event.description.replace(/\[citation:\d+\]/g, '') : '';
-        
-        eventElement.innerHTML = `
-            <div class="event-year">
-                <span class="year-highlight">${event.year}</span>
-                <span class="event-title-highlight">${cleanedTitle}</span>
-            </div>
-            ${cleanedDescription ? `<div class="event-description">${cleanedDescription}</div>` : ''}
-        `;
-        
-        timeline.appendChild(eventElement);
-    });
-}
-
-// Обновление вкладки "Факты"
-function updateFactsTab(station) {
-    console.log('Обновление фактов станции:', station.name);
-    
-    const factsList = document.getElementById('facts-list');
-    if (!factsList) return;
-    
-    factsList.innerHTML = '';
-    
-    if (!station.facts || station.facts.length === 0) {
-        factsList.innerHTML = `
-            <div class="no-data-message">
-                <i class="fas fa-info-circle"></i>
-                <span>Интересные факты отсутствуют</span>
-            </div>
-        `;
-        return;
-    }
-    
-    station.facts.forEach((fact, index) => {
-        const factElement = document.createElement('div');
-        factElement.className = 'fact-item';
-        
-        const cleanedFact = fact.replace(/\[citation:\d+\]/g, '');
-        
-        factElement.innerHTML = `
-            <div class="fact-icon-atom">
-                <div class="mini-atom-core"></div>
-                <div class="mini-electron"></div>
-            </div>
-            <div class="fact-text">${cleanedFact}</div>
-        `;
-        
-        factsList.appendChild(factElement);
-    });
-}
-
-// Обновление видимости маркеров энергоблоков
-function updateUnitMarkersVisibility() {
-    console.log('Обновление видимости маркеров энергоблоков, текущий зум:', currentZoom);
-    
-    // Удаляем старые маркеры
-    unitMarkers.forEach(item => {
-        if (item.marker && map.hasLayer(item.marker)) {
-            map.removeLayer(item.marker);
-        }
-    });
-    unitMarkers = [];
-    
-    // Показываем только при достаточном зуме
-    if (currentZoom >= 6) {
-        const stationsToShow = selectedStation ? [selectedStation] : allStationsData;
-        
-        stationsToShow.forEach(station => {
-            if (!isStationVisible(station)) return;
-            
-            station.units.forEach((unit, index) => {
-                const offset = 0.02;
-                const angle = (index * (360 / station.units.length)) * (Math.PI / 180);
-                const unitCoords = [
-                    station.coords[0] + Math.sin(angle) * offset,
-                    station.coords[1] + Math.cos(angle) * offset
-                ];
-                
-                const statusConfig = getStatusConfig(unit.status);
-                const reactorType = getReactorType(unit.type);
-                
-                const markerHtml = `
-                    <div class="unit-marker" style="
-                        background: ${statusConfig.gradient};
-                        border-color: ${reactorType.color};
-                        font-size: 11px;
-                    ">
-                        ${unit.model.split('-')[0]}
-                    </div>
-                `;
-                
-                const icon = L.divIcon({
-                    html: markerHtml,
-                    className: 'custom-marker',
-                    iconSize: [40, 40],
-                    iconAnchor: [20, 20]
-                });
-                
-                const marker = L.marker(unitCoords, { icon: icon });
-                
-                marker.on('click', function(e) {
-                    if (e.originalEvent) e.originalEvent.stopPropagation();
-                    selectStation(station);
-                    selectUnit(unit);
-                });
-                
-                marker.addTo(map);
-                unitMarkers.push({
-                    unitId: unit.id,
-                    stationId: station.id,
-                    marker: marker
-                });
-            });
-        });
-        
-        console.log('Создано маркеров энергоблоков:', unitMarkers.length);
-    }
-}
-
-// Инициализация обработчиков событий
-function initEventListeners() {
-    console.log('Инициализация обработчиков событий...');
-    
-    // Закрытие панели станции
-    const panelCloseBtn = document.getElementById('panel-close-btn');
-    const closeSidepanelBtn = document.getElementById('close-sidepanel-btn');
-    
-    if (panelCloseBtn) {
-        panelCloseBtn.addEventListener('click', closeStationPanel);
-    }
-    
-    if (closeSidepanelBtn) {
-        closeSidepanelBtn.addEventListener('click', closeStationPanel);
-    }
-    
-    // Переключение вкладок в панели
-    document.querySelectorAll('.panel-tab').forEach(tab => {
-        tab.addEventListener('click', function() {
-            const tabName = this.dataset.tab;
-            switchTab(tabName);
-        });
-    });
-    
-    // Переключение режимов карта/статистика
-    const mapModeBtn = document.getElementById('map-mode');
-    const statsModeBtn = document.getElementById('stats-mode');
-    const mobileStatsBtn = document.getElementById('mobile-stats-btn');
-    
-    if (mapModeBtn) {
-        mapModeBtn.addEventListener('click', function() {
-            this.classList.add('active');
-            const statsMode = document.getElementById('stats-mode');
-            if (statsMode) statsMode.classList.remove('active');
-        });
-    }
-    
-    if (statsModeBtn) {
-        statsModeBtn.addEventListener('click', function() {
-            this.classList.add('active');
-            const mapMode = document.getElementById('map-mode');
-            if (mapMode) mapMode.classList.remove('active');
-            window.location.href = 'statistics.html';
-        });
-    }
-    
-    if (mobileStatsBtn) {
-        mobileStatsBtn.addEventListener('click', function() {
-            window.location.href = 'statistics.html';
-        });
-    }
-    
-    // Кнопка фильтров на десктопе
-    const desktopFiltersBtn = document.getElementById('toggle-filters-desktop');
-    if (desktopFiltersBtn) {
-        desktopFiltersBtn.addEventListener('click', () => {
-            console.log('Переключение фильтров на десктопе');
-            const filtersPanel = document.getElementById('filters-panel');
-            if (filtersPanel) filtersPanel.classList.toggle('open');
-        });
-    }
-    
-    // Обработчики для модальных окон
-    const closeLayersModalBtn = document.getElementById('close-layers-modal');
-    if (closeLayersModalBtn) {
-        closeLayersModalBtn.addEventListener('click', () => {
-            const layersModal = document.getElementById('layers-modal');
-            if (layersModal) layersModal.classList.remove('active');
-        });
-    }
-    
-    // Обработчики для мобильного меню слоев
-    document.querySelectorAll('.layer-option').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const layer = this.dataset.layer;
-            if (layer === 'street') {
-                if (satelliteLayer && map.hasLayer(satelliteLayer)) {
-                    map.removeLayer(satelliteLayer);
-                }
-                if (streetLayer && !map.hasLayer(streetLayer)) {
-                    streetLayer.addTo(map);
-                }
-            } else if (layer === 'satellite') {
-                if (streetLayer && map.hasLayer(streetLayer)) {
-                    map.removeLayer(streetLayer);
-                }
-                if (satelliteLayer && !map.hasLayer(satelliteLayer)) {
-                    satelliteLayer.addTo(map);
-                }
-            }
-            updateLayerButtons(layer);
-            const layersModal = document.getElementById('layers-modal');
-            if (layersModal) layersModal.classList.remove('active');
-        });
-    });
-    
-    // Меню слоев для мобильных
-    const menuLayersBtn = document.getElementById('menu-layers-btn');
-    if (menuLayersBtn) {
-        menuLayersBtn.addEventListener('click', () => {
-            closeMobileMenu();
-            setTimeout(() => {
-                const layersModal = document.getElementById('layers-modal');
-                if (layersModal) layersModal.classList.add('active');
-            }, 300);
-        });
-    }
-    
-    // Обработка ресайза окна
-    let resizeTimeout;
-    window.addEventListener('resize', function() {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(() => {
-            isMobile = window.innerWidth < 769;
-            updateStationMarkers();
-        }, 250);
-    });
-}
-
-// Инициализация мобильного меню
-function initMobileMenu() {
-    console.log('Инициализация мобильного меню...');
-    
-    const menuBtn = document.getElementById('mobile-menu-btn');
-    const closeBtn = document.getElementById('close-menu');
-    const menuOverlay = document.getElementById('mobile-menu-overlay');
-    const menu = document.getElementById('mobile-menu');
-    
-    if (menuBtn && closeBtn && menu && menuOverlay) {
-        menuBtn.addEventListener('click', () => {
-            console.log('Открытие мобильного меню');
-            menu.classList.add('open');
-            menuOverlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        });
-        
-        closeBtn.addEventListener('click', closeMobileMenu);
-        menuOverlay.addEventListener('click', closeMobileMenu);
-    }
-    
-    // Кнопка фильтров на мобильных
-    const mobileFiltersBtn = document.getElementById('mobile-filters-top-btn');
-    if (mobileFiltersBtn) {
-        mobileFiltersBtn.addEventListener('click', () => {
-            console.log('Открытие фильтров на мобильном');
-            const filtersPanel = document.getElementById('filters-panel');
-            if (filtersPanel) filtersPanel.classList.add('open');
-        });
-    }
-}
-
-function closeMobileMenu() {
-    console.log('Закрытие мобильного меню');
-    const menu = document.getElementById('mobile-menu');
-    const overlay = document.getElementById('mobile-menu-overlay');
-    
-    if (menu) menu.classList.remove('open');
-    if (overlay) overlay.classList.remove('active');
-    document.body.style.overflow = '';
-}
-
-// Инициализация поиска
-function initSearch() {
-    console.log('Инициализация поиска...');
-    
-    // Поиск для десктопа
-    const desktopSearchInput = document.getElementById('desktop-search');
-    const desktopSearchResults = document.getElementById('desktop-search-results');
-    
-    if (desktopSearchInput && desktopSearchResults) {
-        setupSearch(desktopSearchInput, desktopSearchResults);
-    }
-    
-    // Поиск для мобильных
-    const mobileSearchBtn = document.getElementById('mobile-search-btn');
-    const mobileSearchModal = document.getElementById('mobile-search-modal');
-    const mobileSearchInput = document.getElementById('mobile-search-input');
-    const mobileSearchResults = document.getElementById('mobile-search-results');
-    const closeSearchModal = document.getElementById('close-search-modal');
-    const clearMobileSearch = document.getElementById('clear-mobile-search');
-    
-    if (mobileSearchBtn && mobileSearchModal) {
-        mobileSearchBtn.addEventListener('click', () => {
-            console.log('Открытие мобильного поиска');
-            mobileSearchModal.classList.add('active');
-            setTimeout(() => {
-                if (mobileSearchInput) mobileSearchInput.focus();
-            }, 100);
-        });
-        
-        if (closeSearchModal) {
-            closeSearchModal.addEventListener('click', () => {
-                console.log('Закрытие мобильного поиска');
-                mobileSearchModal.classList.remove('active');
-                if (mobileSearchInput) mobileSearchInput.value = '';
-                if (mobileSearchResults) mobileSearchResults.innerHTML = '';
-            });
-        }
-        
-        if (clearMobileSearch && mobileSearchInput) {
-            clearMobileSearch.addEventListener('click', () => {
-                if (mobileSearchInput) mobileSearchInput.value = '';
-                if (mobileSearchResults) mobileSearchResults.innerHTML = '';
-                mobileSearchInput.focus();
-            });
-        }
-        
-        if (mobileSearchInput && mobileSearchResults) {
-            setupSearch(mobileSearchInput, mobileSearchResults);
-        }
-        
-        // Закрытие по клику вне поля поиска
-        mobileSearchModal.addEventListener('click', (e) => {
-            if (e.target === mobileSearchModal) {
-                mobileSearchModal.classList.remove('active');
-                if (mobileSearchInput) mobileSearchInput.value = '';
-                if (mobileSearchResults) mobileSearchResults.innerHTML = '';
-            }
-        });
-    }
-}
-
-function setupSearch(inputElement, resultsContainer) {
-    console.log('Настройка поиска для:', inputElement.id);
-    
-    inputElement.addEventListener('input', function() {
-        clearTimeout(searchTimeout);
-        
-        const query = this.value.trim().toLowerCase();
-        
-        if (!resultsContainer) {
-            console.error('Контейнер результатов поиска не найден');
-            return;
-        }
-        
-        resultsContainer.innerHTML = '';
-        resultsContainer.style.display = 'none';
-        
-        if (query.length < 2) return;
-        
-        searchTimeout = setTimeout(() => {
-            const results = allStationsData.filter(station => {
-                return station.name.toLowerCase().includes(query) || 
-                       (station.locationCity && station.locationCity.toLowerCase().includes(query)) ||
-                       (station.country && station.country.name && station.country.name.toLowerCase().includes(query));
-            }).slice(0, 10);
-            
-            if (results.length > 0) {
-                results.forEach(station => {
-                    const resultItem = document.createElement('div');
-                    resultItem.className = 'search-result-item';
-                    
-                    const statusConfig = getStatusConfig(station.status);
-                    
-                    resultItem.innerHTML = `
-                        <div class="search-result-name">${station.name}</div>
-                        <div class="search-result-details">
-                            <span class="search-result-country">${station.country.flag} ${station.country.name}</span>
-                            <span class="search-result-status" style="background: ${statusConfig.gradient}; color: white; padding: 2px 8px; border-radius: 10px; font-size: 11px;">
-                                ${statusConfig.name}
-                            </span>
-                        </div>
-                        <div class="search-result-info">
-                            ${station.units.length} энергоблоков · ${station.totalCapacity.toLocaleString()} МВт
-                        </div>
-                    `;
-                    
-                    resultItem.addEventListener('click', () => {
-                        console.log('Выбор станции из результатов поиска:', station.name);
-                        selectStation(station);
-                        inputElement.value = '';
-                        resultsContainer.innerHTML = '';
-                        resultsContainer.style.display = 'none';
-                        
-                        // Закрываем модальное окно поиска на мобильных
-                        const searchModal = document.getElementById('mobile-search-modal');
-                        if (searchModal) searchModal.classList.remove('active');
-                        
-                        // На мобильных скрываем клавиатуру
-                        if (isMobile) {
-                            inputElement.blur();
-                        }
-                    });
-                    
-                    resultsContainer.appendChild(resultItem);
-                });
-                
-                resultsContainer.style.display = 'block';
-                console.log('Найдено результатов:', results.length);
-            } else {
-                resultsContainer.innerHTML = `
-                    <div class="no-results" style="text-align: center; padding: 20px; color: var(--text-tertiary);">
-                        <i class="fas fa-search" style="font-size: 24px; margin-bottom: 10px;"></i>
-                        <div>АЭС не найдена</div>
-                    </div>
-                `;
-                resultsContainer.style.display = 'block';
-            }
-        }, 300);
-    });
-}
-
-// Инициализация фильтров
-function initFilters() {
-    console.log('Инициализация фильтров...');
-    
-    // Проверяем наличие контейнеров
-    const countryFiltersContainer = document.getElementById('country-filters');
-    const statusFiltersContainer = document.getElementById('status-filters');
-    const typeFiltersContainer = document.getElementById('type-filters');
-    
-    if (!countryFiltersContainer || !statusFiltersContainer || !typeFiltersContainer) {
-        console.error('Контейнеры фильтров не найдены');
-        return;
-    }
-    
-    // Очищаем контейнеры
-    countryFiltersContainer.innerHTML = '';
-    statusFiltersContainer.innerHTML = '';
-    typeFiltersContainer.innerHTML = '';
-    
-    // Фильтры по странам
-    if (allStationsData.length > 0) {
-        const countries = [...new Set(allStationsData.map(station => station.country.name))].sort();
-        
-        countries.forEach(country => {
-            const option = document.createElement('div');
-            option.className = 'filter-option';
-            option.textContent = country;
-            option.dataset.country = country;
-            
-            option.addEventListener('click', function() {
-                this.classList.toggle('active');
-            });
-            
-            countryFiltersContainer.appendChild(option);
-        });
-    }
-    
-    // Фильтры по статусам
-    if (typeof statusConfig !== 'undefined') {
-        const statuses = Object.keys(statusConfig);
-        
-        statuses.forEach(statusId => {
-            const status = statusConfig[statusId];
-            const option = document.createElement('div');
-            option.className = 'filter-option';
-            option.textContent = status.name;
-            option.dataset.status = statusId;
-            
-            option.addEventListener('click', function() {
-                this.classList.toggle('active');
-            });
-            
-            statusFiltersContainer.appendChild(option);
-        });
-    }
-    
-    // Фильтры по типам реакторов
-    if (typeof reactorTypes !== 'undefined') {
-        const types = Object.keys(reactorTypes);
-        
-        types.forEach(typeId => {
-            const type = reactorTypes[typeId];
-            const option = document.createElement('div');
-            option.className = 'filter-option';
-            option.textContent = type.name;
-            option.dataset.type = typeId;
-            
-            option.addEventListener('click', function() {
-                this.classList.toggle('active');
-            });
-            
-            typeFiltersContainer.appendChild(option);
-        });
-    }
-    
-    // Кнопки фильтров
-    const resetBtn = document.getElementById('reset-filters');
-    const applyBtn = document.getElementById('apply-filters');
-    const closeBtn = document.getElementById('close-filters');
-    
-    if (resetBtn) {
-        resetBtn.addEventListener('click', resetFilters);
-    }
-    
-    if (applyBtn) {
-        applyBtn.addEventListener('click', applyFilters);
-    }
-    
-    if (closeBtn) {
-        closeBtn.addEventListener('click', closeFilters);
-    }
-    
-    console.log('Фильтры инициализированы');
-}
-
-function applyFilters() {
-    console.log('Применение фильтров...');
-    
-    const countryOptions = document.querySelectorAll('#country-filters .filter-option.active');
-    const statusOptions = document.querySelectorAll('#status-filters .filter-option.active');
-    const typeOptions = document.querySelectorAll('#type-filters .filter-option.active');
-    
-    activeFilters.countries = Array.from(countryOptions).map(opt => opt.dataset.country);
-    activeFilters.statuses = Array.from(statusOptions).map(opt => opt.dataset.status);
-    activeFilters.types = Array.from(typeOptions).map(opt => opt.dataset.type);
-    
-    console.log('Активные фильтры:', activeFilters);
-    
-    updateStationMarkers();
-    updateUnitMarkersVisibility();
-    
-    closeFilters();
-    
-    // Если выбранная станция не проходит фильтры, закрываем панель
-    if (selectedStation && !isStationVisible(selectedStation)) {
-        closeStationPanel();
-    }
-}
-
-function resetFilters() {
-    console.log('Сброс фильтров');
-    
-    document.querySelectorAll('.filter-option.active').forEach(opt => {
-        opt.classList.remove('active');
-    });
-    
-    activeFilters.countries = [];
-    activeFilters.statuses = [];
-    activeFilters.types = [];
-    
-    updateStationMarkers();
-    updateUnitMarkersVisibility();
-}
-
-function closeFilters() {
-    console.log('Закрытие панели фильтров');
-    const filtersPanel = document.getElementById('filters-panel');
-    if (filtersPanel) {
-        filtersPanel.classList.remove('open');
-    }
-}
-
-// Инициализация часов
-function initClock() {
-    console.log('Инициализация часов...');
-    
-    function updateClock() {
-        const now = new Date();
-        
-        const hours = now.getHours().toString().padStart(2, '0');
-        const minutes = now.getMinutes().toString().padStart(2, '0');
-        const seconds = now.getSeconds().toString().padStart(2, '0');
-        
-        const day = now.getDate().toString().padStart(2, '0');
-        const month = (now.getMonth() + 1).toString().padStart(2, '0');
-        const year = now.getFullYear();
-        const dateStr = `${day}/${month}/${year}`;
-        
-        // Обновление десктопных часов
-        const hoursEl = document.querySelector('.hours');
-        const minutesEl = document.querySelector('.minutes');
-        const secondsEl = document.querySelector('.seconds');
-        const dateEl = document.getElementById('current-date');
-        
-        if (hoursEl) hoursEl.textContent = hours;
-        if (minutesEl) minutesEl.textContent = minutes;
-        if (secondsEl) secondsEl.textContent = seconds;
-        if (dateEl) dateEl.textContent = dateStr;
-        
-        // Мобильные часы
-        const mobileTimeSmall = document.getElementById('mobile-time-small');
-        const menuTime = document.getElementById('menu-time');
-        const menuDate = document.getElementById('menu-date');
-        
-        if (mobileTimeSmall) mobileTimeSmall.textContent = `${hours}:${minutes}`;
-        if (menuTime) menuTime.textContent = `${hours}:${minutes}:${seconds}`;
-        if (menuDate) menuDate.textContent = dateStr;
-    }
-    
-    updateClock();
-    setInterval(updateClock, 1000);
-    
-    console.log('Часы инициализированы');
-}
-
-// Основная функция инициализации
-function initializeApp() {
-    console.log('Инициализация приложения...');
-    
-    // Проверяем загрузку необходимых данных
-    if (!checkDataAvailability()) {
-        console.error('Не удалось загрузить необходимые данные!');
-        alert('Ошибка загрузки данных. Пожалуйста, обновите страницу.');
-        return;
-    }
-    
-    // Подготавливаем данные станций
-    prepareStationData();
-    
-    // Инициализируем карту
     initMap();
-}
-
-// Запуск приложения при загрузке страницы
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM загружен, запуск приложения...');
+    initClock();
     
-    // Инициализируем приложение
-    setTimeout(initializeApp, 100);
-    
-    // Предотвращаем масштабирование на мобильных
-    if (isMobile) {
-        document.addEventListener('touchmove', function(e) {
-            if (e.scale !== 1) {
-                e.preventDefault();
-            }
-        }, { passive: false });
-    }
+    // УБРАНО АВТОМАТИЧЕСКОЕ ОТКРЫТИЕ АЭС ПРИ ЗАГРУЗКЕ
+    // Теперь карта загружается без выбранной станции
 });
