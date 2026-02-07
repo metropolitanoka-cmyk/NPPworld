@@ -1,12 +1,6 @@
 User-agent: *
 Allow: /
-Disallow: /app.js
-Disallow: /npp-stats.js
-Disallow: /data.js
-Disallow: /style.css
-Disallow: /statistics.css
-Disallow: /*.log
-Disallow: /*.sql
+# Разрешён доступ ко всем файлам
 
-# Указываем карту сайта (исправленный адрес)
-Sitemap: https://nppworld.ru/sitemap.xml
+# Указываем карту сайта
+Sitemap: https://worldnpp.ru/sitemap.xml
