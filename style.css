@@ -4,7 +4,6 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    -webkit-tap-highlight-color: transparent;
 }
 
 :root {
@@ -74,29 +73,18 @@ body {
     overflow: hidden;
     background: var(--bg-primary);
     color: var(--text-primary);
-    -webkit-text-size-adjust: 100%;
-    touch-action: manipulation;
-}
-
-/* Уменьшаем анимации для производительности */
-@media (prefers-reduced-motion: reduce) {
-    * {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-    }
+    -webkit-tap-highlight-color: transparent;
 }
 
 /* ===== HEADER ===== */
 .header {
     height: 130px;
     background: var(--bg-secondary);
-    backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--border-color);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 30px;
+    padding: 0 20px;
     position: relative;
     z-index: 1000;
     box-shadow: var(--shadow);
@@ -106,32 +94,35 @@ body {
 .brand-section {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 15px;
+    min-width: 0;
     flex-shrink: 0;
 }
 
 .logo-container {
     position: relative;
-    width: 70px;
-    height: 70px;
+    width: 50px;
+    height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
 }
 
+/* СТАТИЧНЫЙ АТОМ В ШАПКЕ (без анимаций) */
 .atom-logo {
     position: relative;
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
 }
 
 .atom-core {
     position: absolute;
-    width: 16px;
-    height: 16px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
     background: radial-gradient(circle, var(--accent-blue) 0%, #00B8FF 100%);
-    box-shadow: 0 0 15px var(--accent-blue);
+    box-shadow: 0 0 10px var(--accent-blue);
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -140,36 +131,21 @@ body {
 
 .electron {
     position: absolute;
-    width: 6px;
-    height: 6px;
+    width: 5px;
+    height: 5px;
     border-radius: 50%;
     background: var(--accent-green);
     top: 50%;
     left: 50%;
-    transform-origin: 0 0;
-    box-shadow: 0 0 8px var(--accent-green);
+    box-shadow: 0 0 6px var(--accent-green);
 }
 
-/* УБРАЛИ ВСЕ АНИМАЦИИ АТОМОВ */
-.electron-1 {
-    transform: rotate(0deg) translateX(20px);
-}
-
-.electron-2 {
-    transform: rotate(72deg) translateX(20px);
-}
-
-.electron-3 {
-    transform: rotate(144deg) translateX(20px);
-}
-
-.electron-4 {
-    transform: rotate(216deg) translateX(20px);
-}
-
-.electron-5 {
-    transform: rotate(288deg) translateX(20px);
-}
+/* Статичное расположение электронов */
+.electron-1 { transform: translate(15px, -15px); }
+.electron-2 { transform: translate(-15px, -15px); }
+.electron-3 { transform: translate(15px, 15px); }
+.electron-4 { transform: translate(-15px, 15px); }
+.electron-5 { transform: translate(0, -20px); }
 
 .atom-ring {
     position: absolute;
@@ -181,24 +157,26 @@ body {
 }
 
 .ring-1 {
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
 }
 
 .ring-2 {
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
 }
 
 .brand-title {
-    font-size: 28px;
+    font-size: 24px;
     font-weight: 800;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     background: linear-gradient(90deg, var(--text-primary), var(--accent-blue));
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    text-shadow: 0 0 10px rgba(0, 209, 255, 0.3);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* Центральный сектор - Навигация, Поиск и Легенда */
@@ -206,49 +184,41 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px;
+    gap: 12px;
     flex: 1;
-    margin: 0 30px;
+    margin: 0 20px;
     min-width: 0;
 }
 
 .nav-buttons {
     display: flex;
-    gap: 15px;
+    gap: 10px;
 }
 
 .nav-btn {
-    padding: 10px 25px;
+    padding: 8px 20px;
     background: var(--bg-tertiary);
     border: 1px solid var(--border-color);
     border-radius: 6px;
     color: var(--text-primary);
     font-weight: 600;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    user-select: none;
-}
-
-.nav-btn:hover {
-    border-color: var(--accent-blue);
-    box-shadow: 0 0 15px rgba(0, 209, 255, 0.3);
+    font-size: 13px;
+    white-space: nowrap;
 }
 
 .nav-btn.active {
     background: linear-gradient(90deg, var(--accent-blue), #00B8FF);
     color: white;
     border: none;
-    box-shadow: 0 0 20px rgba(0, 209, 255, 0.5);
+    box-shadow: 0 0 15px rgba(0, 209, 255, 0.5);
 }
 
 /* Стили для поиска */
 .search-container {
     width: 100%;
-    max-width: 500px;
+    max-width: 400px;
     position: relative;
 }
 
@@ -259,7 +229,7 @@ body {
 
 .search-box i {
     position: absolute;
-    left: 15px;
+    left: 12px;
     top: 50%;
     transform: translateY(-50%);
     color: var(--text-tertiary);
@@ -268,20 +238,13 @@ body {
 
 #station-search {
     width: 100%;
-    padding: 12px 20px 12px 45px;
+    padding: 10px 15px 10px 40px;
     background: var(--bg-tertiary);
     border: 1px solid var(--border-color);
     border-radius: 8px;
     color: var(--text-primary);
     font-size: 14px;
     outline: none;
-    -webkit-appearance: none;
-    appearance: none;
-}
-
-#station-search:focus {
-    border-color: var(--accent-blue);
-    box-shadow: 0 0 15px rgba(0, 209, 255, 0.3);
 }
 
 #station-search::placeholder {
@@ -296,7 +259,7 @@ body {
     background: var(--bg-secondary);
     border: 1px solid var(--border-color);
     border-radius: 8px;
-    max-height: 300px;
+    max-height: 250px;
     overflow-y: auto;
     display: none;
     z-index: 2000;
@@ -304,16 +267,12 @@ body {
 }
 
 .search-result-item {
-    padding: 12px 20px;
+    padding: 10px 15px;
     border-bottom: 1px solid var(--border-color);
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 10px;
-}
-
-.search-result-item:hover {
-    background: var(--bg-tertiary);
+    gap: 8px;
 }
 
 .search-result-item:last-child {
@@ -323,39 +282,41 @@ body {
 .search-result-name {
     font-weight: 600;
     color: var(--text-primary);
+    font-size: 14px;
 }
 
 .search-result-country {
-    font-size: 12px;
+    font-size: 11px;
     color: var(--text-tertiary);
     margin-left: auto;
 }
 
 .legend {
     display: flex;
-    gap: 15px;
+    gap: 12px;
     flex-wrap: wrap;
     justify-content: center;
-    padding: 8px 15px;
+    padding: 6px 12px;
     background: var(--bg-tertiary);
-    border-radius: 12px;
+    border-radius: 10px;
     border: 1px solid var(--border-color);
     width: 100%;
-    max-width: 800px;
+    max-width: 700px;
 }
 
 .legend-item {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 12px;
+    gap: 6px;
+    font-size: 11px;
     color: var(--text-secondary);
+    white-space: nowrap;
 }
 
 .legend-color {
-    width: 14px;
-    height: 14px;
-    border-radius: 4px;
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
 }
 
 .legend-color.operational { background: linear-gradient(135deg, #00FF88, #00CCAA); }
@@ -369,40 +330,40 @@ body {
 .right-section {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 15px;
     flex-shrink: 0;
 }
 
 .telegram-btn {
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     background: linear-gradient(135deg, #0088CC, #24A1DE);
     color: white;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 20px;
+    font-size: 18px;
     text-decoration: none;
-    box-shadow: 0 4px 15px rgba(0, 136, 204, 0.3);
+    flex-shrink: 0;
 }
 
 .vfd-clock {
     font-family: 'Orbitron', monospace;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: bold;
     color: #00FF88;
-    text-shadow: 0 0 5px #00FF88;
+    text-shadow: 0 0 4px #00FF88;
     letter-spacing: 1px;
-    padding: 8px 12px;
+    padding: 6px 10px;
     background: rgba(0, 20, 0, 0.9);
     border-radius: 8px;
     border: 1px solid rgba(0, 255, 136, 0.3);
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 5px;
-    min-width: 180px;
+    gap: 4px;
+    min-width: 150px;
 }
 
 .digit-container {
@@ -412,9 +373,9 @@ body {
 }
 
 .segment-display {
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 700;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
 }
 
 .clock-colon {
@@ -423,20 +384,20 @@ body {
 }
 
 .clock-label {
-    font-size: 9px;
+    font-size: 8px;
     color: rgba(0, 255, 136, 0.7);
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     text-transform: uppercase;
 }
 
 .map-controls {
     display: flex;
-    gap: 8px;
+    gap: 6px;
 }
 
 .control-btn {
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     border-radius: 6px;
     background: var(--bg-tertiary);
     border: 1px solid var(--border-color);
@@ -445,20 +406,12 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    user-select: none;
-}
-
-.control-btn:hover {
-    background: rgba(0, 209, 255, 0.1);
-    border-color: var(--accent-blue);
+    flex-shrink: 0;
 }
 
 .control-btn.active {
     background: rgba(0, 209, 255, 0.2);
     border-color: var(--accent-blue);
-    box-shadow: 0 0 10px rgba(0, 209, 255, 0.3);
 }
 
 /* ===== MAP CONTAINER ===== */
@@ -475,7 +428,6 @@ body {
     width: 100%;
     height: 100%;
     background: var(--map-bg);
-    touch-action: pan-x pan-y;
 }
 
 /* Кастомные маркеры Leaflet */
@@ -484,18 +436,13 @@ body {
     border: none;
 }
 
-/* Значки АЭС в виде пинов Google Maps - УБРАНЫ ВСЕ АНИМАЦИИ */
+/* Значки АЭС в виде пинов Google Maps (СТАТИЧНЫЕ) */
 .station-pin {
     position: relative;
     width: 48px;
     height: 48px;
-    filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.3));
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
     cursor: pointer;
-}
-
-.station-pin:hover {
-    transform: scale(1.15) translateY(-5px);
-    filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.4));
 }
 
 .pin-body {
@@ -513,7 +460,6 @@ body {
     z-index: 2;
 }
 
-/* СТАТИЧНЫЙ АТОМ НА ПИНЕ (без анимации) */
 .pin-body .atom {
     transform: rotate(45deg);
     width: 18px;
@@ -523,8 +469,8 @@ body {
 
 .pin-body .atom-core {
     position: absolute;
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
     background: white;
     top: 50%;
@@ -533,29 +479,28 @@ body {
     z-index: 2;
 }
 
-/* СТАТИЧНЫЕ ЭЛЕКТРОНЫ (без анимации) */
+/* ЭЛЕКТРОНЫ СТАТИЧНЫЕ (без анимации) */
 .pin-body .electron {
     position: absolute;
-    width: 4px;
-    height: 4px;
+    width: 3px;
+    height: 3px;
     border-radius: 50%;
     background: white;
     top: 50%;
     left: 50%;
-    transform-origin: 0 0;
 }
 
-/* Фиксированные позиции электронов */
+/* Статичное расположение электронов */
 .pin-body .electron-1 {
-    transform: rotate(0deg) translateX(9px);
+    transform: translate(7px, -7px);
 }
 
 .pin-body .electron-2 {
-    transform: rotate(120deg) translateX(9px);
+    transform: translate(-7px, -7px);
 }
 
 .pin-body .electron-3 {
-    transform: rotate(240deg) translateX(9px);
+    transform: translate(0, 7px);
 }
 
 .pin-stem {
@@ -580,25 +525,20 @@ body {
     z-index: 0;
 }
 
-/* Маркеры энергоблоков - УБРАНЫ АНИМАЦИИ */
+/* Маркеры энергоблоков (СТАТИЧНЫЕ) */
 .unit-marker {
-    width: 52px;
-    height: 52px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: bold;
     color: white;
     cursor: pointer;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
-    border: 3px solid white;
-}
-
-.unit-marker:hover {
-    transform: scale(1.2);
-    z-index: 1000 !important;
+    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.4));
+    border: 2px solid white;
 }
 
 /* Формы для разных типов реакторов */
@@ -607,7 +547,7 @@ body {
 }
 
 .unit-rbmk, .unit-graphite {
-    border-radius: 12px;
+    border-radius: 10px;
 }
 
 .unit-bwr {
@@ -626,13 +566,13 @@ body {
     width: 400px;
     height: calc(100vh - 130px);
     background: var(--card-bg);
-    backdrop-filter: blur(10px);
     border-left: 1px solid var(--border-color);
     z-index: 1000;
+    transition: right 0.3s ease;
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    box-shadow: -5px 0 25px rgba(0, 0, 0, 0.3);
+    box-shadow: -5px 0 20px rgba(0, 0, 0, 0.3);
 }
 
 .sidepanel.open {
@@ -640,7 +580,7 @@ body {
 }
 
 .panel-header {
-    padding: 20px;
+    padding: 15px 20px;
     border-bottom: 1px solid var(--border-color);
     display: flex;
     justify-content: space-between;
@@ -649,21 +589,21 @@ body {
 }
 
 .station-title {
-    font-size: 24px;
+    font-size: 22px;
     font-weight: 700;
     color: var(--text-primary);
     margin-bottom: 5px;
-    word-break: break-word;
+    line-height: 1.3;
 }
 
 .close-panel {
-    width: 36px;
-    height: 36px;
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
     background: var(--bg-tertiary);
     border: 1px solid var(--border-color);
     color: var(--text-primary);
-    font-size: 18px;
+    font-size: 16px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -671,19 +611,14 @@ body {
     flex-shrink: 0;
 }
 
-.close-panel:hover {
-    background: var(--accent-red);
-    color: white;
-}
-
 .status-badge {
     display: inline-block;
-    padding: 6px 15px;
-    border-radius: 20px;
-    font-size: 12px;
+    padding: 5px 12px;
+    border-radius: 16px;
+    font-size: 11px;
     font-weight: 700;
     letter-spacing: 0.5px;
-    margin-top: 5px;
+    margin-top: 3px;
     color: white;
 }
 
@@ -697,21 +632,13 @@ body {
 
 .tab {
     flex: 1;
-    padding: 15px 0;
+    padding: 12px 0;
     text-align: center;
     cursor: pointer;
     font-weight: 600;
     color: var(--text-secondary);
     border-bottom: 3px solid transparent;
-    font-size: 13px;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    user-select: none;
-}
-
-.tab:hover {
-    color: var(--text-primary);
-    background: rgba(255, 255, 255, 0.05);
+    font-size: 12px;
 }
 
 .tab.active {
@@ -729,7 +656,7 @@ body {
 }
 
 .tab-pane {
-    padding: 20px;
+    padding: 15px 20px;
     display: none;
 }
 
@@ -738,100 +665,97 @@ body {
 }
 
 .tab-pane h3 {
-    font-size: 16px;
+    font-size: 15px;
     color: var(--accent-blue);
-    margin-bottom: 15px;
+    margin-bottom: 12px;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
 }
 
 /* Обзор */
 .info-block {
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     background: var(--bg-tertiary);
-    padding: 15px;
-    border-radius: 10px;
+    padding: 12px;
+    border-radius: 8px;
     border: 1px solid var(--border-color);
 }
 
 .overview-stats {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 15px;
-    margin-bottom: 20px;
+    gap: 12px;
+    margin-bottom: 15px;
 }
 
 .stat-card {
     background: var(--bg-tertiary);
-    border-radius: 10px;
-    padding: 15px;
+    border-radius: 8px;
+    padding: 12px;
     border: 1px solid var(--border-color);
     text-align: center;
 }
 
-.stat-card:hover {
-    border-color: var(--accent-blue);
-}
-
 .stat-icon {
-    font-size: 20px;
+    font-size: 18px;
     color: var(--accent-blue);
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 .stat-value {
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 800;
     color: var(--accent-blue);
-    margin-bottom: 5px;
-    word-break: break-all;
+    margin-bottom: 4px;
 }
 
 .stat-label {
-    font-size: 12px;
+    font-size: 11px;
     color: var(--text-tertiary);
 }
 
 .overview-description {
-    line-height: 1.6;
+    line-height: 1.5;
     color: var(--text-secondary);
-    font-size: 14px;
+    font-size: 13px;
 }
 
 /* Местоположение */
 .location-info {
     display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 15px;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px;
     background: rgba(255, 255, 255, 0.05);
     border-radius: 8px;
     border: 1px solid var(--border-color);
 }
 
 .location-info i {
-    font-size: 20px;
+    font-size: 18px;
     color: var(--accent-blue);
+    margin-top: 2px;
+    flex-shrink: 0;
 }
 
 #location-text {
-    font-size: 14px;
+    font-size: 13px;
     color: var(--text-secondary);
-    line-height: 1.5;
+    line-height: 1.4;
 }
 
 /* Энергоблоки */
 .units-header {
-    margin-bottom: 20px;
-    padding-bottom: 15px;
+    margin-bottom: 15px;
+    padding-bottom: 12px;
     border-bottom: 1px solid var(--border-color);
 }
 
 .units-summary {
-    font-size: 13px;
+    font-size: 12px;
     color: var(--text-tertiary);
-    margin-top: 5px;
+    margin-top: 4px;
 }
 
 .units-summary span {
@@ -842,28 +766,22 @@ body {
 .units-list {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 15px;
 }
 
 .unit-card {
     background: var(--bg-tertiary);
-    border-radius: 12px;
-    padding: 18px;
+    border-radius: 10px;
+    padding: 15px;
     border: 2px solid transparent;
     cursor: pointer;
     position: relative;
     overflow: hidden;
 }
 
-.unit-card:hover {
-    background: var(--bg-secondary);
-    border-color: var(--accent-blue);
-}
-
 .unit-card.selected {
     background: rgba(0, 209, 255, 0.1);
     border-color: var(--accent-blue);
-    box-shadow: 0 0 20px rgba(0, 209, 255, 0.2);
 }
 
 .unit-card::before {
@@ -880,168 +798,140 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 12px;
-    flex-wrap: wrap;
-    gap: 10px;
+    margin-bottom: 10px;
 }
 
 .unit-name {
     font-weight: 700;
-    font-size: 18px;
+    font-size: 16px;
     color: var(--text-primary);
     display: flex;
     align-items: center;
-    gap: 10px;
-    flex: 1;
-    min-width: 0;
+    gap: 8px;
 }
 
 .unit-type-badge {
     display: inline-block;
-    padding: 4px 12px;
-    border-radius: 15px;
-    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 10px;
     font-weight: 600;
     background: var(--accent-blue);
     color: white;
-    white-space: nowrap;
 }
 
 .unit-years {
-    font-size: 13px;
+    font-size: 12px;
     color: var(--text-tertiary);
-    margin-top: 5px;
+    margin-top: 4px;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     flex-wrap: wrap;
 }
 
 .unit-years i {
     color: var(--accent-blue);
-    font-size: 12px;
+    font-size: 11px;
 }
 
 .unit-details {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    font-size: 13px;
+    gap: 10px;
+    font-size: 12px;
     color: var(--text-secondary);
-    margin-top: 10px;
+    margin-top: 8px;
 }
 
 .unit-detail {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
 }
 
 .unit-detail i {
     color: var(--accent-blue);
-    width: 16px;
+    width: 14px;
 }
 
 .unit-shape {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     display: inline-block;
     border-radius: 50%;
     background: var(--unit-color, var(--accent-blue));
-    margin-right: 10px;
-    vertical-align: middle;
-    flex-shrink: 0;
+    margin-right: 8px;
 }
 
 /* История */
 .timeline {
     position: relative;
-    padding-left: 30px;
+    padding-left: 25px;
 }
 
 .timeline::before {
     content: '';
     position: absolute;
-    left: 10px;
+    left: 8px;
     top: 0;
     bottom: 0;
     width: 2px;
     background: linear-gradient(to bottom, var(--accent-blue), transparent);
 }
 
-.timeline-item {
-    position: relative;
-    margin-bottom: 20px;
-}
-
-.timeline-year {
-    position: absolute;
-    left: -30px;
-    top: 0;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background: var(--text-primary);
-    border: 2px solid var(--accent-blue);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    font-weight: bold;
-    color: var(--accent-blue);
-    z-index: 2;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-}
-
-.timeline-content {
-    background: var(--bg-tertiary);
-    border-radius: 8px;
-    padding: 12px 15px;
-    border-left: 3px solid var(--accent-blue);
-}
-
-.timeline-icon {
-    font-size: 16px;
-    margin-right: 10px;
-    vertical-align: middle;
-    color: var(--accent-blue);
-}
-
 /* Факты */
 .facts-grid {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 12px;
 }
 
-.fact-card {
+.fact-item {
     background: var(--bg-tertiary);
-    border-radius: 12px;
-    padding: 18px;
+    border-radius: 10px;
+    padding: 15px;
     border: 1px solid var(--border-color);
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.fact-icon-atom {
     position: relative;
-    overflow: hidden;
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
 }
 
-.fact-card:hover {
-    border-color: var(--accent-blue);
-}
-
-.fact-card::before {
-    content: '★';
+.mini-atom-core {
     position: absolute;
-    right: 10px;
-    top: 10px;
-    color: var(--accent-blue);
-    opacity: 0.3;
-    font-size: 20px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent-blue);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
 }
 
-.fact-card p {
-    font-size: 14px;
-    line-height: 1.6;
+.mini-electron {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--accent-green);
+    top: 50%;
+    left: 50%;
+    transform: translate(8px, -8px);
+}
+
+.fact-text {
+    font-size: 13px;
+    line-height: 1.5;
     color: var(--text-secondary);
-    margin: 0;
+    flex: 1;
 }
 
 /* ===== ФИЛЬТРЫ ===== */
@@ -1049,18 +939,15 @@ body {
     position: fixed;
     top: 150px;
     left: 20px;
-    width: 300px;
+    width: 280px;
     background: var(--card-bg);
-    backdrop-filter: blur(10px);
     border: 1px solid var(--border-color);
-    border-radius: 12px;
+    border-radius: 10px;
     z-index: 900;
-    padding: 20px;
+    padding: 15px;
     box-shadow: var(--shadow);
-    transform: translateX(-350px);
-    max-height: calc(100vh - 200px);
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+    transform: translateX(-320px);
+    transition: transform 0.3s;
 }
 
 .filters-panel.open {
@@ -1068,52 +955,35 @@ body {
 }
 
 .filter-section {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .filter-title {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 700;
     color: var(--accent-blue);
-    margin-bottom: 12px;
+    margin-bottom: 10px;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.filter-title::before {
-    content: '';
-    width: 4px;
-    height: 14px;
-    background: var(--accent-blue);
-    border-radius: 2px;
+    letter-spacing: 0.5px;
 }
 
 .filter-options {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 6px;
+    max-height: 200px;
+    overflow-y: auto;
 }
 
 .filter-option {
-    padding: 6px 12px;
+    padding: 5px 10px;
     background: var(--bg-tertiary);
     border: 1px solid var(--border-color);
-    border-radius: 20px;
-    font-size: 12px;
+    border-radius: 16px;
+    font-size: 11px;
     cursor: pointer;
     color: var(--text-secondary);
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    user-select: none;
-}
-
-.filter-option:hover {
-    background: var(--bg-secondary);
-    border-color: var(--accent-blue);
-    color: var(--text-primary);
+    white-space: nowrap;
 }
 
 .filter-option.active {
@@ -1126,40 +996,31 @@ body {
     position: fixed;
     top: 160px;
     left: 20px;
-    width: 50px;
-    height: 50px;
+    width: 46px;
+    height: 46px;
     border-radius: 50%;
     background: var(--card-bg);
-    backdrop-filter: blur(10px);
     border: 1px solid var(--border-color);
     color: var(--text-primary);
-    font-size: 20px;
+    font-size: 18px;
     cursor: pointer;
     z-index: 901;
     display: flex;
     align-items: center;
     justify-content: center;
     box-shadow: var(--shadow);
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    user-select: none;
-}
-
-.toggle-filters:hover {
-    background: var(--accent-blue);
-    color: white;
 }
 
 /* ===== ВСПЛЫВАЮЩАЯ ПОДСКАЗКА ===== */
 .floating-tooltip {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
+    bottom: 15px;
+    right: 15px;
     background: var(--card-bg);
     border: 1px solid var(--border-color);
-    border-radius: 10px;
-    padding: 15px 20px;
-    max-width: 350px;
+    border-radius: 8px;
+    padding: 12px 16px;
+    max-width: 300px;
     box-shadow: var(--shadow);
     z-index: 1001;
     display: flex;
@@ -1171,47 +1032,41 @@ body {
 .tooltip-content {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
 }
 
 .tooltip-content p {
     margin: 0;
-    font-size: 14px;
+    font-size: 13px;
     color: var(--text-secondary);
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
 }
 
 .tooltip-content i {
     color: var(--accent-blue);
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .close-tooltip {
     background: var(--bg-tertiary);
     border: 1px solid var(--border-color);
     color: var(--text-primary);
-    width: 30px;
-    height: 30px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    font-size: 14px;
-    margin-left: 15px;
-    flex-shrink: 0;
-}
-
-.close-tooltip:hover {
-    background: var(--accent-red);
-    color: white;
+    font-size: 13px;
+    margin-left: 10px;
 }
 
 /* ===== ПОЛОСЫ ПРОКРУТКИ ===== */
 .tab-content::-webkit-scrollbar {
-    width: 6px;
+    width: 4px;
 }
 
 .tab-content::-webkit-scrollbar-track {
@@ -1219,8 +1074,8 @@ body {
 }
 
 .tab-content::-webkit-scrollbar-thumb {
-    background: linear-gradient(to bottom, var(--accent-blue), #00B8FF);
-    border-radius: 3px;
+    background: var(--accent-blue);
+    border-radius: 2px;
 }
 
 /* ===== АДАПТИВНОСТЬ ===== */
@@ -1230,22 +1085,22 @@ body {
     }
     
     .brand-title {
-        font-size: 22px;
+        font-size: 20px;
     }
     
     .search-container {
-        max-width: 400px;
+        max-width: 350px;
     }
     
     .legend {
-        max-width: 700px;
+        max-width: 600px;
     }
 }
 
 @media (max-width: 992px) {
     .header {
         height: 110px;
-        padding: 0 20px;
+        padding: 0 15px;
         flex-wrap: wrap;
     }
     
@@ -1256,13 +1111,7 @@ body {
     
     .sidepanel {
         top: 110px;
-        height: calc(100vh - 110px);
-    }
-    
-    .brand-section {
-        width: 100%;
-        justify-content: center;
-        margin-bottom: 10px;
+        width: 350px;
     }
     
     .center-section {
@@ -1271,22 +1120,31 @@ body {
         margin: 10px 0 0 0;
     }
     
-    .right-section {
-        position: absolute;
-        top: 20px;
-        right: 20px;
+    .brand-title {
+        font-size: 18px;
     }
     
     .vfd-clock {
-        display: none;
+        font-size: 16px;
+        min-width: 140px;
+        padding: 5px 8px;
+    }
+    
+    .segment-display {
+        font-size: 18px;
     }
 }
 
 @media (max-width: 768px) {
+    /* ОПТИМИЗАЦИЯ: убираем все анимации и плавные переходы */
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+    
     .header {
         height: 70px;
-        padding: 0 15px;
-        flex-wrap: nowrap;
+        padding: 0 10px;
     }
     
     .map-container {
@@ -1299,7 +1157,7 @@ body {
         width: 100%;
         height: calc(100vh - 70px);
         right: -100%;
-        transition: right 0.2s ease;
+        z-index: 2000;
     }
     
     .sidepanel.open {
@@ -1307,7 +1165,48 @@ body {
     }
     
     .brand-section {
-        display: none;
+        gap: 8px;
+    }
+    
+    .logo-container {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .atom-logo {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .atom-core {
+        width: 8px;
+        height: 8px;
+    }
+    
+    .electron {
+        width: 3px;
+        height: 3px;
+    }
+    
+    .electron-1 { transform: translate(10px, -10px); }
+    .electron-2 { transform: translate(-10px, -10px); }
+    .electron-3 { transform: translate(10px, 10px); }
+    .electron-4 { transform: translate(-10px, 10px); }
+    .electron-5 { transform: translate(0, -12px); }
+    
+    .ring-1 {
+        width: 24px;
+        height: 24px;
+    }
+    
+    .ring-2 {
+        width: 18px;
+        height: 18px;
+    }
+    
+    .brand-title {
+        font-size: 16px;
+        letter-spacing: 0;
     }
     
     .center-section {
@@ -1315,255 +1214,32 @@ body {
     }
     
     .right-section {
-        position: static;
-        width: 100%;
-        justify-content: space-between;
+        gap: 8px;
+        margin-left: auto;
     }
     
     .telegram-btn {
-        display: none;
+        width: 32px;
+        height: 32px;
+        font-size: 16px;
     }
     
     .vfd-clock {
-        display: none;
+        font-size: 14px;
+        min-width: 120px;
+        padding: 4px 6px;
+    }
+    
+    .segment-display {
+        font-size: 16px;
+    }
+    
+    .clock-label {
+        font-size: 7px;
     }
     
     .map-controls {
-        gap: 5px;
-    }
-    
-    .control-btn {
-        width: 40px;
-        height: 40px;
-        font-size: 16px;
-    }
-    
-    .toggle-filters {
-        top: 80px;
-        left: 10px;
-        width: 40px;
-        height: 40px;
-        font-size: 18px;
-    }
-    
-    .filters-panel {
-        top: 80px;
-        left: 10px;
-        width: calc(100% - 20px);
-        max-width: 300px;
-        max-height: calc(100vh - 100px);
-        transition: transform 0.2s ease;
-    }
-    
-    .floating-tooltip {
-        bottom: 10px;
-        right: 10px;
-        left: 10px;
-        max-width: none;
-        padding: 10px 15px;
-    }
-    
-    .tooltip-content p {
-        font-size: 12px;
-    }
-    
-    /* Улучшение для мобильных: упрощенные маркеры */
-    .station-pin {
-        width: 40px;
-        height: 40px;
-    }
-    
-    .pin-body {
-        width: 26px;
-        height: 26px;
-        left: 7px;
-    }
-    
-    .pin-body .atom {
-        width: 14px;
-        height: 14px;
-    }
-    
-    .pin-body .atom-core {
-        width: 6px;
-        height: 6px;
-    }
-    
-    .pin-body .electron {
-        width: 3px;
-        height: 3px;
-    }
-    
-    .pin-body .electron-1,
-    .pin-body .electron-2,
-    .pin-body .electron-3 {
-        transform-origin: 7px 7px;
-    }
-    
-    .pin-body .electron-1 {
-        transform: rotate(0deg) translateX(6px);
-    }
-    
-    .pin-body .electron-2 {
-        transform: rotate(120deg) translateX(6px);
-    }
-    
-    .pin-body .electron-3 {
-        transform: rotate(240deg) translateX(6px);
-    }
-    
-    .unit-marker {
-        width: 44px;
-        height: 44px;
-        font-size: 11px;
-    }
-    
-    /* Убираем все hover-эффекты на мобильных */
-    .station-pin:hover,
-    .unit-marker:hover,
-    .nav-btn:hover,
-    .control-btn:hover,
-    .filter-option:hover,
-    .tab:hover,
-    .unit-card:hover,
-    .fact-card:hover,
-    .close-panel:hover,
-    .close-tooltip:hover,
-    .toggle-filters:hover {
-        transform: none !important;
-    }
-    
-    /* Быстрое открытие панели на мобильных */
-    .sidepanel {
-        transition: right 0.15s ease;
-    }
-    
-    .panel-header {
-        padding: 15px;
-    }
-    
-    .station-title {
-        font-size: 20px;
-    }
-    
-    .tab {
-        padding: 12px 0;
-        font-size: 12px;
-    }
-    
-    .tab-pane {
-        padding: 15px;
-    }
-}
-
-@media (max-width: 480px) {
-    .header {
-        height: 60px;
-        padding: 0 10px;
-    }
-    
-    .map-container {
-        top: 60px;
-        height: calc(100vh - 60px);
-    }
-    
-    .sidepanel {
-        top: 60px;
-        height: calc(100vh - 60px);
-    }
-    
-    .overview-stats {
-        grid-template-columns: 1fr;
-        gap: 10px;
-    }
-    
-    .stat-card {
-        padding: 12px;
-    }
-    
-    .stat-value {
-        font-size: 20px;
-    }
-    
-    .unit-details {
-        grid-template-columns: 1fr;
-    }
-    
-    .control-btn {
-        width: 36px;
-        height: 36px;
-    }
-    
-    /* Еще больше упрощаем маркеры на очень маленьких экранах */
-    .station-pin {
-        width: 36px;
-        height: 36px;
-    }
-    
-    .pin-body {
-        width: 22px;
-        height: 22px;
-        left: 7px;
-    }
-    
-    .pin-body .atom {
-        width: 12px;
-        height: 12px;
-    }
-    
-    .pin-body .atom-core {
-        width: 4px;
-        height: 4px;
-    }
-    
-    .pin-body .electron {
-        width: 2px;
-        height: 2px;
-    }
-    
-    .pin-body .electron-1 {
-        transform: rotate(0deg) translateX(5px);
-    }
-    
-    .pin-body .electron-2 {
-        transform: rotate(120deg) translateX(5px);
-    }
-    
-    .pin-body .electron-3 {
-        transform: rotate(240deg) translateX(5px);
-    }
-    
-    .unit-marker {
-        width: 40px;
-        height: 40px;
-        font-size: 10px;
-    }
-    
-    .toggle-filters {
-        top: 70px;
-        width: 36px;
-        height: 36px;
-        font-size: 16px;
-    }
-    
-    .filters-panel {
-        top: 70px;
-    }
-}
-
-@media (max-width: 360px) {
-    .header {
-        height: 55px;
-    }
-    
-    .map-container {
-        top: 55px;
-        height: calc(100vh - 55px);
-    }
-    
-    .sidepanel {
-        top: 55px;
-        height: calc(100vh - 55px);
+        gap: 4px;
     }
     
     .control-btn {
@@ -1571,27 +1247,84 @@ body {
         height: 32px;
         font-size: 14px;
     }
-}
-
-/* Ландшафтная ориентация */
-@media (max-height: 500px) and (orientation: landscape) {
-    .header {
-        height: 55px;
+    
+    /* Увеличиваем маркеры на мобилках для лучшей нажимаемости */
+    .station-pin {
+        width: 52px;
+        height: 52px;
     }
     
-    .map-container {
-        top: 55px;
-        height: calc(100vh - 55px);
+    .pin-body {
+        width: 36px;
+        height: 36px;
+        left: 8px;
     }
     
-    .sidepanel {
-        top: 55px;
-        height: calc(100vh - 55px);
-        width: 320px;
+    .pin-body .atom {
+        width: 20px;
+        height: 20px;
     }
     
+    .pin-body .electron {
+        width: 4px;
+        height: 4px;
+    }
+    
+    .pin-body .electron-1 {
+        transform: translate(8px, -8px);
+    }
+    
+    .pin-body .electron-2 {
+        transform: translate(-8px, -8px);
+    }
+    
+    .pin-body .electron-3 {
+        transform: translate(0, 8px);
+    }
+    
+    .pin-stem {
+        top: 28px;
+        left: 24px;
+        height: 22px;
+    }
+    
+    .pin-shadow {
+        top: 48px;
+        left: 21px;
+    }
+    
+    .toggle-filters {
+        top: 80px;
+        left: 10px;
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+    
+    .filters-panel {
+        top: 80px;
+        left: 10px;
+        width: calc(100% - 20px);
+        max-height: calc(100vh - 90px);
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .floating-tooltip {
+        bottom: 10px;
+        right: 10px;
+        left: 10px;
+        max-width: calc(100% - 20px);
+        padding: 10px 12px;
+    }
+    
+    .tooltip-content p {
+        font-size: 12px;
+    }
+    
+    /* Панель информации на мобилках */
     .panel-header {
-        padding: 10px 15px;
+        padding: 12px 15px;
     }
     
     .station-title {
@@ -1599,19 +1332,130 @@ body {
     }
     
     .tab {
-        padding: 8px 0;
+        padding: 10px 0;
         font-size: 11px;
     }
     
     .tab-pane {
+        padding: 12px 15px;
+    }
+    
+    .overview-stats {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+    
+    .stat-card {
+        padding: 10px;
+    }
+    
+    .stat-value {
+        font-size: 18px;
+    }
+    
+    .units-list {
+        gap: 12px;
+    }
+    
+    .unit-card {
         padding: 12px;
+    }
+    
+    .unit-name {
+        font-size: 14px;
+    }
+    
+    .unit-details {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+    
+    .info-block {
+        padding: 10px;
+    }
+    
+    .overview-description {
+        font-size: 12px;
+    }
+    
+    #location-text {
+        font-size: 12px;
     }
 }
 
-/* Отключение анимаций для пользователей с настройками доступности */
-@media (prefers-reduced-motion: reduce) {
-    * {
-        animation: none !important;
-        transition: none !important;
+@media (max-width: 480px) {
+    .header {
+        height: 60px;
+    }
+    
+    .map-container {
+        top: 60px;
+        height: calc(100vh - 60px);
+    }
+    
+    .sidepanel {
+        top: 60px;
+        height: calc(100vh - 60px);
+    }
+    
+    .logo-container {
+        width: 32px;
+        height: 32px;
+    }
+    
+    .atom-logo {
+        width: 24px;
+        height: 24px;
+    }
+    
+    .brand-title {
+        font-size: 14px;
+    }
+    
+    .vfd-clock {
+        min-width: 100px;
+        font-size: 12px;
+    }
+    
+    .segment-display {
+        font-size: 14px;
+    }
+    
+    .clock-label {
+        font-size: 6px;
+    }
+    
+    .overview-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .panel-header {
+        padding: 10px 12px;
+    }
+    
+    .station-title {
+        font-size: 16px;
+    }
+    
+    .tab {
+        padding: 8px 0;
+        font-size: 10px;
+    }
+}
+
+/* Оптимизация для очень маленьких экранов */
+@media (max-width: 360px) {
+    .vfd-clock {
+        display: none;
+    }
+    
+    .telegram-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 14px;
+    }
+    
+    .map-controls .control-btn:nth-child(3) {
+        display: none;
     }
 }
