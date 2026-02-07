@@ -224,10 +224,14 @@ const stationsData = [
         location: "г. Сосновый Бор, Ленинградская область, Россия",
         city: "Сосновый Бор",
         units: [
-            { id: 1, name: "Ленинград-3", type: "rbmk", model: "РБМК-1000", capacity: 1000, status: "operational", startYear: 1979 },
-            { id: 2, name: "Ленинград-4", type: "rbmk", model: "РБМК-1000", capacity: 1000, status: "operational", startYear: 1981 },
-            { id: 3, name: "Ленинград-5", type: "vver", model: "ВВЭР-1200", capacity: 1200, status: "operational", startYear: 2018 },
-            { id: 4, name: "Ленинград-6", type: "vver", model: "ВВЭР-1200", capacity: 1200, status: "construction", startYear: 2022 }
+            { id: 1, name: "Ленинград-1", type: "rbmk", model: "РБМК-1000", capacity: 1000, status: "closed", startYear: 1973, endYear: 2018 },
+            { id: 2, name: "Ленинград-2", type: "rbmk", model: "РБМК-1000", capacity: 1000, status: "closed", startYear: 1975, endYear: 2020 },
+            { id: 3, name: "Ленинград-3", type: "rbmk", model: "РБМК-1000", capacity: 1000, status: "operational", startYear: 1979 },
+            { id: 4, name: "Ленинград-4", type: "rbmk", model: "РБМК-1000", capacity: 1000, status: "operational", startYear: 1981 },
+            { id: 5, name: "Ленинград-5 (2-1)", type: "vver", model: "ВВЭР-1200", capacity: 1200, status: "operational", startYear: 2018 },
+            { id: 6, name: "Ленинград-6 (2-2)", type: "vver", model: "ВВЭР-1200", capacity: 1200, status: "operational", startYear: 2022 },
+            { id: 7, name: "Ленинград-7 (2-3)", type: "vver", model: "ВВЭР-1200", capacity: 1200, status: "construction", startYear: undefined },
+            { id: 8, name: "Ленинград-8 (2-4)", type: "vver", model: "ВВЭР-1200", capacity: 1200, status: "construction", startYear: undefined }
         ],
         history: [
             { year: "1967", title: "СТРОИТЕЛЬСТВО", description: "Начало строительства первой очереди" },
