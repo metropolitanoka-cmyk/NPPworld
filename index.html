@@ -2,13 +2,11 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>МИР АЭС | Интерактивная карта атомных станций</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
 <body class="dark-theme">
@@ -22,16 +20,12 @@
                     <div class="electron electron-1"></div>
                     <div class="electron electron-2"></div>
                     <div class="electron electron-3"></div>
-                    <div class="electron electron-4"></div>
-                    <div class="electron electron-5"></div>
-                    <div class="atom-ring ring-1"></div>
-                    <div class="atom-ring ring-2"></div>
                 </div>
             </div>
             <h1 class="brand-title">МИР АЭС</h1>
         </div>
         
-        <!-- Центральный сектор: Навигация и Легенда -->
+        <!-- Центральный сектор: Навигация и Поиск -->
         <div class="center-section">
             <div class="nav-buttons">
                 <button class="nav-btn active" id="map-mode">КАРТА</button>
@@ -40,52 +34,24 @@
             <div class="search-container">
                 <div class="search-box">
                     <i class="fas fa-search"></i>
-                    <input type="text" id="station-search" placeholder="Поиск АЭС по названию или городу...">
+                    <input type="text" id="station-search" placeholder="Поиск АЭС...">
                     <div class="search-results" id="search-results"></div>
-                </div>
-            </div>
-            <div class="legend">
-                <div class="legend-item">
-                    <div class="legend-color operational"></div>
-                    <span>Работает</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color stopped"></div>
-                    <span>Остановлен</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color construction"></div>
-                    <span>Строится</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color closed"></div>
-                    <span>Закрыт</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color abandoned"></div>
-                    <span>Заброшена</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color accident"></div>
-                    <span>Авария</span>
                 </div>
             </div>
         </div>
         
         <!-- Правый сектор: Инструменты -->
         <div class="right-section">
-            <a href="https://t.me/WorldNPP" target="_blank" class="telegram-btn" title="Канал в Telegram">
+            <a href="https://t.me/WorldNPP" target="_blank" class="telegram-btn" title="Telegram">
                 <i class="fab fa-telegram"></i>
             </a>
             <div class="vfd-clock" id="digital-clock">
-                <div class="digit-container">
-                    <div class="segment-display">
-                        <span class="hours">00</span>
-                        <span class="clock-colon">:</span>
-                        <span class="minutes">00</span>
-                        <span class="clock-colon">:</span>
-                        <span class="seconds">00</span>
-                    </div>
+                <div class="segment-display">
+                    <span class="hours">00</span>
+                    <span class="clock-colon">:</span>
+                    <span class="minutes">00</span>
+                    <span class="clock-colon">:</span>
+                    <span class="seconds">00</span>
                 </div>
                 <div class="clock-label" id="current-date">--/--/----</div>
             </div>
@@ -103,7 +69,37 @@
         </div>
     </header>
     
-    <!-- Кнопка для открытия фильтров -->
+    <!-- Легенда -->
+    <div class="legend-container">
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color operational"></div>
+                <span>Работает</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color stopped"></div>
+                <span>Остановлен</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color construction"></div>
+                <span>Строится</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color closed"></div>
+                <span>Закрыт</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color abandoned"></div>
+                <span>Заброшена</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color accident"></div>
+                <span>Авария</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Кнопка фильтров -->
     <div class="toggle-filters" id="toggle-filters-btn">
         <i class="fas fa-filter"></i>
     </div>
@@ -112,23 +108,17 @@
     <div class="filters-panel" id="filters-panel">
         <div class="filter-section">
             <div class="filter-title">СТРАНЫ</div>
-            <div class="filter-options" id="country-filters">
-                <!-- Фильтры по странам будут добавлены через JS -->
-            </div>
+            <div class="filter-options" id="country-filters"></div>
         </div>
         
         <div class="filter-section">
             <div class="filter-title">СТАТУС АЭС</div>
-            <div class="filter-options" id="status-filters">
-                <!-- Фильтры по статусу будут добавлены через JS -->
-            </div>
+            <div class="filter-options" id="status-filters"></div>
         </div>
         
         <div class="filter-section">
             <div class="filter-title">ТИП РЕАКТОРА</div>
-            <div class="filter-options" id="type-filters">
-                <!-- Фильтры по типу реактора будут добавлены через JS -->
-            </div>
+            <div class="filter-options" id="type-filters"></div>
         </div>
         
         <button class="nav-btn" style="width:100%; margin-top:10px;" id="reset-filters">
@@ -136,7 +126,7 @@
         </button>
     </div>
     
-    <!-- Карта -->
+    <!-- Карта Leaflet -->
     <div class="map-container">
         <div id="map"></div>
     </div>
@@ -155,24 +145,23 @@
         
         <div class="tabs">
             <div class="tab active" data-tab="overview">ОБЗОР</div>
-            <div class="tab" data-tab="units">ЭНЕРГОБЛОКИ</div>
+            <div class="tab" data-tab="units">БЛОКИ</div>
             <div class="tab" data-tab="history">ИСТОРИЯ</div>
             <div class="tab" data-tab="facts">ФАКТЫ</div>
         </div>
         
         <div class="tab-content">
-            <!-- Вкладка ОБЗОР -->
             <div class="tab-pane active" id="overview-tab">
                 <div class="overview-stats">
                     <div class="stat-card">
                         <div class="stat-icon"><i class="fas fa-bolt"></i></div>
                         <div class="stat-value" id="total-capacity">—</div>
-                        <div class="stat-label">Общая мощность, МВт</div>
+                        <div class="stat-label">Мощность, МВт</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-icon"><i class="fas fa-industry"></i></div>
                         <div class="stat-value" id="units-count">—</div>
-                        <div class="stat-label">Количество блоков</div>
+                        <div class="stat-label">Блоков</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-icon"><i class="fas fa-flag"></i></div>
@@ -202,7 +191,6 @@
                 </div>
             </div>
             
-            <!-- Вкладка ЭНЕРГОБЛОКИ -->
             <div class="tab-pane" id="units-tab">
                 <div class="units-header">
                     <h3>ЭНЕРГОБЛОКИ СТАНЦИИ</h3>
@@ -210,25 +198,17 @@
                         Всего блоков: <span id="total-units">0</span> | Работает: <span id="operational-units">0</span>
                     </div>
                 </div>
-                <div class="units-list" id="units-list">
-                    <!-- Список энергоблоков будет добавляться через JS -->
-                </div>
+                <div class="units-list" id="units-list"></div>
             </div>
             
-            <!-- Вкладка ИСТОРИЯ -->
             <div class="tab-pane" id="history-tab">
                 <h3><i class="fas fa-history"></i> ИСТОРИЯ СТАНЦИИ</h3>
-                <div class="timeline" id="history-timeline">
-                    <!-- Хронология будет добавляться через JS -->
-                </div>
+                <div class="timeline" id="history-timeline"></div>
             </div>
             
-            <!-- Вкладка ФАКТЫ -->
             <div class="tab-pane" id="facts-tab">
                 <h3><i class="fas fa-star"></i> ИНТЕРЕСНЫЕ ФАКТЫ</h3>
-                <div class="facts-grid" id="facts-list">
-                    <!-- Факты будут добавляться через JS -->
-                </div>
+                <div class="facts-grid" id="facts-list"></div>
             </div>
         </div>
     </div>
@@ -236,7 +216,7 @@
     <!-- Всплывающая подсказка -->
     <div class="floating-tooltip" id="floating-tooltip">
         <div class="tooltip-content">
-            <p><i class="fas fa-mouse-pointer"></i> Чтобы прочитать про АЭС, нажмите на неё</p>
+            <p><i class="fas fa-mouse-pointer"></i> Нажмите на АЭС для просмотра информации</p>
             <button class="close-tooltip" id="close-tooltip">
                 <i class="fas fa-times"></i>
             </button>
