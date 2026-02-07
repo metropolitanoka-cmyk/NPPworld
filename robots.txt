@@ -3,4 +3,5 @@ Allow: /
 # Разрешён доступ ко всем файлам
 
 # Указываем карту сайта
-Sitemap: https://worldnpp.ru/sitemap.xml
+Sitemap: https://nppworld.ru/sitemap.xml
+
