@@ -8,7 +8,5 @@ Disallow: /statistics.css
 Disallow: /*.log
 Disallow: /*.sql
 
-# Строки с несуществующими .php файлами удалены
-
-# Указываем карту сайта
-Sitemap: https://worldnpp.com/sitemap.xml
+# Указываем карту сайта (исправленный адрес)
+Sitemap: https://nppworld.ru/sitemap.xml
