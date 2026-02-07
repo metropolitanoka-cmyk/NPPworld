@@ -4,6 +4,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    -webkit-tap-highlight-color: transparent;
 }
 
 :root {
@@ -22,13 +23,12 @@
     --accent-orange: #FFAA33;
     --accent-purple: #AA33FF;
     --border-color: rgba(0, 209, 255, 0.2);
-    --card-bg: rgba(30, 37, 50, 0.95);
+    --card-bg: rgba(30, 37, 50, 0.98);
     --shadow: 0 5px 25px rgba(0, 0, 0, 0.4);
     --map-bg: #2d3748;
 }
 
 .dark-theme {
-    /* Темная тема */
     --bg-primary: #0A0E14;
     --bg-secondary: #141923;
     --bg-tertiary: #1E2532;
@@ -43,13 +43,12 @@
     --accent-orange: #FFAA33;
     --accent-purple: #AA33FF;
     --border-color: rgba(0, 209, 255, 0.2);
-    --card-bg: rgba(30, 37, 50, 0.95);
+    --card-bg: rgba(30, 37, 50, 0.98);
     --shadow: 0 5px 25px rgba(0, 0, 0, 0.4);
     --map-bg: #2d3748;
 }
 
 .light-theme {
-    /* Светлая тема */
     --bg-primary: #F5F7FA;
     --bg-secondary: #FFFFFF;
     --bg-tertiary: #EFF2F7;
@@ -64,7 +63,7 @@
     --accent-orange: #FD7E14;
     --accent-purple: #6F42C1;
     --border-color: rgba(0, 123, 255, 0.2);
-    --card-bg: rgba(255, 255, 255, 0.95);
+    --card-bg: rgba(255, 255, 255, 0.98);
     --shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
     --map-bg: #f8f9fa;
 }
@@ -73,56 +72,59 @@ body {
     overflow: hidden;
     background: var(--bg-primary);
     color: var(--text-primary);
-    -webkit-tap-highlight-color: transparent;
+    touch-action: pan-y;
 }
 
 /* ===== HEADER ===== */
 .header {
-    height: 130px;
+    height: 70px;
     background: var(--bg-secondary);
     border-bottom: 1px solid var(--border-color);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 20px;
-    position: relative;
+    padding: 0 12px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
     z-index: 1000;
     box-shadow: var(--shadow);
+    backdrop-filter: blur(10px);
 }
 
 /* Левый сектор - Бренд */
 .brand-section {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 10px;
     min-width: 0;
     flex-shrink: 0;
 }
 
 .logo-container {
-    position: relative;
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
 }
 
-/* СТАТИЧНЫЙ АТОМ В ШАПКЕ (без анимаций) */
+/* СТАТИЧНЫЙ АТОМ В ШАПКЕ */
 .atom-logo {
     position: relative;
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
 }
 
 .atom-core {
     position: absolute;
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
     background: radial-gradient(circle, var(--accent-blue) 0%, #00B8FF 100%);
-    box-shadow: 0 0 10px var(--accent-blue);
+    box-shadow: 0 0 8px var(--accent-blue);
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -131,21 +133,21 @@ body {
 
 .electron {
     position: absolute;
-    width: 5px;
-    height: 5px;
+    width: 4px;
+    height: 4px;
     border-radius: 50%;
     background: var(--accent-green);
     top: 50%;
     left: 50%;
-    box-shadow: 0 0 6px var(--accent-green);
+    box-shadow: 0 0 4px var(--accent-green);
 }
 
 /* Статичное расположение электронов */
-.electron-1 { transform: translate(15px, -15px); }
-.electron-2 { transform: translate(-15px, -15px); }
-.electron-3 { transform: translate(15px, 15px); }
-.electron-4 { transform: translate(-15px, 15px); }
-.electron-5 { transform: translate(0, -20px); }
+.electron-1 { transform: translate(12px, -12px); }
+.electron-2 { transform: translate(-12px, -12px); }
+.electron-3 { transform: translate(12px, 12px); }
+.electron-4 { transform: translate(-12px, 12px); }
+.electron-5 { transform: translate(0, -16px); }
 
 .atom-ring {
     position: absolute;
@@ -157,17 +159,17 @@ body {
 }
 
 .ring-1 {
-    width: 35px;
-    height: 35px;
+    width: 28px;
+    height: 28px;
 }
 
 .ring-2 {
-    width: 25px;
-    height: 25px;
+    width: 20px;
+    height: 20px;
 }
 
 .brand-title {
-    font-size: 24px;
+    font-size: 16px;
     font-weight: 800;
     letter-spacing: 0.5px;
     background: linear-gradient(90deg, var(--text-primary), var(--accent-blue));
@@ -179,32 +181,30 @@ body {
     text-overflow: ellipsis;
 }
 
-/* Центральный сектор - Навигация, Поиск и Легенда */
+/* Центральный сектор - Навигация */
 .center-section {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 12px;
+    gap: 8px;
+    margin: 0 8px;
     flex: 1;
-    margin: 0 20px;
     min-width: 0;
 }
 
 .nav-buttons {
     display: flex;
-    gap: 10px;
+    gap: 6px;
 }
 
 .nav-btn {
-    padding: 8px 20px;
+    padding: 6px 12px;
     background: var(--bg-tertiary);
     border: 1px solid var(--border-color);
     border-radius: 6px;
     color: var(--text-primary);
     font-weight: 600;
-    letter-spacing: 0.5px;
+    font-size: 11px;
     cursor: pointer;
-    font-size: 13px;
     white-space: nowrap;
 }
 
@@ -212,125 +212,18 @@ body {
     background: linear-gradient(90deg, var(--accent-blue), #00B8FF);
     color: white;
     border: none;
-    box-shadow: 0 0 15px rgba(0, 209, 255, 0.5);
 }
 
-/* Стили для поиска */
+/* Стили для поиска (на мобилках скрыт в меню) */
 .search-container {
-    width: 100%;
-    max-width: 400px;
-    position: relative;
-}
-
-.search-box {
-    position: relative;
-    width: 100%;
-}
-
-.search-box i {
-    position: absolute;
-    left: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--text-tertiary);
-    z-index: 2;
-}
-
-#station-search {
-    width: 100%;
-    padding: 10px 15px 10px 40px;
-    background: var(--bg-tertiary);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    color: var(--text-primary);
-    font-size: 14px;
-    outline: none;
-}
-
-#station-search::placeholder {
-    color: var(--text-tertiary);
-}
-
-.search-results {
-    position: absolute;
-    top: calc(100% + 5px);
-    left: 0;
-    right: 0;
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    max-height: 250px;
-    overflow-y: auto;
     display: none;
-    z-index: 2000;
-    box-shadow: var(--shadow);
 }
-
-.search-result-item {
-    padding: 10px 15px;
-    border-bottom: 1px solid var(--border-color);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.search-result-item:last-child {
-    border-bottom: none;
-}
-
-.search-result-name {
-    font-weight: 600;
-    color: var(--text-primary);
-    font-size: 14px;
-}
-
-.search-result-country {
-    font-size: 11px;
-    color: var(--text-tertiary);
-    margin-left: auto;
-}
-
-.legend {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 6px 12px;
-    background: var(--bg-tertiary);
-    border-radius: 10px;
-    border: 1px solid var(--border-color);
-    width: 100%;
-    max-width: 700px;
-}
-
-.legend-item {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 11px;
-    color: var(--text-secondary);
-    white-space: nowrap;
-}
-
-.legend-color {
-    width: 12px;
-    height: 12px;
-    border-radius: 3px;
-}
-
-.legend-color.operational { background: linear-gradient(135deg, #00FF88, #00CCAA); }
-.legend-color.stopped { background: linear-gradient(135deg, #FFCC00, #FFAA33); }
-.legend-color.construction { background: linear-gradient(135deg, #33AAFF, #0088FF); }
-.legend-color.closed { background: linear-gradient(135deg, #AAAAAA, #777777); }
-.legend-color.abandoned { background: linear-gradient(135deg, #8B4513, #A0522D); }
-.legend-color.accident { background: linear-gradient(135deg, #FF3366, #FF0055); }
 
 /* Правый сектор - Инструменты */
 .right-section {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 8px;
     flex-shrink: 0;
 }
 
@@ -343,56 +236,28 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
+    font-size: 16px;
     text-decoration: none;
     flex-shrink: 0;
 }
 
 .vfd-clock {
     font-family: 'Orbitron', monospace;
-    font-size: 18px;
+    font-size: 14px;
     font-weight: bold;
     color: #00FF88;
-    text-shadow: 0 0 4px #00FF88;
+    text-shadow: 0 0 3px #00FF88;
     letter-spacing: 1px;
-    padding: 6px 10px;
+    padding: 5px 8px;
     background: rgba(0, 20, 0, 0.9);
-    border-radius: 8px;
+    border-radius: 6px;
     border: 1px solid rgba(0, 255, 136, 0.3);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    min-width: 150px;
-}
-
-.digit-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.segment-display {
-    font-size: 20px;
-    font-weight: 700;
-    letter-spacing: 1px;
-}
-
-.clock-colon {
-    color: #00FF88;
-    margin: 0 2px;
-}
-
-.clock-label {
-    font-size: 8px;
-    color: rgba(0, 255, 136, 0.7);
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
+    display: none; /* На мобилках скрываем часы */
 }
 
 .map-controls {
     display: flex;
-    gap: 6px;
+    gap: 4px;
 }
 
 .control-btn {
@@ -407,6 +272,7 @@ body {
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    font-size: 14px;
 }
 
 .control-btn.active {
@@ -414,13 +280,29 @@ body {
     border-color: var(--accent-blue);
 }
 
+/* Мобильное меню */
+.mobile-menu-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
 /* ===== MAP CONTAINER ===== */
 .map-container {
     position: absolute;
-    top: 130px;
+    top: 70px;
     left: 0;
     width: 100%;
-    height: calc(100vh - 130px);
+    height: calc(100vh - 70px);
     z-index: 1;
 }
 
@@ -434,25 +316,30 @@ body {
 .custom-marker {
     background: none;
     border: none;
+    transform: translate3d(0,0,0);
+    will-change: transform;
 }
 
 /* Значки АЭС в виде пинов Google Maps (СТАТИЧНЫЕ) */
 .station-pin {
     position: relative;
-    width: 48px;
-    height: 48px;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    width: 60px;
+    height: 60px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
     cursor: pointer;
+    pointer-events: auto;
+    -webkit-transform: translate3d(0,0,0);
+    transform: translate3d(0,0,0);
 }
 
 .pin-body {
     position: absolute;
-    width: 32px;
-    height: 32px;
+    width: 40px;
+    height: 40px;
     border-radius: 50% 50% 50% 0;
     background: var(--pin-color, #FF3366);
     top: 0;
-    left: 8px;
+    left: 10px;
     transform: rotate(-45deg);
     display: flex;
     align-items: center;
@@ -462,15 +349,15 @@ body {
 
 .pin-body .atom {
     transform: rotate(45deg);
-    width: 18px;
-    height: 18px;
+    width: 22px;
+    height: 22px;
     position: relative;
 }
 
 .pin-body .atom-core {
     position: absolute;
-    width: 6px;
-    height: 6px;
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
     background: white;
     top: 50%;
@@ -479,11 +366,11 @@ body {
     z-index: 2;
 }
 
-/* ЭЛЕКТРОНЫ СТАТИЧНЫЕ (без анимации) */
+/* ЭЛЕКТРОНЫ СТАТИЧНЫЕ */
 .pin-body .electron {
     position: absolute;
-    width: 3px;
-    height: 3px;
+    width: 4px;
+    height: 4px;
     border-radius: 50%;
     background: white;
     top: 50%;
@@ -492,43 +379,43 @@ body {
 
 /* Статичное расположение электронов */
 .pin-body .electron-1 {
-    transform: translate(7px, -7px);
+    transform: translate(9px, -9px);
 }
 
 .pin-body .electron-2 {
-    transform: translate(-7px, -7px);
+    transform: translate(-9px, -9px);
 }
 
 .pin-body .electron-3 {
-    transform: translate(0, 7px);
+    transform: translate(0, 9px);
 }
 
 .pin-stem {
     position: absolute;
-    width: 4px;
-    height: 20px;
+    width: 5px;
+    height: 24px;
     background: var(--pin-color, #FF3366);
-    top: 26px;
-    left: 22px;
+    top: 32px;
+    left: 27px;
     z-index: 1;
     border-radius: 0 0 2px 2px;
 }
 
 .pin-shadow {
     position: absolute;
-    width: 10px;
-    height: 4px;
+    width: 12px;
+    height: 5px;
     background: rgba(0, 0, 0, 0.2);
     border-radius: 50%;
-    top: 45px;
-    left: 19px;
+    top: 54px;
+    left: 24px;
     z-index: 0;
 }
 
 /* Маркеры энергоблоков (СТАТИЧНЫЕ) */
 .unit-marker {
-    width: 48px;
-    height: 48px;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -538,7 +425,10 @@ body {
     color: white;
     cursor: pointer;
     filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.4));
-    border: 2px solid white;
+    border: 3px solid white;
+    pointer-events: auto;
+    -webkit-transform: translate3d(0,0,0);
+    transform: translate3d(0,0,0);
 }
 
 /* Формы для разных типов реакторов */
@@ -547,7 +437,7 @@ body {
 }
 
 .unit-rbmk, .unit-graphite {
-    border-radius: 10px;
+    border-radius: 12px;
 }
 
 .unit-bwr {
@@ -561,18 +451,19 @@ body {
 /* ===== SIDEPANEL ===== */
 .sidepanel {
     position: fixed;
-    top: 130px;
-    right: -420px;
-    width: 400px;
-    height: calc(100vh - 130px);
+    top: 70px;
+    right: -100%;
+    width: 100%;
+    height: calc(100vh - 70px);
     background: var(--card-bg);
     border-left: 1px solid var(--border-color);
-    z-index: 1000;
-    transition: right 0.3s ease;
+    z-index: 2000;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     flex-direction: column;
     overflow: hidden;
     box-shadow: -5px 0 20px rgba(0, 0, 0, 0.3);
+    will-change: transform;
 }
 
 .sidepanel.open {
@@ -580,25 +471,28 @@ body {
 }
 
 .panel-header {
-    padding: 15px 20px;
+    padding: 15px;
     border-bottom: 1px solid var(--border-color);
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     flex-shrink: 0;
+    background: var(--bg-secondary);
 }
 
 .station-title {
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 700;
     color: var(--text-primary);
     margin-bottom: 5px;
     line-height: 1.3;
+    flex: 1;
+    padding-right: 10px;
 }
 
 .close-panel {
-    width: 34px;
-    height: 34px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     background: var(--bg-tertiary);
     border: 1px solid var(--border-color);
@@ -653,10 +547,11 @@ body {
     overflow-y: auto;
     padding: 0;
     -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
 }
 
 .tab-pane {
-    padding: 15px 20px;
+    padding: 15px;
     display: none;
 }
 
@@ -684,8 +579,8 @@ body {
 
 .overview-stats {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
     margin-bottom: 15px;
 }
 
@@ -704,7 +599,7 @@ body {
 }
 
 .stat-value {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 800;
     color: var(--accent-blue);
     margin-bottom: 4px;
@@ -766,7 +661,7 @@ body {
 .units-list {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 12px;
 }
 
 .unit-card {
@@ -934,28 +829,75 @@ body {
     flex: 1;
 }
 
-/* ===== ФИЛЬТРЫ ===== */
-.filters-panel {
+/* ===== МОДАЛЬНЫЕ ОКНА ДЛЯ МОБИЛЬНЫХ ===== */
+.mobile-modal {
     position: fixed;
-    top: 150px;
-    left: 20px;
-    width: 280px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 3000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    backdrop-filter: blur(5px);
+}
+
+.mobile-modal.active {
+    display: flex;
+}
+
+.mobile-modal-content {
     background: var(--card-bg);
+    border-radius: 12px;
+    width: 100%;
+    max-width: 500px;
+    max-height: 80vh;
+    overflow: hidden;
     border: 1px solid var(--border-color);
-    border-radius: 10px;
-    z-index: 900;
-    padding: 15px;
-    box-shadow: var(--shadow);
-    transform: translateX(-320px);
-    transition: transform 0.3s;
 }
 
-.filters-panel.open {
-    transform: translateX(0);
+.mobile-modal-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg-secondary);
 }
 
+.mobile-modal-header h3 {
+    font-size: 16px;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.mobile-modal-close {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mobile-modal-body {
+    padding: 20px;
+    overflow-y: auto;
+    max-height: calc(80vh - 60px);
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Модалка фильтров */
 .filter-section {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 .filter-title {
@@ -971,12 +913,10 @@ body {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
-    max-height: 200px;
-    overflow-y: auto;
 }
 
 .filter-option {
-    padding: 5px 10px;
+    padding: 6px 12px;
     background: var(--bg-tertiary);
     border: 1px solid var(--border-color);
     border-radius: 16px;
@@ -992,29 +932,154 @@ body {
     color: white;
 }
 
-.toggle-filters {
-    position: fixed;
-    top: 160px;
-    left: 20px;
-    width: 46px;
-    height: 46px;
-    border-radius: 50%;
-    background: var(--card-bg);
+/* Модалка поиска */
+.search-modal .search-box {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.search-modal .search-box i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-tertiary);
+    z-index: 2;
+}
+
+.search-modal #mobile-station-search {
+    width: 100%;
+    padding: 12px 15px 12px 40px;
+    background: var(--bg-tertiary);
     border: 1px solid var(--border-color);
+    border-radius: 8px;
     color: var(--text-primary);
-    font-size: 18px;
+    font-size: 14px;
+    outline: none;
+}
+
+.search-results {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.search-result-item {
+    padding: 12px 15px;
+    background: var(--bg-tertiary);
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
     cursor: pointer;
-    z-index: 901;
+    transition: background-color 0.2s;
+}
+
+.search-result-item:hover {
+    background: var(--bg-secondary);
+}
+
+.search-result-name {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+.search-result-country {
+    font-size: 11px;
+    color: var(--text-tertiary);
+}
+
+/* Модалка легенды */
+.legend-items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background: var(--bg-tertiary);
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.legend-color {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+
+.legend-color.operational { background: linear-gradient(135deg, #00FF88, #00CCAA); }
+.legend-color.stopped { background: linear-gradient(135deg, #FFCC00, #FFAA33); }
+.legend-color.construction { background: linear-gradient(135deg, #33AAFF, #0088FF); }
+.legend-color.closed { background: linear-gradient(135deg, #AAAAAA, #777777); }
+.legend-color.abandoned { background: linear-gradient(135deg, #8B4513, #A0522D); }
+.legend-color.accident { background: linear-gradient(135deg, #FF3366, #FF0055); }
+
+.legend-text {
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+/* ===== НИЖНЕЕ МЕНЮ ДЛЯ МОБИЛЬНЫХ ===== */
+.mobile-bottom-menu {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    z-index: 1001;
+    backdrop-filter: blur(10px);
+}
+
+.mobile-menu-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    flex: 1;
+    padding: 8px 0;
+}
+
+.mobile-menu-icon {
+    width: 24px;
+    height: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: var(--shadow);
+    font-size: 16px;
+    color: var(--text-secondary);
+}
+
+.mobile-menu-text {
+    font-size: 10px;
+    color: var(--text-tertiary);
+    text-align: center;
+}
+
+.mobile-menu-item.active .mobile-menu-icon {
+    color: var(--accent-blue);
+}
+
+.mobile-menu-item.active .mobile-menu-text {
+    color: var(--accent-blue);
+    font-weight: 600;
 }
 
 /* ===== ВСПЛЫВАЮЩАЯ ПОДСКАЗКА ===== */
 .floating-tooltip {
     position: fixed;
-    bottom: 15px;
+    bottom: 70px;
     right: 15px;
     background: var(--card-bg);
     border: 1px solid var(--border-color);
@@ -1027,6 +1092,7 @@ body {
     align-items: center;
     justify-content: space-between;
     border-left: 4px solid var(--accent-blue);
+    display: none; /* По умолчанию скрыта */
 }
 
 .tooltip-content {
@@ -1065,397 +1131,169 @@ body {
 }
 
 /* ===== ПОЛОСЫ ПРОКРУТКИ ===== */
-.tab-content::-webkit-scrollbar {
+.tab-content::-webkit-scrollbar,
+.mobile-modal-body::-webkit-scrollbar {
     width: 4px;
 }
 
-.tab-content::-webkit-scrollbar-track {
+.tab-content::-webkit-scrollbar-track,
+.mobile-modal-body::-webkit-scrollbar-track {
     background: rgba(255, 255, 255, 0.05);
 }
 
-.tab-content::-webkit-scrollbar-thumb {
+.tab-content::-webkit-scrollbar-thumb,
+.mobile-modal-body::-webkit-scrollbar-thumb {
     background: var(--accent-blue);
     border-radius: 2px;
 }
 
-/* ===== АДАПТИВНОСТЬ ===== */
-@media (max-width: 1200px) {
+/* ===== АДАПТИВНОСТЬ ДЛЯ ТАБЛЕТОВ ===== */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .header {
+        height: 80px;
+        padding: 0 20px;
+    }
+    
+    .map-container {
+        top: 80px;
+        height: calc(100vh - 80px);
+    }
+    
     .sidepanel {
-        width: 350px;
+        top: 80px;
+        width: 400px;
     }
     
     .brand-title {
         font-size: 20px;
     }
     
-    .search-container {
-        max-width: 350px;
-    }
-    
-    .legend {
-        max-width: 600px;
-    }
-}
-
-@media (max-width: 992px) {
-    .header {
-        height: 110px;
-        padding: 0 15px;
-        flex-wrap: wrap;
-    }
-    
-    .map-container {
-        top: 110px;
-        height: calc(100vh - 110px);
-    }
-    
-    .sidepanel {
-        top: 110px;
-        width: 350px;
-    }
-    
-    .center-section {
-        order: 3;
-        width: 100%;
-        margin: 10px 0 0 0;
-    }
-    
-    .brand-title {
-        font-size: 18px;
-    }
-    
     .vfd-clock {
-        font-size: 16px;
+        display: flex;
         min-width: 140px;
-        padding: 5px 8px;
     }
     
-    .segment-display {
-        font-size: 18px;
-    }
-}
-
-@media (max-width: 768px) {
-    /* ОПТИМИЗАЦИЯ: убираем все анимации и плавные переходы */
-    * {
-        animation: none !important;
-        transition: none !important;
-    }
-    
-    .header {
-        height: 70px;
-        padding: 0 10px;
-    }
-    
-    .map-container {
-        top: 70px;
-        height: calc(100vh - 70px);
-    }
-    
-    .sidepanel {
-        top: 70px;
-        width: 100%;
-        height: calc(100vh - 70px);
-        right: -100%;
-        z-index: 2000;
-    }
-    
-    .sidepanel.open {
-        right: 0;
-    }
-    
-    .brand-section {
-        gap: 8px;
-    }
-    
-    .logo-container {
-        width: 36px;
-        height: 36px;
-    }
-    
-    .atom-logo {
-        width: 28px;
-        height: 28px;
-    }
-    
-    .atom-core {
-        width: 8px;
-        height: 8px;
-    }
-    
-    .electron {
-        width: 3px;
-        height: 3px;
-    }
-    
-    .electron-1 { transform: translate(10px, -10px); }
-    .electron-2 { transform: translate(-10px, -10px); }
-    .electron-3 { transform: translate(10px, 10px); }
-    .electron-4 { transform: translate(-10px, 10px); }
-    .electron-5 { transform: translate(0, -12px); }
-    
-    .ring-1 {
-        width: 24px;
-        height: 24px;
-    }
-    
-    .ring-2 {
-        width: 18px;
-        height: 18px;
-    }
-    
-    .brand-title {
-        font-size: 16px;
-        letter-spacing: 0;
-    }
-    
-    .center-section {
+    .mobile-bottom-menu {
         display: none;
     }
     
-    .right-section {
-        gap: 8px;
-        margin-left: auto;
+    .search-container {
+        display: block;
+        max-width: 300px;
     }
     
-    .telegram-btn {
-        width: 32px;
-        height: 32px;
-        font-size: 16px;
+    .nav-buttons {
+        gap: 10px;
     }
     
-    .vfd-clock {
-        font-size: 14px;
-        min-width: 120px;
-        padding: 4px 6px;
-    }
-    
-    .segment-display {
-        font-size: 16px;
-    }
-    
-    .clock-label {
-        font-size: 7px;
-    }
-    
-    .map-controls {
-        gap: 4px;
-    }
-    
-    .control-btn {
-        width: 32px;
-        height: 32px;
-        font-size: 14px;
-    }
-    
-    /* Увеличиваем маркеры на мобилках для лучшей нажимаемости */
-    .station-pin {
-        width: 52px;
-        height: 52px;
-    }
-    
-    .pin-body {
-        width: 36px;
-        height: 36px;
-        left: 8px;
-    }
-    
-    .pin-body .atom {
-        width: 20px;
-        height: 20px;
-    }
-    
-    .pin-body .electron {
-        width: 4px;
-        height: 4px;
-    }
-    
-    .pin-body .electron-1 {
-        transform: translate(8px, -8px);
-    }
-    
-    .pin-body .electron-2 {
-        transform: translate(-8px, -8px);
-    }
-    
-    .pin-body .electron-3 {
-        transform: translate(0, 8px);
-    }
-    
-    .pin-stem {
-        top: 28px;
-        left: 24px;
-        height: 22px;
-    }
-    
-    .pin-shadow {
-        top: 48px;
-        left: 21px;
-    }
-    
-    .toggle-filters {
-        top: 80px;
-        left: 10px;
-        width: 40px;
-        height: 40px;
-        font-size: 16px;
-    }
-    
-    .filters-panel {
-        top: 80px;
-        left: 10px;
-        width: calc(100% - 20px);
-        max-height: calc(100vh - 90px);
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-    }
-    
-    .floating-tooltip {
-        bottom: 10px;
-        right: 10px;
-        left: 10px;
-        max-width: calc(100% - 20px);
-        padding: 10px 12px;
-    }
-    
-    .tooltip-content p {
-        font-size: 12px;
-    }
-    
-    /* Панель информации на мобилках */
-    .panel-header {
-        padding: 12px 15px;
-    }
-    
-    .station-title {
-        font-size: 18px;
-    }
-    
-    .tab {
-        padding: 10px 0;
-        font-size: 11px;
-    }
-    
-    .tab-pane {
-        padding: 12px 15px;
-    }
-    
-    .overview-stats {
-        grid-template-columns: 1fr 1fr;
-        gap: 8px;
-    }
-    
-    .stat-card {
-        padding: 10px;
-    }
-    
-    .stat-value {
-        font-size: 18px;
-    }
-    
-    .units-list {
-        gap: 12px;
-    }
-    
-    .unit-card {
-        padding: 12px;
-    }
-    
-    .unit-name {
-        font-size: 14px;
-    }
-    
-    .unit-details {
-        grid-template-columns: 1fr;
-        gap: 8px;
-    }
-    
-    .info-block {
-        padding: 10px;
-    }
-    
-    .overview-description {
-        font-size: 12px;
-    }
-    
-    #location-text {
+    .nav-btn {
+        padding: 8px 16px;
         font-size: 12px;
     }
 }
 
-@media (max-width: 480px) {
+/* ===== АДАПТИВНОСТЬ ДЛЯ ДЕСКТОПОВ ===== */
+@media (min-width: 1025px) {
     .header {
-        height: 60px;
+        height: 100px;
+        padding: 0 30px;
     }
     
     .map-container {
-        top: 60px;
-        height: calc(100vh - 60px);
+        top: 100px;
+        height: calc(100vh - 100px);
     }
     
     .sidepanel {
-        top: 60px;
-        height: calc(100vh - 60px);
-    }
-    
-    .logo-container {
-        width: 32px;
-        height: 32px;
-    }
-    
-    .atom-logo {
-        width: 24px;
-        height: 24px;
+        top: 100px;
+        width: 450px;
+        right: -450px;
     }
     
     .brand-title {
-        font-size: 14px;
+        font-size: 24px;
     }
     
     .vfd-clock {
-        min-width: 100px;
-        font-size: 12px;
+        display: flex;
+        min-width: 180px;
+        font-size: 18px;
     }
     
     .segment-display {
+        font-size: 24px;
+    }
+    
+    .mobile-bottom-menu {
+        display: none;
+    }
+    
+    .search-container {
+        display: block;
+        max-width: 400px;
+    }
+    
+    .center-section {
+        gap: 15px;
+    }
+    
+    .nav-buttons {
+        gap: 15px;
+    }
+    
+    .nav-btn {
+        padding: 10px 25px;
         font-size: 14px;
     }
     
-    .clock-label {
-        font-size: 6px;
+    .mobile-modal {
+        display: none !important;
     }
     
-    .overview-stats {
-        grid-template-columns: 1fr;
+    /* Показываем подсказку только на десктопе */
+    .floating-tooltip {
+        display: flex;
     }
     
-    .panel-header {
-        padding: 10px 12px;
+    /* Фильтры на десктопе */
+    .filters-panel {
+        position: fixed;
+        top: 120px;
+        left: 20px;
+        width: 280px;
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 10px;
+        z-index: 900;
+        padding: 15px;
+        box-shadow: var(--shadow);
+        transform: translateX(0);
     }
     
-    .station-title {
-        font-size: 16px;
-    }
-    
-    .tab {
-        padding: 8px 0;
-        font-size: 10px;
+    .toggle-filters {
+        display: none;
     }
 }
 
 /* Оптимизация для очень маленьких экранов */
 @media (max-width: 360px) {
-    .vfd-clock {
-        display: none;
+    .header {
+        padding: 0 8px;
     }
     
-    .telegram-btn {
-        width: 28px;
-        height: 28px;
+    .brand-title {
         font-size: 14px;
     }
     
-    .map-controls .control-btn:nth-child(3) {
-        display: none;
+    .station-title {
+        font-size: 18px;
+    }
+    
+    .overview-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .unit-details {
+        grid-template-columns: 1fr;
     }
 }
