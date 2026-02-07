@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+Disallow: /app.js
+Disallow: /npp-stats.js
+Disallow: /data.js
+Disallow: /style.css
+Disallow: /statistics.css
+Disallow: /*.log
+Disallow: /*.sql
+
+# Строки с несуществующими .php файлами удалены
+
+# Указываем карту сайта
+Sitemap: https://worldnpp.com/sitemap.xml
