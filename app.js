@@ -111,31 +111,53 @@ function getReactorColor(type) {
     return getReactorType(type).color;
 }
 
-// Инициализация карты Leaflet с оптимизациями
+// Инициализация карты Leaflet с оптимизациями для мобильных устройств
 function initMap() {
-    // Создаем карту с центром на Европе
-    map = L.map('map', {
+    // Оптимизированные настройки для мобильных устройств
+    const mapOptions = {
         center: [50, 30],
         zoom: 3,
         minZoom: 2,
         maxZoom: 12,
         zoomControl: false,
         attributionControl: false,
-        preferCanvas: true,
-        renderer: L.canvas()
-    });
+        tap: true, // Включаем поддержку тапов на мобильных устройствах
+        touchZoom: true, // Включаем масштабирование касанием
+        scrollWheelZoom: true,
+        doubleClickZoom: true,
+        boxZoom: true,
+        dragging: true, // Включаем перетаскивание
+        keyboard: false,
+        fadeAnimation: true,
+        zoomAnimation: true,
+        markerZoomAnimation: true,
+        bounceAtZoomLimits: true,
+        inertia: true, // Инерция при перетаскивании
+        inertiaDeceleration: 3000,
+        inertiaMaxSpeed: 1500,
+        easeLinearity: 0.2,
+        worldCopyJump: false,
+        maxBoundsViscosity: 1.0,
+        preferCanvas: false, // Отключаем для лучшей производительности на мобильных
+        renderer: L.svg() // Используем SVG для лучшей производительности
+    };
     
-    // ЛЕГКИЕ слои карты для оптимизации
+    // Создаем карту
+    map = L.map('map', mapOptions);
+    
+    // Оптимизированные тайлы для мобильных устройств
     const streetLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
         attribution: '© CARTO',
         maxZoom: 12,
-        minZoom: 2
+        minZoom: 2,
+        detectRetina: true // Автоматическое определение Retina-дисплеев
     });
     
     const satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
         attribution: '© Esri',
         maxZoom: 12,
-        minZoom: 2
+        minZoom: 2,
+        detectRetina: true
     });
     
     // По умолчанию показываем схему
@@ -144,14 +166,18 @@ function initMap() {
     document.getElementById('satellite-layer').classList.remove('active');
     
     // Управление слоями
-    document.getElementById('street-layer').addEventListener('click', function() {
+    document.getElementById('street-layer').addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
         map.removeLayer(satelliteLayer);
         streetLayer.addTo(map);
         document.getElementById('street-layer').classList.add('active');
         document.getElementById('satellite-layer').classList.remove('active');
     });
     
-    document.getElementById('satellite-layer').addEventListener('click', function() {
+    document.getElementById('satellite-layer').addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
         map.removeLayer(streetLayer);
         satelliteLayer.addTo(map);
         document.getElementById('satellite-layer').classList.add('active');
@@ -159,7 +185,9 @@ function initMap() {
     });
     
     // Переключение темы
-    document.getElementById('theme-toggle').addEventListener('click', function() {
+    document.getElementById('theme-toggle').addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
         const icon = this.querySelector('i');
         isDarkTheme = !isDarkTheme;
         
@@ -188,7 +216,7 @@ function initMap() {
         }
     });
     
-    // Дебаунс для событий движения карты
+    // Дебаунс для событий движения карты (оптимизация)
     let moveEndTimeout;
     map.on('moveend', function() {
         clearTimeout(moveEndTimeout);
@@ -199,10 +227,19 @@ function initMap() {
         }, 100);
     });
     
-    // Добавляем кастомный контрол zoom
-    L.control.zoom({
-        position: 'topright'
+    // Добавляем кастомный контрол zoom с оптимизациями для мобильных
+    const zoomControl = L.control.zoom({
+        position: 'topright',
+        zoomInTitle: 'Приблизить',
+        zoomOutTitle: 'Отдалить'
     }).addTo(map);
+    
+    // Оптимизация для мобильных: предотвращаем скроллинг страницы при масштабировании карты
+    map.on('touchstart', function(e) {
+        if (e.originalEvent.touches.length > 1) {
+            e.originalEvent.preventDefault();
+        }
+    }, { passive: false });
     
     // Инициализация маркеров станций
     initStationMarkers();
@@ -255,15 +292,17 @@ function updateStationMarkers() {
         const icon = L.divIcon({
             html: markerHtml,
             className: 'custom-marker',
-            iconSize: [30, 40], // Уменьшенный размер пина
-            iconAnchor: [15, 40] // Точка привязки
+            iconSize: [25, 40], // Уменьшенный размер пина для мобильных
+            iconAnchor: [12.5, 40] // Точка привязки
         });
         
         const marker = L.marker(station.coords, { 
             icon: icon,
             title: station.name,
             alt: station.name,
-            riseOnHover: true
+            riseOnHover: true,
+            bubblingMouseEvents: false,
+            autoPanOnFocus: false
         })
         .addTo(map)
         .bindTooltip(`
@@ -277,8 +316,20 @@ function updateStationMarkers() {
             sticky: true
         });
         
-        marker.on('click', function() {
+        marker.on('click', function(e) {
+            if (e.originalEvent) {
+                e.originalEvent.preventDefault();
+                e.originalEvent.stopPropagation();
+            }
             selectStation(station);
+        });
+        
+        // Оптимизация для мобильных: предотвращаем всплытие событий
+        marker.on('touchstart', function(e) {
+            if (e.originalEvent) {
+                e.originalEvent.preventDefault();
+                e.originalEvent.stopPropagation();
+            }
         });
         
         stationMarkers.push({
@@ -318,7 +369,7 @@ function updateUnitMarkers() {
             <div class="unit-marker ${shapeClass}" style="
                 background: ${statusConfig.color};
                 border-color: ${reactorType.color};
-                font-size: 9px;
+                font-size: 8px;
             ">
                 ${unit.model}
             </div>
@@ -327,8 +378,8 @@ function updateUnitMarkers() {
         const icon = L.divIcon({
             html: markerHtml,
             className: 'custom-marker',
-            iconSize: [50, 50], // Увеличенный размер блока
-            iconAnchor: [25, 25]
+            iconSize: [45, 45], // Размер блока
+            iconAnchor: [22.5, 22.5]
         });
         
         const marker = L.marker(unitCoords, { 
@@ -336,7 +387,8 @@ function updateUnitMarkers() {
             title: unit.name,
             alt: unit.name,
             zIndexOffset: 1000,
-            riseOnHover: true
+            riseOnHover: true,
+            bubblingMouseEvents: false
         })
         .addTo(map)
         .bindTooltip(`
@@ -351,9 +403,20 @@ function updateUnitMarkers() {
         });
         
         marker.on('click', function(e) {
-            e.originalEvent.stopPropagation();
+            if (e.originalEvent) {
+                e.originalEvent.stopPropagation();
+                e.originalEvent.preventDefault();
+            }
             selectStation(selectedStation);
             selectUnit(unit);
+        });
+        
+        // Оптимизация для мобильных
+        marker.on('touchstart', function(e) {
+            if (e.originalEvent) {
+                e.originalEvent.preventDefault();
+                e.originalEvent.stopPropagation();
+            }
         });
         
         unitMarkers.push({
@@ -420,7 +483,7 @@ function selectStation(station) {
     
     // Центрируем карту на выбранной станции
     map.flyTo(station.coords, Math.max(currentZoom, 7), {
-        duration: 1,
+        duration: 0.5,
         easeLinearity: 0.25
     });
     
@@ -632,7 +695,9 @@ function initFilters() {
         option.textContent = country;
         option.dataset.country = country;
         
-        option.addEventListener('click', function() {
+        option.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
             this.classList.toggle('active');
             updateFilters();
         });
@@ -651,7 +716,9 @@ function initFilters() {
         option.textContent = status.name;
         option.dataset.status = statusId;
         
-        option.addEventListener('click', function() {
+        option.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
             this.classList.toggle('active');
             updateFilters();
         });
@@ -670,7 +737,9 @@ function initFilters() {
         option.textContent = type.name;
         option.dataset.type = typeId;
         
-        option.addEventListener('click', function() {
+        option.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
             this.classList.toggle('active');
             updateFilters();
         });
@@ -679,7 +748,9 @@ function initFilters() {
     });
     
     // Кнопка сброса фильтров
-    document.getElementById('reset-filters').addEventListener('click', function() {
+    document.getElementById('reset-filters').addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
         document.querySelectorAll('.filter-option.active').forEach(option => {
             option.classList.remove('active');
         });
@@ -687,7 +758,9 @@ function initFilters() {
     });
     
     // Кнопка переключения панели фильтров
-    document.getElementById('toggle-filters-btn').addEventListener('click', function() {
+    document.getElementById('toggle-filters-btn').addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
         document.getElementById('filters-panel').classList.toggle('open');
     });
 }
@@ -747,7 +820,9 @@ function initSearch() {
                         <div class="search-result-country">${station.country.flag} ${station.country.name}</div>
                     `;
                     
-                    resultItem.addEventListener('click', () => {
+                    resultItem.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
                         selectStation(station);
                         searchInput.value = '';
                         searchResults.innerHTML = '';
@@ -768,6 +843,11 @@ function initSearch() {
             searchResults.style.display = 'none';
         }
     });
+    
+    // Предотвращаем всплытие для поиска
+    searchInput.addEventListener('touchstart', function(e) {
+        e.stopPropagation();
+    });
 }
 
 // Инициализация подсказки
@@ -783,7 +863,9 @@ function initTooltip() {
         hideTooltip();
     }, 12000);
     
-    closeButton.addEventListener('click', () => {
+    closeButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
         hideTooltip();
         clearTimeout(tooltipTimeout);
     });
@@ -858,14 +940,18 @@ window.addEventListener('DOMContentLoaded', function() {
     
     // Обработчики событий
     document.querySelectorAll('.tab').forEach(tab => {
-        tab.addEventListener('click', function() {
+        tab.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
             const tabName = this.dataset.tab;
             switchTab(tabName);
         });
     });
     
     // Закрытие панели
-    document.getElementById('close-panel').addEventListener('click', function() {
+    document.getElementById('close-panel').addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
         document.getElementById('sidepanel').classList.remove('open');
         selectedStation = null;
         selectedUnit = null;
@@ -873,12 +959,16 @@ window.addEventListener('DOMContentLoaded', function() {
     });
     
     // Переключение режимов
-    document.getElementById('map-mode').addEventListener('click', function() {
+    document.getElementById('map-mode').addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
         this.classList.add('active');
         document.getElementById('stats-mode').classList.remove('active');
     });
     
-    document.getElementById('stats-mode').addEventListener('click', function() {
+    document.getElementById('stats-mode').addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
         this.classList.add('active');
         document.getElementById('map-mode').classList.remove('active');
         window.location.href = 'statistics.html';
