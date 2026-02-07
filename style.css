@@ -9,6 +9,12 @@
     -webkit-tap-highlight-color: transparent;
 }
 
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
 :root {
     /* Темная тема (по умолчанию) */
     --bg-primary: #0A0E14;
@@ -68,23 +74,37 @@ body {
     color: var(--text-primary);
     height: 100vh;
     width: 100vw;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
 
 /* ===== HEADER ===== */
 .header {
-    height: 70px;
+    height: auto;
+    min-height: 70px;
     background: var(--bg-secondary);
     border-bottom: 1px solid var(--border-color);
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 15px;
+    flex-direction: column;
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     z-index: 1000;
     box-shadow: var(--shadow);
+    padding: 10px 15px;
+}
+
+/* Первый ряд шапки: логотип и название */
+.header-row-1 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 10px;
 }
 
 /* Левый сектор - Бренд */
@@ -149,32 +169,37 @@ body {
     text-overflow: ellipsis;
 }
 
-/* Центральный сектор - Навигация и Поиск */
-.center-section {
+/* Правый сектор в первом ряду */
+.header-right-first-row {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 10px;
-    flex: 2;
-    margin: 0 10px;
-    min-width: 0;
+    gap: 8px;
+    flex-shrink: 0;
 }
 
+/* Второй ряд шапки: навигация, поиск, часы и управление */
+.header-row-2 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 10px;
+}
+
+/* Навигационные кнопки */
 .nav-buttons {
     display: none;
-    gap: 10px;
-    width: 100%;
-    justify-content: center;
+    gap: 5px;
 }
 
 .nav-btn {
-    padding: 8px 16px;
+    padding: 6px 12px;
     background: var(--bg-tertiary);
     border: 1px solid var(--border-color);
     border-radius: 6px;
     color: var(--text-primary);
     font-weight: 600;
-    font-size: 12px;
+    font-size: 11px;
     cursor: pointer;
     transition: all 0.3s;
     white-space: nowrap;
@@ -191,10 +216,11 @@ body {
     border: none;
 }
 
-/* Поиск в шапке */
+/* Поиск */
 .search-container {
-    width: 100%;
-    max-width: 400px;
+    flex: 1;
+    min-width: 0;
+    max-width: 100%;
     position: relative;
 }
 
@@ -223,6 +249,9 @@ body {
     font-size: 13px;
     outline: none;
     transition: all 0.3s;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
 }
 
 #station-search:focus {
@@ -256,6 +285,7 @@ body {
     cursor: pointer;
     transition: all 0.2s;
     font-size: 13px;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .search-result-item:hover {
@@ -273,8 +303,8 @@ body {
     color: var(--text-tertiary);
 }
 
-/* Правый сектор */
-.right-section {
+/* Правый сектор во втором ряду */
+.header-right-second-row {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -293,16 +323,17 @@ body {
     font-size: 16px;
     text-decoration: none;
     transition: all 0.3s;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .vfd-clock {
     font-family: 'Orbitron', monospace;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: bold;
     color: #00FF88;
     text-shadow: 0 0 3px #00FF88;
     letter-spacing: 1px;
-    padding: 6px 10px;
+    padding: 5px 8px;
     background: rgba(0, 20, 0, 0.9);
     border-radius: 6px;
     border: 1px solid rgba(0, 255, 136, 0.3);
@@ -310,11 +341,11 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 2px;
-    min-width: 120px;
+    min-width: 100px;
 }
 
 .segment-display {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 700;
 }
 
@@ -342,6 +373,7 @@ body {
     justify-content: center;
     transition: all 0.3s;
     font-size: 16px;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .control-btn.active {
@@ -352,11 +384,12 @@ body {
 /* ===== ПИНЫ АЭС ===== */
 .station-pin {
     position: relative;
-    width: 25px; /* Уменьшенный размер */
-    height: 40px; /* Уменьшенный размер */
+    width: 25px;
+    height: 40px;
     cursor: pointer;
     transition: all 0.2s;
     filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.3));
+    -webkit-tap-highlight-color: transparent;
 }
 
 .station-pin:hover {
@@ -366,8 +399,8 @@ body {
 
 .pin-head {
     position: absolute;
-    width: 25px; /* Уменьшенный размер */
-    height: 25px; /* Уменьшенный размер */
+    width: 25px;
+    height: 25px;
     border-radius: 50% 50% 50% 0;
     transform: rotate(-45deg);
     top: 0;
@@ -380,8 +413,8 @@ body {
 
 .pin-atom {
     transform: rotate(45deg);
-    width: 15px; /* Уменьшенный размер */
-    height: 15px; /* Уменьшенный размер */
+    width: 15px;
+    height: 15px;
     position: relative;
 }
 
@@ -397,26 +430,24 @@ body {
     z-index: 2;
 }
 
-/* Убраны электроны и анимации */
-
 .pin-stem {
     position: absolute;
-    width: 5px; /* Уменьшенный размер */
-    height: 15px; /* Уменьшенный размер */
-    top: 20px; /* Подогнано под новый размер */
-    left: 10px; /* Подогнано под новый размер */
+    width: 5px;
+    height: 15px;
+    top: 20px;
+    left: 10px;
     z-index: 1;
     border-radius: 0 0 3px 3px;
 }
 
-/* Маркеры энергоблоков - УВЕЛИЧЕНЫ */
+/* Маркеры энергоблоков */
 .unit-marker {
-    width: 50px; /* Увеличенный размер */
-    height: 50px; /* Увеличенный размер */
+    width: 45px;
+    height: 45px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 9px; /* Меньший шрифт для вмещения текста */
+    font-size: 8px;
     font-weight: bold;
     color: white;
     cursor: pointer;
@@ -427,6 +458,7 @@ body {
     text-align: center;
     line-height: 1.1;
     word-break: break-word;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .unit-marker:hover {
@@ -458,7 +490,7 @@ body {
 /* Легенда */
 .legend-container {
     position: fixed;
-    top: 80px;
+    top: 120px; /* Учитываем высоту шапки в два ряда */
     left: 10px;
     right: 10px;
     z-index: 900;
@@ -501,10 +533,10 @@ body {
 /* ===== MAP CONTAINER ===== */
 .map-container {
     position: fixed;
-    top: 70px;
+    top: 120px; /* Высота двух рядов шапки */
     left: 0;
     width: 100%;
-    height: calc(100vh - 70px);
+    height: calc(100vh - 120px);
     z-index: 1;
 }
 
@@ -512,12 +544,42 @@ body {
     width: 100%;
     height: 100%;
     background: var(--bg-primary);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: pan-x pan-y pinch-zoom;
+}
+
+/* Оптимизация Leaflet для мобильных */
+.leaflet-container {
+    font: inherit;
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+}
+
+.leaflet-control-attribution {
+    display: none !important;
+}
+
+.leaflet-bar {
+    box-shadow: none !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+.leaflet-bar a {
+    background-color: var(--bg-tertiary) !important;
+    color: var(--text-primary) !important;
+    border-bottom: 1px solid var(--border-color) !important;
+}
+
+.leaflet-bar a:hover {
+    background-color: var(--accent-blue) !important;
+    color: white !important;
 }
 
 /* Кастомные маркеры Leaflet */
 .custom-marker {
     background: none;
     border: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
 /* Tooltip стили */
@@ -535,10 +597,10 @@ body {
 /* ===== SIDEPANEL ===== */
 .sidepanel {
     position: fixed;
-    top: 70px;
+    top: 120px; /* Высота двух рядов шапки */
     right: -100%;
     width: 100%;
-    height: calc(100vh - 70px);
+    height: calc(100vh - 120px);
     background: var(--card-bg);
     backdrop-filter: blur(10px);
     border-left: 1px solid var(--border-color);
@@ -563,10 +625,11 @@ body {
 }
 
 .station-title {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 700;
     color: var(--text-primary);
     margin-bottom: 5px;
+    line-height: 1.2;
 }
 
 .close-panel {
@@ -583,6 +646,7 @@ body {
     justify-content: center;
     transition: all 0.3s;
     flex-shrink: 0;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .close-panel:hover {
@@ -618,6 +682,7 @@ body {
     transition: all 0.3s;
     border-bottom: 3px solid transparent;
     font-size: 12px;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .tab:hover {
@@ -686,7 +751,7 @@ body {
 }
 
 .stat-value {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 800;
     color: var(--accent-blue);
     margin-bottom: 3px;
@@ -747,6 +812,7 @@ body {
     border: 2px solid transparent;
     transition: all 0.3s;
     cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .unit-card:hover {
@@ -899,6 +965,7 @@ body {
     justify-content: center;
     box-shadow: var(--shadow);
     transition: all 0.3s;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .toggle-filters:hover {
@@ -959,6 +1026,7 @@ body {
     transition: all 0.3s;
     color: var(--text-secondary);
     white-space: nowrap;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .filter-option:hover {
@@ -1019,6 +1087,7 @@ body {
     transition: all 0.3s;
     font-size: 14px;
     flex-shrink: 0;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .close-tooltip:hover {
@@ -1072,58 +1141,98 @@ body {
 
 /* ===== АДАПТИВНОСТЬ ===== */
 
-/* Мобильные устройства - поиск всегда виден */
+/* Мобильные устройства */
 @media (max-width: 767px) {
     .header {
         height: auto;
-        flex-wrap: wrap;
+        min-height: 120px;
         padding: 10px;
     }
     
-    .brand-section {
-        flex: 1;
-        order: 1;
-    }
-    
-    .right-section {
-        order: 2;
-    }
-    
-    .center-section {
-        order: 3;
-        width: 100%;
-        margin: 10px 0 0 0;
-        display: flex !important;
-    }
-    
-    .search-container {
-        width: 100%;
-        max-width: none;
+    .brand-title {
+        font-size: 16px;
     }
     
     .vfd-clock {
-        min-width: 100px;
+        min-width: 90px;
+        font-size: 11px;
+        padding: 4px 6px;
+    }
+    
+    .segment-display {
         font-size: 12px;
-        padding: 4px 8px;
     }
     
     .map-controls {
-        display: none; /* Скрываем кнопки слоев на мобилках для экономии места */
+        display: none;
     }
     
     .legend-container {
-        top: auto;
-        bottom: 100px;
+        top: 130px;
+        bottom: auto;
         left: 10px;
         right: 10px;
     }
     
     .toggle-filters {
         bottom: 150px;
+        left: 15px;
     }
     
     .filters-panel {
         bottom: 210px;
+        left: 15px;
+        right: 15px;
+    }
+    
+    .floating-tooltip {
+        bottom: 20px;
+        left: 15px;
+        right: 15px;
+    }
+    
+    .map-container {
+        top: 130px;
+        height: calc(100vh - 130px);
+    }
+    
+    .sidepanel {
+        top: 130px;
+        height: calc(100vh - 130px);
+    }
+    
+    /* Оптимизация для маленьких экранов */
+    .station-pin {
+        width: 22px;
+        height: 35px;
+    }
+    
+    .pin-head {
+        width: 22px;
+        height: 22px;
+    }
+    
+    .pin-atom {
+        width: 13px;
+        height: 13px;
+    }
+    
+    .pin-core {
+        width: 5px;
+        height: 5px;
+    }
+    
+    .pin-stem {
+        width: 4px;
+        height: 13px;
+        top: 18px;
+        left: 9px;
+    }
+    
+    .unit-marker {
+        width: 40px;
+        height: 40px;
+        font-size: 7px;
     }
 }
 
@@ -1131,18 +1240,29 @@ body {
 @media (min-width: 768px) {
     .header {
         height: 80px;
+        flex-direction: row;
         padding: 0 20px;
+    }
+    
+    .header-row-1, .header-row-2 {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 0;
+    }
+    
+    .header-row-1 {
+        width: auto;
+        flex: 1;
+    }
+    
+    .header-row-2 {
+        flex: 2;
+        justify-content: flex-end;
+        gap: 15px;
     }
     
     .brand-title {
         font-size: 20px;
-    }
-    
-    .center-section {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: 15px;
     }
     
     .nav-buttons {
@@ -1151,18 +1271,18 @@ body {
     }
     
     .nav-btn {
-        padding: 10px 20px;
-        font-size: 14px;
+        padding: 8px 16px;
+        font-size: 12px;
     }
     
     .search-container {
-        flex: 1;
-        min-width: 200px;
         max-width: 300px;
     }
     
     .vfd-clock {
-        min-width: 140px;
+        min-width: 120px;
+        font-size: 12px;
+        padding: 6px 10px;
     }
     
     .map-controls {
@@ -1177,6 +1297,7 @@ body {
     .sidepanel {
         top: 80px;
         width: 400px;
+        height: calc(100vh - 80px);
     }
     
     .legend-container {
@@ -1204,6 +1325,40 @@ body {
         right: 20px;
         width: 300px;
     }
+    
+    /* Улучшаем пины для планшетов */
+    .station-pin {
+        width: 28px;
+        height: 45px;
+    }
+    
+    .pin-head {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .pin-atom {
+        width: 16px;
+        height: 16px;
+    }
+    
+    .pin-core {
+        width: 6px;
+        height: 6px;
+    }
+    
+    .pin-stem {
+        width: 6px;
+        height: 17px;
+        top: 24px;
+        left: 11px;
+    }
+    
+    .unit-marker {
+        width: 45px;
+        height: 45px;
+        font-size: 8px;
+    }
 }
 
 /* Десктоп (1024px и выше) */
@@ -1217,8 +1372,13 @@ body {
         font-size: 22px;
     }
     
-    .center-section {
-        gap: 20px;
+    .nav-buttons {
+        gap: 10px;
+    }
+    
+    .nav-btn {
+        padding: 10px 20px;
+        font-size: 14px;
     }
     
     .search-container {
@@ -1226,7 +1386,7 @@ body {
     }
     
     .vfd-clock {
-        min-width: 150px;
+        min-width: 140px;
     }
     
     .map-container {
@@ -1237,6 +1397,7 @@ body {
     .sidepanel {
         top: 90px;
         width: 450px;
+        height: calc(100vh - 90px);
     }
     
     .legend-container {
