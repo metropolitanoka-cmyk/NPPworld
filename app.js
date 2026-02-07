@@ -92,10 +92,6 @@ function getReactorType(type) {
     return window.reactorTypes[type] || window.reactorTypes.vver;
 }
 
-function getReactorIcon(type) {
-    return getReactorType(type).icon;
-}
-
 function getReactorShapeClass(type) {
     const shape = getReactorType(type).shape;
     switch(shape) {
@@ -111,53 +107,35 @@ function getReactorColor(type) {
     return getReactorType(type).color;
 }
 
-// Инициализация карты Leaflet с оптимизациями для мобильных устройств
+// Инициализация карты Leaflet - УПРОЩЕННАЯ ВЕРСИЯ
 function initMap() {
-    // Оптимизированные настройки для мобильных устройств
-    const mapOptions = {
+    // Создаем карту с минимальными настройками
+    map = L.map('map', {
         center: [50, 30],
         zoom: 3,
         minZoom: 2,
         maxZoom: 12,
-        zoomControl: false,
+        zoomControl: true,
         attributionControl: false,
-        tap: true, // Включаем поддержку тапов на мобильных устройствах
-        touchZoom: true, // Включаем масштабирование касанием
+        touchZoom: true,
         scrollWheelZoom: true,
         doubleClickZoom: true,
         boxZoom: true,
-        dragging: true, // Включаем перетаскивание
-        keyboard: false,
-        fadeAnimation: true,
-        zoomAnimation: true,
-        markerZoomAnimation: true,
-        bounceAtZoomLimits: true,
-        inertia: true, // Инерция при перетаскивании
-        inertiaDeceleration: 3000,
-        inertiaMaxSpeed: 1500,
-        easeLinearity: 0.2,
-        worldCopyJump: false,
-        maxBoundsViscosity: 1.0,
-        preferCanvas: false, // Отключаем для лучшей производительности на мобильных
-        renderer: L.svg() // Используем SVG для лучшей производительности
-    };
+        dragging: true,
+        keyboard: true
+    });
     
-    // Создаем карту
-    map = L.map('map', mapOptions);
-    
-    // Оптимизированные тайлы для мобильных устройств
+    // Простые слои карты
     const streetLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
         attribution: '© CARTO',
         maxZoom: 12,
-        minZoom: 2,
-        detectRetina: true // Автоматическое определение Retina-дисплеев
+        minZoom: 2
     });
     
     const satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
         attribution: '© Esri',
         maxZoom: 12,
-        minZoom: 2,
-        detectRetina: true
+        minZoom: 2
     });
     
     // По умолчанию показываем схему
@@ -166,18 +144,14 @@ function initMap() {
     document.getElementById('satellite-layer').classList.remove('active');
     
     // Управление слоями
-    document.getElementById('street-layer').addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
+    document.getElementById('street-layer').addEventListener('click', function() {
         map.removeLayer(satelliteLayer);
         streetLayer.addTo(map);
         document.getElementById('street-layer').classList.add('active');
         document.getElementById('satellite-layer').classList.remove('active');
     });
     
-    document.getElementById('satellite-layer').addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
+    document.getElementById('satellite-layer').addEventListener('click', function() {
         map.removeLayer(streetLayer);
         satelliteLayer.addTo(map);
         document.getElementById('satellite-layer').classList.add('active');
@@ -185,9 +159,7 @@ function initMap() {
     });
     
     // Переключение темы
-    document.getElementById('theme-toggle').addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
+    document.getElementById('theme-toggle').addEventListener('click', function() {
         const icon = this.querySelector('i');
         isDarkTheme = !isDarkTheme;
         
@@ -216,31 +188,6 @@ function initMap() {
         }
     });
     
-    // Дебаунс для событий движения карты (оптимизация)
-    let moveEndTimeout;
-    map.on('moveend', function() {
-        clearTimeout(moveEndTimeout);
-        moveEndTimeout = setTimeout(() => {
-            if (currentZoom >= 6 && selectedStation) {
-                updateUnitMarkers();
-            }
-        }, 100);
-    });
-    
-    // Добавляем кастомный контрол zoom с оптимизациями для мобильных
-    const zoomControl = L.control.zoom({
-        position: 'topright',
-        zoomInTitle: 'Приблизить',
-        zoomOutTitle: 'Отдалить'
-    }).addTo(map);
-    
-    // Оптимизация для мобильных: предотвращаем скроллинг страницы при масштабировании карты
-    map.on('touchstart', function(e) {
-        if (e.originalEvent.touches.length > 1) {
-            e.originalEvent.preventDefault();
-        }
-    }, { passive: false });
-    
     // Инициализация маркеров станций
     initStationMarkers();
     
@@ -254,19 +201,12 @@ function initMap() {
     initTooltip();
 }
 
-// Создание HTML для пина станции (статические пины)
+// Создание простого маркера для станции
 function createStationPinHTML(status) {
     const statusConfig = getStatusConfig(status);
-    const pinColor = statusConfig.color;
-    
     return `
-        <div class="station-pin">
-            <div class="pin-head" style="background: ${pinColor};">
-                <div class="pin-atom">
-                    <div class="pin-core"></div>
-                </div>
-            </div>
-            <div class="pin-stem" style="background: ${pinColor};"></div>
+        <div class="simple-marker" style="background: ${statusConfig.color};">
+            <div class="simple-marker-inner"></div>
         </div>
     `;
 }
@@ -288,21 +228,18 @@ function updateStationMarkers() {
         
         const markerHtml = createStationPinHTML(station.status);
         
-        // Используем легковесную иконку
+        // Используем простую иконку
         const icon = L.divIcon({
             html: markerHtml,
-            className: 'custom-marker',
-            iconSize: [25, 40], // Уменьшенный размер пина для мобильных
-            iconAnchor: [12.5, 40] // Точка привязки
+            className: 'simple-marker-container',
+            iconSize: [24, 24],
+            iconAnchor: [12, 12]
         });
         
         const marker = L.marker(station.coords, { 
             icon: icon,
             title: station.name,
-            alt: station.name,
-            riseOnHover: true,
-            bubblingMouseEvents: false,
-            autoPanOnFocus: false
+            alt: station.name
         })
         .addTo(map)
         .bindTooltip(`
@@ -311,25 +248,13 @@ function updateStationMarkers() {
             <div>${getStatusText(station.status)}</div>
         `, {
             direction: 'top',
-            offset: [0, -15],
+            offset: [0, -10],
             className: 'custom-tooltip',
             sticky: true
         });
         
-        marker.on('click', function(e) {
-            if (e.originalEvent) {
-                e.originalEvent.preventDefault();
-                e.originalEvent.stopPropagation();
-            }
+        marker.on('click', function() {
             selectStation(station);
-        });
-        
-        // Оптимизация для мобильных: предотвращаем всплытие событий
-        marker.on('touchstart', function(e) {
-            if (e.originalEvent) {
-                e.originalEvent.preventDefault();
-                e.originalEvent.stopPropagation();
-            }
         });
         
         stationMarkers.push({
@@ -353,7 +278,7 @@ function updateUnitMarkers() {
     
     selectedStation.units.forEach((unit, index) => {
         // Рассчитываем координаты с небольшим смещением
-        const offset = 0.015;
+        const offset = 0.01;
         const angle = (index * (360 / selectedStation.units.length)) * (Math.PI / 180);
         const unitCoords = [
             selectedStation.coords[0] + Math.sin(angle) * offset,
@@ -364,31 +289,28 @@ function updateUnitMarkers() {
         const reactorType = getReactorType(unit.type);
         const shapeClass = getReactorShapeClass(unit.type);
         
-        // Большие маркеры блоков с типом реактора
+        // Простые маркеры блоков
         const markerHtml = `
-            <div class="unit-marker ${shapeClass}" style="
+            <div class="simple-unit-marker ${shapeClass}" style="
                 background: ${statusConfig.color};
                 border-color: ${reactorType.color};
-                font-size: 8px;
             ">
-                ${unit.model}
+                <div class="unit-text">${unit.model}</div>
             </div>
         `;
         
         const icon = L.divIcon({
             html: markerHtml,
-            className: 'custom-marker',
-            iconSize: [45, 45], // Размер блока
-            iconAnchor: [22.5, 22.5]
+            className: 'simple-unit-marker-container',
+            iconSize: [40, 40],
+            iconAnchor: [20, 20]
         });
         
         const marker = L.marker(unitCoords, { 
             icon: icon,
             title: unit.name,
             alt: unit.name,
-            zIndexOffset: 1000,
-            riseOnHover: true,
-            bubblingMouseEvents: false
+            zIndexOffset: 1000
         })
         .addTo(map)
         .bindTooltip(`
@@ -403,20 +325,9 @@ function updateUnitMarkers() {
         });
         
         marker.on('click', function(e) {
-            if (e.originalEvent) {
-                e.originalEvent.stopPropagation();
-                e.originalEvent.preventDefault();
-            }
+            e.originalEvent.stopPropagation();
             selectStation(selectedStation);
             selectUnit(unit);
-        });
-        
-        // Оптимизация для мобильных
-        marker.on('touchstart', function(e) {
-            if (e.originalEvent) {
-                e.originalEvent.preventDefault();
-                e.originalEvent.stopPropagation();
-            }
         });
         
         unitMarkers.push({
@@ -482,9 +393,9 @@ function selectStation(station) {
     switchTab('overview');
     
     // Центрируем карту на выбранной станции
-    map.flyTo(station.coords, Math.max(currentZoom, 7), {
-        duration: 0.5,
-        easeLinearity: 0.25
+    map.setView(station.coords, Math.max(currentZoom, 7), {
+        animate: true,
+        duration: 0.5
     });
     
     // Обновляем маркеры энергоблоков при достаточном зуме
@@ -695,9 +606,7 @@ function initFilters() {
         option.textContent = country;
         option.dataset.country = country;
         
-        option.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
+        option.addEventListener('click', function() {
             this.classList.toggle('active');
             updateFilters();
         });
@@ -716,9 +625,7 @@ function initFilters() {
         option.textContent = status.name;
         option.dataset.status = statusId;
         
-        option.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
+        option.addEventListener('click', function() {
             this.classList.toggle('active');
             updateFilters();
         });
@@ -737,9 +644,7 @@ function initFilters() {
         option.textContent = type.name;
         option.dataset.type = typeId;
         
-        option.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
+        option.addEventListener('click', function() {
             this.classList.toggle('active');
             updateFilters();
         });
@@ -748,9 +653,7 @@ function initFilters() {
     });
     
     // Кнопка сброса фильтров
-    document.getElementById('reset-filters').addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
+    document.getElementById('reset-filters').addEventListener('click', function() {
         document.querySelectorAll('.filter-option.active').forEach(option => {
             option.classList.remove('active');
         });
@@ -758,9 +661,7 @@ function initFilters() {
     });
     
     // Кнопка переключения панели фильтров
-    document.getElementById('toggle-filters-btn').addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
+    document.getElementById('toggle-filters-btn').addEventListener('click', function() {
         document.getElementById('filters-panel').classList.toggle('open');
     });
 }
@@ -820,9 +721,7 @@ function initSearch() {
                         <div class="search-result-country">${station.country.flag} ${station.country.name}</div>
                     `;
                     
-                    resultItem.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
+                    resultItem.addEventListener('click', () => {
                         selectStation(station);
                         searchInput.value = '';
                         searchResults.innerHTML = '';
@@ -843,11 +742,6 @@ function initSearch() {
             searchResults.style.display = 'none';
         }
     });
-    
-    // Предотвращаем всплытие для поиска
-    searchInput.addEventListener('touchstart', function(e) {
-        e.stopPropagation();
-    });
 }
 
 // Инициализация подсказки
@@ -863,9 +757,7 @@ function initTooltip() {
         hideTooltip();
     }, 12000);
     
-    closeButton.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
+    closeButton.addEventListener('click', () => {
         hideTooltip();
         clearTimeout(tooltipTimeout);
     });
@@ -940,18 +832,14 @@ window.addEventListener('DOMContentLoaded', function() {
     
     // Обработчики событий
     document.querySelectorAll('.tab').forEach(tab => {
-        tab.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
+        tab.addEventListener('click', function() {
             const tabName = this.dataset.tab;
             switchTab(tabName);
         });
     });
     
     // Закрытие панели
-    document.getElementById('close-panel').addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
+    document.getElementById('close-panel').addEventListener('click', function() {
         document.getElementById('sidepanel').classList.remove('open');
         selectedStation = null;
         selectedUnit = null;
@@ -959,16 +847,12 @@ window.addEventListener('DOMContentLoaded', function() {
     });
     
     // Переключение режимов
-    document.getElementById('map-mode').addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
+    document.getElementById('map-mode').addEventListener('click', function() {
         this.classList.add('active');
         document.getElementById('stats-mode').classList.remove('active');
     });
     
-    document.getElementById('stats-mode').addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
+    document.getElementById('stats-mode').addEventListener('click', function() {
         this.classList.add('active');
         document.getElementById('map-mode').classList.remove('active');
         window.location.href = 'statistics.html';
