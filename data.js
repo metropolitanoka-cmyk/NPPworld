@@ -260,15 +260,21 @@ const stationsData = [
         location: "г. Курчатов, Курская область, Россия",
         city: "Курчатов",
         units: [
-            { id: 1, name: "Курск-2", type: "rbmk", model: "РБМК-1000", capacity: 1000, status: "operational", startYear: 1979 },
-            { id: 2, name: "Курск-3", type: "rbmk", model: "РБМК-1000", capacity: 1000, status: "operational", startYear: 1983 },
-            { id: 3, name: "Курск-4", type: "rbmk", model: "РБМК-1000", capacity: 1000, status: "operational", startYear: 1985 },
-            { id: 4, name: "Курск-5", type: "vver", model: "ВВЭР-TOI", capacity: 1255, status: "construction", startYear: 2021 }
+			{ id: 1, name: "Курск-1", type: "rbmk", model: "РБМК-1000", capacity: 1000, status: "closed", startYear: 1976, endYear: 2021 }
+            { id: 2, name: "Курск-2", type: "rbmk", model: "РБМК-1000", capacity: 1000, status: "closed", startYear: 1979, endYear: 2024 },
+            { id: 3, name: "Курск-3", type: "rbmk", model: "РБМК-1000", capacity: 1000, status: "operational", startYear: 1983 },
+            { id: 4, name: "Курск-4", type: "rbmk", model: "РБМК-1000", capacity: 1000, status: "operational", startYear: 1985 },
+			{ id: 3, name: "Курск-5", type: "rbmk", model: "РБМК-1000", capacity: 1000, status: "abandoned", startYear: null },
+            { id: 4, name: "Курск-6", type: "rbmk", model: "РБМК-1000", capacity: 1000, status: "abandoned", startYear: null },
+            { id: 5, name: "Курск-7 (2-1)", type: "vver", model: "ВВЭР-TOI", capacity: 1255, status: "operational", startYear: 2026 },
+			{ id: 5, name: "Курск-8 (2-2)", type: "vver", model: "ВВЭР-TOI", capacity: 1255, status: "construction", startYear: 2027 }
         ],
         history: [
             { year: "1971", title: "СТРОИТЕЛЬСТВО", description: "Начало строительства первой очереди" },
             { year: "1976", title: "ПУСК ПЕРВОГО БЛОКА", description: "Первый энергоблок РБМК-1000 подключен к сети" },
-            { year: "2021", title: "НАЧАЛО НОВОГО", description: "Начало строительства Курской АЭС-2" }
+			{ year: "1990-е", title: "ТЕНЬ ЧЕРНОБЫЛЯ", description: "Остановлено строительство 6 блока, строительство 5 - было почти полностью закончено, но блок не запустили" },
+            { year: "2018", title: "НАЧАЛО НОВОГО", description: "Начало строительства Курской АЭС-2" },
+			{ year: "2026", title: "ПУСК", description: "Запущен первый блок Курской АЭС-2" }
         ],
         facts: [
             "Первая в мире АЭС, построенная с реакторами РБМК-1000",
@@ -6401,5 +6407,6 @@ console.log(`Закрытые АЭС: ${globalStats.closedStations}`);
 console.log(`Аварийные АЭС: ${globalStats.accidentStations}`);
 // Экспорт (если используется в модульной системе)
 // export { statusConfig, reactorTypes, stationsData, globalStats, getStationsByCountry };
+
 
 
