@@ -109,7 +109,7 @@ const stationsData = [
         id: 1,
         name: "Обнинская АЭС",
         country: { name: "Россия", flag: "🇷🇺" },
-        coords: [55.137, 36.574],
+        coords: [55.083884, 36.571231],
         status: "closed",
         totalCapacity: 6,
         startYear: 1954,
@@ -6411,6 +6411,7 @@ console.log(`Закрытые АЭС: ${globalStats.closedStations}`);
 console.log(`Аварийные АЭС: ${globalStats.accidentStations}`);
 // Экспорт (если используется в модульной системе)
 // export { statusConfig, reactorTypes, stationsData, globalStats, getStationsByCountry };
+
 
 
 
