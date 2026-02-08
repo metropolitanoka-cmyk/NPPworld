@@ -163,15 +163,19 @@ const stationsData = [
         country: { name: "Россия", flag: "🇷🇺" },
         coords: [51.2847, 39.2014],
         status: "operational",
-        totalCapacity: 3643,
+        totalCapacity: 3800,
         startYear: 1964,
         overview: "Одна из старейших действующих атомных станций России, опытная площадка для реакторов ВВЭР. Здесь впервые в мире был запущен энергоблок с водо-водяным реактором.",
         location: "г. Нововоронеж, Воронежская область, Россия",
         city: "Нововоронеж",
         units: [
-            { id: 1, name: "НВ-5", type: "vver", model: "ВВЭР-1000", capacity: 1000, status: "operational", startYear: 1980 },
-            { id: 2, name: "НВ-6", type: "vver", model: "ВВЭР-1200", capacity: 1200, status: "operational", startYear: 2016 },
-            { id: 3, name: "НВ-7", type: "vver", model: "ВВЭР-1200", capacity: 1200, status: "construction", startYear: 2023 }
+            { id: 1, name: "НВ-1", type: "vver", model: "ВВЭР-210", capacity: 200, status: "closed", startYear: 1964, endYear: 1984 },
+            { id: 2, name: "НВ-2", type: "vver", model: "ВВЭР-365", capacity: 366, status: "closed", startYear: 1969, endYear: 1990 },
+			{ id: 3, name: "НВ-3", type: "vver", model: "ВВЭР-440/179", capacity: 400, status: "closed", startYear: 1971, endYear: 2016 },
+            { id: 4, name: "НВ-4", type: "vver", model: "ВВЭР-440/179", capacity: 400, status: "operational", startYear: 1972 },
+			{ id: 5, name: "НВ-5", type: "vver", model: "ВВЭР-1000", capacity: 1000, status: "operational", startYear: 1980 },
+            { id: 6, name: "НВ-6", type: "vver", model: "ВВЭР-1200", capacity: 1200, status: "operational", startYear: 2016 },
+            { id: 7, name: "НВ-7", type: "vver", model: "ВВЭР-1200", capacity: 1200, status: "construction", startYear: 2023 }
         ],
         history: [
             { year: "1957", title: "ПРОЕКТ", description: "Решение о строительстве первой промышленной АЭС с ВВЭР" },
@@ -6397,3 +6401,4 @@ console.log(`Закрытые АЭС: ${globalStats.closedStations}`);
 console.log(`Аварийные АЭС: ${globalStats.accidentStations}`);
 // Экспорт (если используется в модульной системе)
 // export { statusConfig, reactorTypes, stationsData, globalStats, getStationsByCountry };
+
