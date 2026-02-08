@@ -260,7 +260,7 @@ const stationsData = [
         location: "г. Курчатов, Курская область, Россия",
         city: "Курчатов",
         units: [
-			{ id: 1, name: "Курск-1", type: "rbmk", model: "РБМК-1000", capacity: 1000, status: "closed", startYear: 1976, endYear: 2021 }
+			{ id: 1, name: "Курск-1", type: "rbmk", model: "РБМК-1000", capacity: 1000, status: "closed", startYear: 1976, endYear: 2021 },
             { id: 2, name: "Курск-2", type: "rbmk", model: "РБМК-1000", capacity: 1000, status: "closed", startYear: 1979, endYear: 2024 },
             { id: 3, name: "Курск-3", type: "rbmk", model: "РБМК-1000", capacity: 1000, status: "operational", startYear: 1983 },
             { id: 4, name: "Курск-4", type: "rbmk", model: "РБМК-1000", capacity: 1000, status: "operational", startYear: 1985 },
@@ -6407,6 +6407,7 @@ console.log(`Закрытые АЭС: ${globalStats.closedStations}`);
 console.log(`Аварийные АЭС: ${globalStats.accidentStations}`);
 // Экспорт (если используется в модульной системе)
 // export { statusConfig, reactorTypes, stationsData, globalStats, getStationsByCountry };
+
 
 
 
