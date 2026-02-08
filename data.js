@@ -175,7 +175,7 @@ const stationsData = [
             { id: 4, name: "НВ-4", type: "vver", model: "ВВЭР-440/179", capacity: 400, status: "operational", startYear: 1972 },
 			{ id: 5, name: "НВ-5", type: "vver", model: "ВВЭР-1000", capacity: 1000, status: "operational", startYear: 1980 },
             { id: 6, name: "НВ-6", type: "vver", model: "ВВЭР-1200", capacity: 1200, status: "operational", startYear: 2016 },
-            { id: 7, name: "НВ-7", type: "vver", model: "ВВЭР-1200", capacity: 1200, status: "construction", startYear: 2023 }
+            { id: 7, name: "НВ-7", type: "vver", model: "ВВЭР-1200", capacity: 1200, status: "operational", startYear: 2019 }
         ],
         history: [
             { year: "1957", title: "ПРОЕКТ", description: "Решение о строительстве первой промышленной АЭС с ВВЭР" },
@@ -6401,4 +6401,5 @@ console.log(`Закрытые АЭС: ${globalStats.closedStations}`);
 console.log(`Аварийные АЭС: ${globalStats.accidentStations}`);
 // Экспорт (если используется в модульной системе)
 // export { statusConfig, reactorTypes, stationsData, globalStats, getStationsByCountry };
+
 
