@@ -264,10 +264,10 @@ const stationsData = [
             { id: 2, name: "Курск-2", type: "rbmk", model: "РБМК-1000", capacity: 1000, status: "closed", startYear: 1979, endYear: 2024 },
             { id: 3, name: "Курск-3", type: "rbmk", model: "РБМК-1000", capacity: 1000, status: "operational", startYear: 1983 },
             { id: 4, name: "Курск-4", type: "rbmk", model: "РБМК-1000", capacity: 1000, status: "operational", startYear: 1985 },
-			{ id: 3, name: "Курск-5", type: "rbmk", model: "РБМК-1000", capacity: 1000, status: "abandoned", startYear: null },
-            { id: 4, name: "Курск-6", type: "rbmk", model: "РБМК-1000", capacity: 1000, status: "abandoned", startYear: null },
-            { id: 5, name: "Курск-7 (2-1)", type: "vver", model: "ВВЭР-TOI", capacity: 1255, status: "operational", startYear: 2026 },
-			{ id: 5, name: "Курск-8 (2-2)", type: "vver", model: "ВВЭР-TOI", capacity: 1255, status: "construction", startYear: 2027 }
+			{ id: 4, name: "Курск-5", type: "rbmk", model: "РБМК-1000", capacity: 1000, status: "abandoned", startYear: null },
+            { id: 5, name: "Курск-6", type: "rbmk", model: "РБМК-1000", capacity: 1000, status: "abandoned", startYear: null },
+            { id: 6, name: "Курск-7 (2-1)", type: "vver", model: "ВВЭР-TOI", capacity: 1255, status: "operational", startYear: 2026 },
+			{ id: 7, name: "Курск-8 (2-2)", type: "vver", model: "ВВЭР-TOI", capacity: 1255, status: "construction", startYear: 2027 }
         ],
         history: [
             { year: "1971", title: "СТРОИТЕЛЬСТВО", description: "Начало строительства первой очереди" },
@@ -6407,6 +6407,7 @@ console.log(`Закрытые АЭС: ${globalStats.closedStations}`);
 console.log(`Аварийные АЭС: ${globalStats.accidentStations}`);
 // Экспорт (если используется в модульной системе)
 // export { statusConfig, reactorTypes, stationsData, globalStats, getStationsByCountry };
+
 
 
 
