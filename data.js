@@ -144,9 +144,9 @@ const stationsData = [
         city: "Заречный",
         units: [
 			{ id: 1, name: "Белоярская-1", type: "fast", model: "АМБ-100", capacity: 102, status: "closed", startYear: 1964, endYear: 1981 },
-            { id: 2, name: "Белоярская-2", type: "fast", model: "АМБ-200", capacity: 160, status: "closed", startYear: 1967 (1969), endYear: 1990 },
-            { id: 1, name: "Белоярская-3", type: "fast", model: "БН-600", capacity: 600, status: "operational", startYear: 1980 },
-            { id: 2, name: "Белоярская-4", type: "fast", model: "БН-800", capacity: 885, status: "operational", startYear: 2015 }
+            { id: 2, name: "Белоярская-2", type: "fast", model: "АМБ-200", capacity: 160, status: "closed", startYear: 1967, endYear: 1990 },
+            { id: 3, name: "Белоярская-3", type: "fast", model: "БН-600", capacity: 600, status: "operational", startYear: 1980 },
+            { id: 4, name: "Белоярская-4", type: "fast", model: "БН-800", capacity: 885, status: "operational", startYear: 2015 }
         ],
         history: [
             { year: "1958", title: "СТРОИТЕЛЬСТВО", description: "Начало строительства первой промышленной АЭС с быстрым реактором" },
@@ -6411,6 +6411,7 @@ console.log(`Закрытые АЭС: ${globalStats.closedStations}`);
 console.log(`Аварийные АЭС: ${globalStats.accidentStations}`);
 // Экспорт (если используется в модульной системе)
 // export { statusConfig, reactorTypes, stationsData, globalStats, getStationsByCountry };
+
 
 
 
