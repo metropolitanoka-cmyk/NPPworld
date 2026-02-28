@@ -456,7 +456,7 @@ const stationsData = [
     id: 13, // Уникальный ID
     name: "Сибирская АЭС",
     country: { name: "Россия", flag: "🇷🇺" },
-    coords: [56.6356, 84.8894], // Координаты г. Северск
+    coords: [56.647739, 84.904747], // Координаты г. Северск
     status: "closed",
     totalCapacity: 0,
     startYear: 1958,
@@ -485,9 +485,9 @@ const stationsData = [
 },
 {
     "id": 16,
-    "name": "ОДЭК с реактором БРЕСТ-ОД-300 (Проект «Прорыв»)",
+    "name": "ОДЭК с реактором БРЕСТ-ОД-300",
     "country": { "name": "Россия", "flag": "🇷🇺" },
-    "coords": [56.6356, 84.8894],
+    "coords": [56.658261, 84.950750],
     "status": "construction",
     "totalCapacity": 300,
     "startYear": 2021,
@@ -6462,6 +6462,7 @@ console.log(`Закрытые АЭС: ${globalStats.closedStations}`);
 console.log(`Аварийные АЭС: ${globalStats.accidentStations}`);
 // Экспорт (если используется в модульной системе)
 // export { statusConfig, reactorTypes, stationsData, globalStats, getStationsByCountry };
+
 
 
 
