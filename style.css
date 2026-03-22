@@ -695,6 +695,23 @@ body {
     gap: 8px;
 }
 
+/* Блок фото */
+.station-photo-container {
+    margin-bottom: 15px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+#station-photo {
+    width: 100%;
+    display: block;
+    border-radius: 8px;
+    object-fit: cover;
+    max-height: 200px;
+    transition: all 0.3s;
+}
+
 /* Обзор */
 .overview-stats {
     display: grid;
