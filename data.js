@@ -764,7 +764,7 @@ const stationsData = [
     },
     {
         id: 102,
-        name: "Ровненская АЭС",
+        name: "Ровенская АЭС",
         country: { name: "Украина", flag: "🇺🇦" },
         coords: [51.3269, 25.8919],
         status: "operational",
