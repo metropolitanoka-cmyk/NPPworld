@@ -15,6 +15,9 @@ let allStationsData = [];
 let searchTimeout = null;
 let tooltipTimeout = null;
 
+// Кэш для фото (чтобы не проверять существование файла повторно)
+const photoCache = new Map();
+
 // Проверяем наличие конфигурации статусов
 if (typeof window.statusConfig === 'undefined') {
     window.statusConfig = {
@@ -89,10 +92,6 @@ function getPinColor(status) {
 // Функции для работы с типами реакторов
 function getReactorType(type) {
     return window.reactorTypes[type] || window.reactorTypes.vver;
-}
-
-function getReactorIcon(type) {
-    return getReactorType(type).icon;
 }
 
 function getReactorShapeClass(type) {
@@ -221,10 +220,14 @@ function initMap() {
         updateUnitMarkers();
     });
     
-    // Слушатель изменения масштаба
+    // Слушатель изменения масштаба с дебаунсом
+    let zoomEndTimeout;
     map.on('zoomend', function() {
-        currentZoom = map.getZoom();
-        updateAllMarkers();
+        clearTimeout(zoomEndTimeout);
+        zoomEndTimeout = setTimeout(() => {
+            currentZoom = map.getZoom();
+            updateAllMarkers();
+        }, 150);
     });
     
     // Дебаунс для событий движения карты
@@ -233,7 +236,7 @@ function initMap() {
         clearTimeout(moveEndTimeout);
         moveEndTimeout = setTimeout(() => {
             updateAllMarkers();
-        }, 100);
+        }, 150);
     });
     
     // Кастомный контрол zoom
@@ -484,27 +487,40 @@ function isStationVisible(station) {
     return true;
 }
 
-// Загрузка фото станции
+// Загрузка фото станции с кэшированием
 function loadStationPhoto(stationId) {
     const photoContainer = document.getElementById('station-photo-container');
     const photoImg = document.getElementById('station-photo');
     
-    // Сначала скрываем контейнер
+    // Проверяем кэш
+    if (photoCache.has(stationId)) {
+        const exists = photoCache.get(stationId);
+        if (exists) {
+            photoImg.src = `PhotoNPP/${stationId}.jpg`;
+            photoContainer.style.display = 'block';
+        } else {
+            photoContainer.style.display = 'none';
+            photoImg.src = '';
+        }
+        return;
+    }
+    
+    // Скрываем контейнер до проверки
     photoContainer.style.display = 'none';
     photoImg.src = '';
     
-    // Формируем путь к фото (папка PhotoNPP, имя файла = stationId.jpg)
+    // Формируем путь к фото
     const photoPath = `PhotoNPP/${stationId}.jpg`;
     
-    // Создаем временный Image для проверки существования файла
+    // Проверяем существование файла
     const tempImg = new Image();
     tempImg.onload = function() {
-        // Фото существует, отображаем
+        photoCache.set(stationId, true);
         photoImg.src = photoPath;
         photoContainer.style.display = 'block';
     };
     tempImg.onerror = function() {
-        // Фото не найдено, контейнер остается скрытым
+        photoCache.set(stationId, false);
         photoContainer.style.display = 'none';
         photoImg.src = '';
     };
@@ -974,7 +990,13 @@ function initClock() {
 
 // Инициализация при загрузке страницы
 window.addEventListener('DOMContentLoaded', function() {
-    allStationsData = stationsData;
+    // Используем глобальную переменную stationsData (из data.js)
+    if (typeof stationsData !== 'undefined') {
+        allStationsData = stationsData;
+    } else {
+        console.error('Данные станций не загружены');
+        return;
+    }
     
     // Добавляем поле locationCity для поиска по городу
     allStationsData.forEach(station => {
@@ -1024,8 +1046,6 @@ window.addEventListener('DOMContentLoaded', function() {
         clearUnitMarkers();
         updateUnitMarkers(); // Обновляем блоки на карте
     });
-    
-    // Переключение режимов
     document.getElementById('map-mode').addEventListener('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
