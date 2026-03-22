@@ -484,6 +484,33 @@ function isStationVisible(station) {
     return true;
 }
 
+// Загрузка фото станции
+function loadStationPhoto(stationId) {
+    const photoContainer = document.getElementById('station-photo-container');
+    const photoImg = document.getElementById('station-photo');
+    
+    // Сначала скрываем контейнер
+    photoContainer.style.display = 'none';
+    photoImg.src = '';
+    
+    // Формируем путь к фото (папка PhotoNPP, имя файла = stationId.jpg)
+    const photoPath = `PhotoNPP/${stationId}.jpg`;
+    
+    // Создаем временный Image для проверки существования файла
+    const tempImg = new Image();
+    tempImg.onload = function() {
+        // Фото существует, отображаем
+        photoImg.src = photoPath;
+        photoContainer.style.display = 'block';
+    };
+    tempImg.onerror = function() {
+        // Фото не найдено, контейнер остается скрытым
+        photoContainer.style.display = 'none';
+        photoImg.src = '';
+    };
+    tempImg.src = photoPath;
+}
+
 // Выбор станции
 function selectStation(station) {
     selectedStation = station;
@@ -510,6 +537,9 @@ function selectStation(station) {
     statusBadge.textContent = statusConfig.name;
     statusBadge.style.background = statusConfig.gradient;
     statusBadge.style.color = statusConfig.textColor;
+    
+    // Загружаем фото станции
+    loadStationPhoto(station.id);
     
     updateUnitsTab(station);
     updateHistoryTab(station);
