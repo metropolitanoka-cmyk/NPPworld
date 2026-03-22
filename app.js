@@ -94,6 +94,10 @@ function getReactorType(type) {
     return window.reactorTypes[type] || window.reactorTypes.vver;
 }
 
+function getReactorIcon(type) {
+    return getReactorType(type).icon;
+}
+
 function getReactorShapeClass(type) {
     const shape = getReactorType(type).shape;
     switch(shape) {
@@ -220,14 +224,10 @@ function initMap() {
         updateUnitMarkers();
     });
     
-    // Слушатель изменения масштаба с дебаунсом
-    let zoomEndTimeout;
+    // Слушатель изменения масштаба
     map.on('zoomend', function() {
-        clearTimeout(zoomEndTimeout);
-        zoomEndTimeout = setTimeout(() => {
-            currentZoom = map.getZoom();
-            updateAllMarkers();
-        }, 150);
+        currentZoom = map.getZoom();
+        updateAllMarkers();
     });
     
     // Дебаунс для событий движения карты
@@ -236,7 +236,7 @@ function initMap() {
         clearTimeout(moveEndTimeout);
         moveEndTimeout = setTimeout(() => {
             updateAllMarkers();
-        }, 150);
+        }, 100);
     });
     
     // Кастомный контрол zoom
@@ -990,13 +990,7 @@ function initClock() {
 
 // Инициализация при загрузке страницы
 window.addEventListener('DOMContentLoaded', function() {
-    // Используем глобальную переменную stationsData (из data.js)
-    if (typeof stationsData !== 'undefined') {
-        allStationsData = stationsData;
-    } else {
-        console.error('Данные станций не загружены');
-        return;
-    }
+    allStationsData = stationsData;
     
     // Добавляем поле locationCity для поиска по городу
     allStationsData.forEach(station => {
@@ -1036,7 +1030,6 @@ window.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Закрытие панели
     document.getElementById('close-panel').addEventListener('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
@@ -1046,6 +1039,8 @@ window.addEventListener('DOMContentLoaded', function() {
         clearUnitMarkers();
         updateUnitMarkers(); // Обновляем блоки на карте
     });
+    
+    // Переключение режимов
     document.getElementById('map-mode').addEventListener('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
