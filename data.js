@@ -6699,8 +6699,8 @@ const stationsData = [
         location: "поселок Гунляо, Новый Тайбэй, Тайвань",
         city: "Гунляо",
         units: [
-            { id: 1, name: "Лунмэнь-1", type: "bwr", model: "ABWR", capacity: 1350, status: "never_commercial", startYear: null },
-            { id: 2, name: "Лунмэнь-2", type: "bwr", model: "ABWR", capacity: 1350, status: "never_commercial", startYear: null }
+            { id: 1, name: "Лунмэнь-1", type: "bwr", model: "ABWR", capacity: 1350, status: "abandoned", startYear: null },
+            { id: 2, name: "Лунмэнь-2", type: "bwr", model: "ABWR", capacity: 1350, status: "abandoned", startYear: null }
         ],
         history: [
             { year: "1999", title: "НАЧАЛО СТРОИТЕЛЬСТВА", description: "Старт строительства обоих блоков (март и август 1999)[citation:2][citation:9]" },
