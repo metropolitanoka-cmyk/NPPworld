@@ -6608,7 +6608,111 @@ const stationsData = [
       "Реактор использует натриевый теплоноситель и способен воспроизводить топливо (бридер).",
       "Находится всего в 40 км от центра Пекина — уникальный случай для ядерной установки."
     ]
-  }
+  },
+	{
+        id: 403,
+        name: "АЭС Цзиньшань",
+        country: { name: "Тайвань", flag: "🇹🇼" },
+        coords: [25.2883, 121.5944],
+        status: "closed",
+        totalCapacity: 1272,
+        startYear: 1978,
+        overview: "Первая коммерческая атомная электростанция на Тайване. Остановлена после 40 лет эксплуатации[citation:2][citation:9].",
+        location: "поселок Шимэнь, Новый Тайбэй, Тайвань",
+        city: "Шимэнь",
+        units: [
+            { id: 1, name: "Цзиньшань-1", type: "bwr", model: "BWR-4 (Mark 1)", capacity: 636, status: "closed", startYear: 1978, endYear: 2018 },
+            { id: 2, name: "Цзиньшань-2", type: "bwr", model: "BWR-4 (Mark 1)", capacity: 636, status: "closed", startYear: 1979, endYear: 2019 }
+        ],
+        history: [
+            { year: "1972", title: "НАЧАЛО СТРОИТЕЛЬСТВА", description: "Начало строительства блока 1 (июнь 1972) и блока 2 (декабрь 1973)[citation:2]" },
+            { year: "1978", title: "ПУСК ПЕРВОГО БЛОКА", description: "Блок 1 подключен к сети в ноябре 1978 года[citation:2]" },
+            { year: "2019", title: "ОКОНЧАТЕЛЬНАЯ ОСТАНОВКА", description: "Блок 2 выведен из эксплуатации в июле 2019 года[citation:2][citation:9]" }
+        ],
+        facts: [
+            "Первая АЭС на Тайване, введена в коммерческую эксплуатацию в 1978 году[citation:8]",
+            "Остановлена в рамках политики отказа от ядерной энергетики к 2025 году[citation:3]",
+            "Процесс вывода из эксплуатации рассчитан на 25 лет[citation:9]"
+        ]
+    },
+    {
+        id: 404,
+        name: "АЭС Гошэн (Куошэн)",
+        country: { name: "Тайвань", flag: "tw" },
+        coords: [25.2078, 121.6603],
+        status: "closed",
+        totalCapacity: 1970,
+        startYear: 1981,
+        overview: "Крупнейшая из остановленных АЭС Тайваня. Второй блок остановлен досрочно из-за нехватки места в бассейне выдержки отработанного топлива[citation:2][citation:9].",
+        location: "поселок Ваньли, Новый Тайбэй, Тайвань",
+        city: "Ваньли",
+        units: [
+            { id: 1, name: "Гошэн-1", type: "bwr", model: "BWR-6", capacity: 985, status: "closed", startYear: 1981, endYear: 2021 },
+            { id: 2, name: "Гошэн-2", type: "bwr", model: "BWR-6", capacity: 985, status: "closed", startYear: 1983, endYear: 2023 }
+        ],
+        history: [
+            { year: "1975", title: "НАЧАЛО СТРОИТЕЛЬСТВА", description: "Начало строительства блоков (ноябрь 1975 и март 1976)[citation:2]" },
+            { year: "1981", title: "ПУСК ПЕРВОГО БЛОКА", description: "Блок 1 подключен к сети в мае 1981 года[citation:2]" },
+            { year: "2023", title: "ОКОНЧАТЕЛЬНАЯ ОСТАНОВКА", description: "Блок 2 остановлен в марте 2023 года[citation:2][citation:3]" }
+        ],
+        facts: [
+            "Блок 1 остановлен досрочно в июле 2021 года из-за переполненного бассейна выдержки[citation:3][citation:9]",
+            "Блок 2 остановлен в марте 2023 года[citation:2]",
+            "Оборудована реакторами BWR-6 производства General Electric[citation:6]"
+        ]
+    },
+    {
+        id: 405,
+        name: "АЭС Мааншань (Мааньшань)",
+        country: { name: "Тайвань", flag: "🇹🇼" },
+        coords: [21.9625, 120.7583],
+        status: "closed",
+        totalCapacity: 1874,
+        startYear: 1984,
+        overview: "Последняя действовавшая АЭС на Тайване. Остановлена в мае 2025 года после истечения 40-летнего срока эксплуатации, что ознаменовало полный отказ региона от ядерной энергетики[citation:3][citation:7].",
+        location: "город Хэнчунь, уезд Пиндун, Тайвань",
+        city: "Хэнчунь",
+        units: [
+            { id: 1, name: "Мааншань-1", type: "pwr", model: "WH 3LP (WE 312)", capacity: 936, status: "closed", startYear: 1984, endYear: 2024 },
+            { id: 2, name: "Мааншань-2", type: "pwr", model: "WH 3LP (WE 312)", capacity: 938, status: "closed", startYear: 1985, endYear: 2025 }
+        ],
+        history: [
+            { year: "1978", title: "НАЧАЛО СТРОИТЕЛЬСТВА", description: "Старт строительства (август 1978 и февраль 1979)[citation:2]" },
+            { year: "1985", title: "ПУСК БЛОКОВ", description: "Коммерческая эксплуатация блока 2 началась в мае 1985 года[citation:2]" },
+            { year: "2025", title: "ПОЛНАЯ ОСТАНОВКА", description: "Блок 2 отключен от сети 17 мая 2025 года[citation:3][citation:7]" }
+        ],
+        facts: [
+            "Единственная АЭС на Тайване с реакторами типа PWR (Westinghouse)[citation:6]",
+            "Выработала более 526 ТВт·ч за 40 лет эксплуатации[citation:2]",
+            "Остановка блока 2 17 мая 2025 года ознаменовала полный отказ Тайваня от ядерной энергетики[citation:3][citation:8]"
+        ]
+    },
+    {
+        id: 406,
+        name: "АЭС Лунмэнь",
+        country: { name: "Тайвань", flag: "🇹🇼" },
+        coords: [25.0353, 121.9242],
+        status: "abandoned",
+        totalCapacity: 0,
+        startYear: null,
+        overview: "Проект АЭС с двумя передовыми кипящими реакторами (ABWR) мощностью 1350 МВт каждый. Строительство заморожено в 2014 году, окончательно отменено в 2019-м[citation:3][citation:9].",
+        location: "поселок Гунляо, Новый Тайбэй, Тайвань",
+        city: "Гунляо",
+        units: [
+            { id: 1, name: "Лунмэнь-1", type: "bwr", model: "ABWR", capacity: 1350, status: "never_commercial", startYear: null },
+            { id: 2, name: "Лунмэнь-2", type: "bwr", model: "ABWR", capacity: 1350, status: "never_commercial", startYear: null }
+        ],
+        history: [
+            { year: "1999", title: "НАЧАЛО СТРОИТЕЛЬСТВА", description: "Старт строительства обоих блоков (март и август 1999)[citation:2][citation:9]" },
+            { year: "2014", title: "ЗАМОРОЗКА ПРОЕКТА", description: "Строительство приостановлено, блок 2 законсервирован[citation:3][citation:9]" },
+            { year: "2019", title: "ОКОНЧАТЕЛЬНАЯ ОТМЕНА", description: "Taipower объявила о невозможности запуска станции[citation:9]" }
+        ],
+        facts: [
+            "Суммарные затраты на проект составили около 300 млрд тайваньских долларов (~$9.9 млрд)[citation:9]",
+            "На референдуме в декабре 2021 года большинство избирателей отвергло возможность возобновления строительства[citation:9]",
+            "Проект включал реакторы ABWR производства General Electric и Toshiba[citation:10]"
+        ]
+    }
 
 
 
