@@ -6727,10 +6727,10 @@ const stationsData = [
     location: "провинция Сьенфуэгос, Куба",
     city: "Сьенфуэгос",
     units: [
-        { id: 1, name: "Хурагуа-1", type: "pwr", model: "ВВЭР-440/318", capacity: 440, status: "abandoned", startYear: 1983, endYear: null },
-        { id: 2, name: "Хурагуа-2", type: "pwr", model: "ВВЭР-440/318", capacity: 440, status: "abandoned", startYear: 1985, endYear: null },
-        { id: 3, name: "Хурагуа-3", type: "pwr", model: "ВВЭР-440", capacity: 440, status: "abandoned", startYear: null, endYear: null },
-        { id: 4, name: "Хурагуа-4", type: "pwr", model: "ВВЭР-440", capacity: 440, status: "abandoned", startYear: null, endYear: null }
+        { id: 1, name: "Хурагуа-1", type: "vver", model: "ВВЭР-440/318", capacity: 440, status: "abandoned", startYear: 1983, endYear: null },
+        { id: 2, name: "Хурагуа-2", type: "vver", model: "ВВЭР-440/318", capacity: 440, status: "abandoned", startYear: 1985, endYear: null },
+        { id: 3, name: "Хурагуа-3", type: "vver", model: "ВВЭР-440", capacity: 440, status: "abandoned", startYear: null, endYear: null },
+        { id: 4, name: "Хурагуа-4", type: "vver", model: "ВВЭР-440", capacity: 440, status: "abandoned", startYear: null, endYear: null }
     ],
     history: [
         { year: "1976", title: "ПОДПИСАНИЕ СОГЛАШЕНИЯ", description: "СССР и Куба подписывают договор о строительстве энергоблоков с реакторами ВВЭР-440" },
