@@ -4,10 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Мир АЭС | Цифровая панорама атомной энергетики</title>
+
+    <!-- SEO -->
+    <meta name="description" content="Цифровая панорама мировой атомной энергетики: 415 действующих реакторов, 398 ГВт мощности, прогнозы МАГАТЭ до 2050 года, сравнение ВВЭР и РБМК, история и новости отрасли.">
+    <meta name="keywords" content="атомная энергетика, АЭС, ядерные реакторы, МАГАТЭ, ВВЭР, РБМК, энергетика, новости атомной отрасли, nuclear power, 原子力発電">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://worldnpp.example.com/">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Мир АЭС | Цифровая панорама атомной энергетики (2026)">
+    <meta property="og:description" content="415 реакторов в работе, 398 ГВт мощности, 63 блока строятся. Данные PRIS МАГАТЭ, прогнозы до 2050 года, сравнение технологий.">
+    <meta property="og:url" content="https://worldnpp.example.com/">
+    <meta property="og:locale" content="ru_RU">
+    <meta property="og:locale:alternate" content="ja_JP">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Мир АЭС | Цифровая панорама атомной энергетики (2026)">
+    <meta name="twitter:description" content="415 реакторов, 398 ГВт, 63 в стройке. Данные МАГАТЭ и WNA.">
+
+    <!-- JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Мир АЭС",
+      "alternateName": "世界の原子力発電所",
+      "url": "https://worldnpp.example.com/",
+      "description": "Цифровая панорама мировой атомной энергетики: статистика, прогнозы, сравнение реакторов, новости.",
+      "inLanguage": ["ru", "ja"],
+      "availableLanguage": ["ru", "ja"],
+      "publisher": {
+        "@type": "Organization",
+        "name": "World NPP",
+        "url": "https://t.me/WorldNPP"
+      }
+    }
+    </script>
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Exo+2:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-deep-space: #0a0b14;
@@ -21,7 +60,7 @@
             --text-secondary: #b0b6d0;
             --border-glow: rgba(0, 238, 255, 0.25);
         }
-        
+
         .light-theme {
             --bg-deep-space: #f0f2f5;
             --bg-card-dark: #ffffff;
@@ -34,17 +73,21 @@
             --text-secondary: #4a4a4a;
             --border-glow: rgba(0, 102, 204, 0.2);
         }
-        
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background: var(--bg-deep-space);
             color: var(--text-primary);
-            font-family: 'Exo 2', sans-serif;
+            font-family: 'Exo 2', 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', sans-serif;
             line-height: 1.6;
             overflow-x: hidden;
             transition: background 0.5s ease, color 0.5s ease;
         }
-        
+
+        html[lang="ja"] body { font-family: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Exo 2', sans-serif; }
+        html[lang="ja"] .brand-title, html[lang="ja"] .section-title, html[lang="ja"] .chart-title,
+        html[lang="ja"] .fact-year, html[lang="ja"] .stat-header h3 { letter-spacing: 0; }
+
         /* ============ ШАПКА ============ */
         .main-header {
             background: linear-gradient(to bottom, rgba(20, 23, 38, 0.95), transparent);
@@ -60,25 +103,26 @@
             border-bottom: 1px solid var(--border-glow);
             transition: all 0.5s ease;
         }
-        
+
         .light-theme .main-header {
             background: linear-gradient(to bottom, rgba(255, 255, 255, 0.95), transparent);
             border-bottom: 1px solid rgba(0, 102, 204, 0.2);
         }
-        
+
         .logo-brand {
             display: flex;
             align-items: center;
             gap: 15px;
             cursor: pointer;
         }
-        
+
         .atom-animation {
             width: 60px;
             height: 60px;
             position: relative;
+            flex-shrink: 0;
         }
-        
+
         .nucleus {
             position: absolute;
             width: 16px;
@@ -92,7 +136,7 @@
             z-index: 2;
             animation: pulse 2s infinite alternate;
         }
-        
+
         .orbit {
             position: absolute;
             border: 1px solid rgba(0, 238, 255, 0.3);
@@ -101,25 +145,11 @@
             left: 50%;
             transform: translate(-50%, -50%);
         }
-        
-        .orbit-1 {
-            width: 40px;
-            height: 40px;
-            animation: spin 10s linear infinite;
-        }
-        
-        .orbit-2 {
-            width: 50px;
-            height: 30px;
-            animation: spin 8s linear infinite reverse;
-        }
-        
-        .orbit-3 {
-            width: 30px;
-            height: 50px;
-            animation: spin 12s linear infinite;
-        }
-        
+
+        .orbit-1 { width: 40px; height: 40px; animation: spin 10s linear infinite; }
+        .orbit-2 { width: 50px; height: 30px; animation: spin 8s linear infinite reverse; }
+        .orbit-3 { width: 30px; height: 50px; animation: spin 12s linear infinite; }
+
         .electron {
             position: absolute;
             width: 8px;
@@ -130,45 +160,22 @@
             animation-timing-function: linear;
             animation-iteration-count: infinite;
         }
-        
-        .electron-1 {
-            animation: orbit-1 3s infinite linear;
-        }
-        
-        .electron-2 {
-            animation: orbit-2 4s infinite linear reverse;
-        }
-        
-        .electron-3 {
-            animation: orbit-3 5s infinite linear;
-        }
-        
+
+        .electron-1 { animation: orbit-1 3s infinite linear; }
+        .electron-2 { animation: orbit-2 4s infinite linear reverse; }
+        .electron-3 { animation: orbit-3 5s infinite linear; }
+
         @keyframes pulse {
             0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
             100% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.8; }
         }
-        
-        @keyframes spin {
-            100% { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-        
-        @keyframes orbit-1 {
-            0% { transform: rotate(0deg) translateX(20px) rotate(0deg); }
-            100% { transform: rotate(360deg) translateX(20px) rotate(-360deg); }
-        }
-        
-        @keyframes orbit-2 {
-            0% { transform: rotate(0deg) translateX(25px) rotate(0deg); }
-            100% { transform: rotate(360deg) translateX(25px) rotate(-360deg); }
-        }
-        
-        @keyframes orbit-3 {
-            0% { transform: rotate(0deg) translateX(15px) rotate(0deg); }
-            100% { transform: rotate(360deg) translateX(15px) rotate(-360deg); }
-        }
-        
+        @keyframes spin { 100% { transform: translate(-50%, -50%) rotate(360deg); } }
+        @keyframes orbit-1 { 0% { transform: rotate(0deg) translateX(20px) rotate(0deg); } 100% { transform: rotate(360deg) translateX(20px) rotate(-360deg); } }
+        @keyframes orbit-2 { 0% { transform: rotate(0deg) translateX(25px) rotate(0deg); } 100% { transform: rotate(360deg) translateX(25px) rotate(-360deg); } }
+        @keyframes orbit-3 { 0% { transform: rotate(0deg) translateX(15px) rotate(0deg); } 100% { transform: rotate(360deg) translateX(15px) rotate(-360deg); } }
+
         .brand-title {
-            font-family: 'Orbitron', sans-serif;
+            font-family: 'Orbitron', 'Noto Sans JP', sans-serif;
             font-size: 26px;
             font-weight: 900;
             background: linear-gradient(90deg, var(--accent-neon-blue), var(--accent-nuclear-green));
@@ -176,7 +183,7 @@
             -webkit-text-fill-color: transparent;
             letter-spacing: 1px;
         }
-        
+
         /* ============ МАТРИЧНЫЕ ЧАСЫ ============ */
         .matrix-clock-container {
             display: flex;
@@ -190,20 +197,20 @@
             box-shadow: 0 0 10px rgba(0, 238, 255, 0.2);
             margin-right: 15px;
         }
-        
+
         .light-theme .matrix-clock-container {
             background: rgba(255, 255, 255, 0.9);
             border: 1px solid rgba(0, 102, 204, 0.3);
             box-shadow: 0 0 10px rgba(0, 102, 204, 0.2);
         }
-        
+
         .matrix-clock {
             display: flex;
             align-items: center;
             gap: 6px;
             font-family: 'Orbitron', monospace;
         }
-        
+
         .digit {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -212,7 +219,7 @@
             width: 18px;
             height: 30px;
         }
-        
+
         .dot-pixel {
             width: 4px;
             height: 4px;
@@ -220,17 +227,15 @@
             background: rgba(0, 238, 255, 0.2);
             transition: all 0.3s;
         }
-        
-        .light-theme .dot-pixel {
-            background: rgba(0, 102, 204, 0.2);
-        }
-        
+
+        .light-theme .dot-pixel { background: rgba(0, 102, 204, 0.2); }
+
         .dot-pixel.active {
             background: var(--accent-nuclear-green);
             box-shadow: 0 0 6px var(--accent-nuclear-green);
             animation: pixelPulse 1s infinite alternate;
         }
-        
+
         .colon {
             display: flex;
             flex-direction: column;
@@ -238,7 +243,7 @@
             gap: 6px;
             margin: 0 3px;
         }
-        
+
         .colon .dot {
             width: 4px;
             height: 4px;
@@ -247,33 +252,32 @@
             box-shadow: 0 0 6px var(--accent-nuclear-green);
             animation: blink 1s infinite;
         }
-        
+
         .colon .top-dot { animation-delay: 0s; }
         .colon .bottom-dot { animation-delay: 0.5s; }
-        
+
         @keyframes pixelPulse {
             0% { opacity: 0.8; transform: scale(1); }
             100% { opacity: 1; transform: scale(1.1); }
         }
-        
         @keyframes blink {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.3; }
         }
-        
+
         /* ============ НАВИГАЦИЯ ============ */
         .main-nav {
             display: flex;
             align-items: center;
             gap: 15px;
         }
-        
+
         .nav-btn {
             padding: 12px 28px;
             background: transparent;
             border: 1px solid var(--border-glow);
             color: var(--text-primary);
-            font-family: 'Orbitron', sans-serif;
+            font-family: 'Orbitron', 'Noto Sans JP', sans-serif;
             font-weight: 500;
             border-radius: 6px;
             cursor: pointer;
@@ -283,42 +287,34 @@
             align-items: center;
             gap: 8px;
         }
-        
+
         .nav-btn:hover {
             border-color: var(--accent-neon-blue);
             background: rgba(0, 238, 255, 0.1);
             box-shadow: 0 0 15px rgba(0, 238, 255, 0.3);
             transform: translateY(-2px);
         }
-        
-        .light-theme .nav-btn {
-            border: 1px solid rgba(0, 102, 204, 0.3);
-            color: var(--text-primary);
-        }
-        
-        .light-theme .nav-btn:hover {
-            border-color: var(--accent-neon-blue);
-            background: rgba(0, 102, 204, 0.1);
-            box-shadow: 0 0 15px rgba(0, 102, 204, 0.2);
-        }
-        
+
+        .light-theme .nav-btn { border: 1px solid rgba(0, 102, 204, 0.3); color: var(--text-primary); }
+        .light-theme .nav-btn:hover { border-color: var(--accent-neon-blue); background: rgba(0, 102, 204, 0.1); box-shadow: 0 0 15px rgba(0, 102, 204, 0.2); }
+
         .nav-btn.active {
             background: linear-gradient(135deg, var(--accent-neon-blue), #0088cc);
             border: none;
             box-shadow: 0 0 20px rgba(0, 238, 255, 0.5);
         }
-        
+
         .telegram-btn {
             background: linear-gradient(135deg, #0088cc, #006699);
             border: none;
             color: white !important;
         }
-        
+
         .telegram-btn:hover {
             background: linear-gradient(135deg, #0099ff, #0077b3);
             box-shadow: 0 0 20px rgba(0, 153, 255, 0.5);
         }
-        
+
         .theme-toggle {
             width: 45px;
             height: 45px;
@@ -333,22 +329,48 @@
             font-size: 20px;
             transition: all 0.3s ease;
         }
-        
+
         .theme-toggle:hover {
             transform: rotate(30deg);
             border-color: var(--accent-neon-blue);
             box-shadow: 0 0 15px rgba(0, 238, 255, 0.3);
         }
-        
+
+        .lang-toggle {
+            width: auto;
+            min-width: 45px;
+            height: 45px;
+            padding: 0 14px;
+            border-radius: 22px;
+            background: var(--bg-card-dark);
+            border: 1px solid var(--border-glow);
+            color: var(--text-primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Orbitron', 'Noto Sans JP', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .lang-toggle:hover {
+            border-color: var(--accent-neon-blue);
+            box-shadow: 0 0 15px rgba(0, 238, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
         /* ============ ОСНОВНОЙ КОНТЕНТ ============ */
         .content-container {
             max-width: 1800px;
             margin: 120px auto 50px;
             padding: 0 40px;
         }
-        
+
         .section-title {
-            font-family: 'Orbitron', sans-serif;
+            font-family: 'Orbitron', 'Noto Sans JP', sans-serif;
             font-size: 32px;
             margin: 50px 0 25px;
             color: var(--accent-neon-blue);
@@ -358,9 +380,9 @@
             padding-bottom: 10px;
             border-bottom: 2px solid var(--border-glow);
         }
-        
+
         .section-title i { font-size: 28px; }
-        
+
         /* ============ КАРТОЧКИ С ОСНОВНЫМИ ЦИФРАМИ ============ */
         .world-stats-grid {
             display: grid;
@@ -368,7 +390,7 @@
             gap: 25px;
             margin: 30px 0 50px;
         }
-        
+
         .stat-card {
             background: var(--bg-card-dark);
             border-radius: 16px;
@@ -378,43 +400,36 @@
             position: relative;
             overflow: hidden;
         }
-        
-        .light-theme .stat-card {
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-        }
-        
+
+        .light-theme .stat-card { box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1); }
+
         .stat-card:hover {
             transform: translateY(-8px);
             border-color: var(--accent-neon-blue);
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
         }
-        
-        .light-theme .stat-card:hover {
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-        }
-        
+
+        .light-theme .stat-card:hover { box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15); }
+
         .stat-card::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
+            top: 0; left: 0; right: 0;
             height: 5px;
             background: linear-gradient(90deg, var(--accent-neon-blue), var(--accent-nuclear-green));
         }
-        
+
         .stat-header {
             display: flex;
             align-items: center;
             gap: 15px;
             margin-bottom: 20px;
         }
-        
-        .stat-header i {
-            font-size: 32px;
-            color: var(--accent-neon-blue);
-        }
-        
+
+        .stat-header i { font-size: 32px; color: var(--accent-neon-blue); flex-shrink: 0; }
+
+        .stat-header h3 { font-family: 'Orbitron', 'Noto Sans JP', sans-serif; font-size: 16px; }
+
         .stat-value {
             font-family: 'Orbitron', sans-serif;
             font-size: 48px;
@@ -425,14 +440,9 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        
-        .stat-source {
-            font-size: 13px;
-            color: var(--text-secondary);
-            font-style: italic;
-            margin-top: 10px;
-        }
-        
+
+        .stat-source { font-size: 13px; color: var(--text-secondary); font-style: italic; margin-top: 10px; }
+
         /* ============ ПРОГРЕСС-БАРЫ ============ */
         .progress-section {
             background: var(--bg-card-dark);
@@ -441,30 +451,27 @@
             margin: 40px 0;
             border: 1px solid var(--border-glow);
         }
-        
-        .progress-item {
-            margin-bottom: 25px;
-        }
-        
+
+        .progress-item { margin-bottom: 25px; }
+
         .progress-label {
             display: flex;
             justify-content: space-between;
             margin-bottom: 8px;
-            font-family: 'Orbitron', sans-serif;
+            font-family: 'Orbitron', 'Noto Sans JP', sans-serif;
             font-weight: 500;
+            gap: 15px;
         }
-        
+
         .progress-bar {
             height: 12px;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 6px;
             overflow: hidden;
         }
-        
-        .light-theme .progress-bar {
-            background: rgba(0, 0, 0, 0.1);
-        }
-        
+
+        .light-theme .progress-bar { background: rgba(0, 0, 0, 0.1); }
+
         .progress-fill {
             height: 100%;
             border-radius: 6px;
@@ -472,23 +479,20 @@
             position: relative;
             transition: width 1.5s ease-in-out;
         }
-        
+
         .progress-fill::after {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            top: 0; left: 0; right: 0; bottom: 0;
             background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
             animation: shine 2s infinite;
         }
-        
+
         @keyframes shine {
             0% { transform: translateX(-100%); }
             100% { transform: translateX(100%); }
         }
-        
+
         /* ============ ГРАФИКИ ============ */
         .charts-section {
             display: grid;
@@ -496,16 +500,16 @@
             gap: 30px;
             margin: 40px 0;
         }
-        
+
         .chart-container {
             background: var(--bg-card-dark);
             border-radius: 16px;
             padding: 25px;
             border: 1px solid var(--border-glow);
         }
-        
+
         .chart-title {
-            font-family: 'Orbitron', sans-serif;
+            font-family: 'Orbitron', 'Noto Sans JP', sans-serif;
             font-size: 20px;
             margin-bottom: 20px;
             color: var(--text-primary);
@@ -513,12 +517,9 @@
             align-items: center;
             gap: 10px;
         }
-        
-        .chart-wrapper {
-            height: 350px;
-            position: relative;
-        }
-        
+
+        .chart-wrapper { height: 350px; position: relative; }
+
         /* ============ ТАБЛИЦА СРАВНЕНИЯ РЕАКТОРОВ ============ */
         .comparison-section {
             background: var(--bg-card-dark);
@@ -528,46 +529,36 @@
             border: 1px solid var(--border-glow);
             overflow-x: auto;
         }
-        
+
         .reactor-comparison-table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
         }
-        
+
         .reactor-comparison-table th {
             background: rgba(0, 238, 255, 0.15);
             color: var(--accent-neon-blue);
             padding: 18px 15px;
             text-align: left;
-            font-family: 'Orbitron', sans-serif;
+            font-family: 'Orbitron', 'Noto Sans JP', sans-serif;
             font-weight: 600;
             border-bottom: 2px solid var(--border-glow);
         }
-        
-        .light-theme .reactor-comparison-table th {
-            background: rgba(0, 102, 204, 0.1);
-        }
-        
+
+        .light-theme .reactor-comparison-table th { background: rgba(0, 102, 204, 0.1); }
+
         .reactor-comparison-table td {
             padding: 18px 15px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             color: var(--text-secondary);
         }
-        
-        .light-theme .reactor-comparison-table td {
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-        }
-        
-        .reactor-comparison-table tr:hover td {
-            background: rgba(255, 255, 255, 0.03);
-            color: var(--text-primary);
-        }
-        
-        .light-theme .reactor-comparison-table tr:hover td {
-            background: rgba(0, 0, 0, 0.03);
-        }
-        
+
+        .light-theme .reactor-comparison-table td { border-bottom: 1px solid rgba(0, 0, 0, 0.05); }
+
+        .reactor-comparison-table tr:hover td { background: rgba(255, 255, 255, 0.03); color: var(--text-primary); }
+        .light-theme .reactor-comparison-table tr:hover td { background: rgba(0, 0, 0, 0.03); }
+
         .vver-badge, .rbmk-badge {
             display: inline-block;
             padding: 5px 12px;
@@ -576,10 +567,10 @@
             font-weight: bold;
             letter-spacing: 0.5px;
         }
-        
+
         .vver-badge { background: rgba(0, 238, 255, 0.2); color: var(--accent-neon-blue); border: 1px solid var(--accent-neon-blue); }
         .rbmk-badge { background: rgba(255, 51, 102, 0.2); color: var(--accent-critical-red); border: 1px solid var(--accent-critical-red); }
-        
+
         /* ============ ФАКТЫ И ИСТОРИЯ ============ */
         .historical-facts {
             display: grid;
@@ -587,7 +578,7 @@
             gap: 25px;
             margin: 40px 0;
         }
-        
+
         .fact-card {
             background: var(--bg-card-dark);
             border-radius: 16px;
@@ -596,13 +587,11 @@
             border-left: 5px solid var(--accent-nuclear-green);
             transition: transform 0.3s ease;
         }
-        
-        .fact-card:hover {
-            transform: translateX(5px);
-        }
-        
+
+        .fact-card:hover { transform: translateX(5px); }
+
         .fact-year {
-            font-family: 'Orbitron', sans-serif;
+            font-family: 'Orbitron', 'Noto Sans JP', sans-serif;
             font-size: 20px;
             color: var(--accent-nuclear-green);
             margin-bottom: 10px;
@@ -610,9 +599,9 @@
             align-items: center;
             gap: 10px;
         }
-        
+
         .fact-text { color: var(--text-secondary); line-height: 1.7; }
-        
+
         /* ============ НОВОСТНАЯ ЛЕНТА ============ */
         .news-ticker {
             background: var(--bg-card-dark);
@@ -622,22 +611,22 @@
             border: 1px solid var(--border-glow);
             overflow: hidden;
         }
-        
+
         .ticker-title {
-            font-family: 'Orbitron', sans-serif;
+            font-family: 'Orbitron', 'Noto Sans JP', sans-serif;
             color: var(--accent-neon-blue);
             margin-bottom: 15px;
             display: flex;
             align-items: center;
             gap: 10px;
         }
-        
+
         .ticker-container {
             display: flex;
             animation: ticker 30s linear infinite;
             gap: 40px;
         }
-        
+
         .ticker-item {
             white-space: nowrap;
             padding: 8px 15px;
@@ -646,12 +635,12 @@
             border: 1px solid var(--border-glow);
             font-size: 14px;
         }
-        
+
         @keyframes ticker {
             0% { transform: translateX(100%); }
             100% { transform: translateX(-100%); }
         }
-        
+
         /* ============ ФУТЕР И ИСТОЧНИКИ ============ */
         .sources-footer {
             margin-top: 60px;
@@ -660,23 +649,23 @@
             border-radius: 16px;
             border-top: 4px solid var(--accent-nuclear-green);
         }
-        
+
         .sources-list {
             display: flex;
             flex-direction: column;
             gap: 12px;
             margin-top: 20px;
         }
-        
+
         .source-item {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: 12px;
             color: var(--text-secondary);
         }
-        
-        .source-item i { color: var(--accent-nuclear-green); font-size: 14px; }
-        
+
+        .source-item i { color: var(--accent-nuclear-green); font-size: 14px; margin-top: 4px; flex-shrink: 0; }
+
         /* ============ КНОПКА "НАВЕРХ" ============ */
         .scroll-top {
             position: fixed;
@@ -698,23 +687,20 @@
             visibility: hidden;
             z-index: 1000;
         }
-        
-        .scroll-top.visible {
-            opacity: 1;
-            visibility: visible;
-        }
-        
+
+        .scroll-top.visible { opacity: 1; visibility: visible; }
+
         .scroll-top:hover {
             transform: translateY(-5px);
             border-color: var(--accent-neon-blue);
             box-shadow: 0 0 15px rgba(0, 238, 255, 0.3);
         }
-        
+
         /* ============ АДАПТИВНОСТЬ ============ */
         @media (max-width: 1200px) {
             .charts-section, .historical-facts { grid-template-columns: 1fr; }
         }
-        
+
         @media (max-width: 768px) {
             .content-container, .main-header { padding: 20px; }
             .world-stats-grid { grid-template-columns: 1fr; }
@@ -725,13 +711,15 @@
             .section-title { font-size: 24px; }
             .charts-section { grid-template-columns: 1fr; }
             .chart-container { min-width: 100%; }
+            html[lang="ja"] .section-title { font-size: 22px; }
         }
-        
+
         @media (max-width: 480px) {
             .main-nav .nav-btn span { display: none; }
             .nav-btn { padding: 10px; }
             .section-title { flex-direction: column; align-items: flex-start; gap: 5px; }
             .stat-value { font-size: 36px; }
+            .lang-toggle { padding: 0 10px; font-size: 12px; min-width: 40px; }
         }
     </style>
 </head>
@@ -748,9 +736,9 @@
                 <div class="electron electron-2"></div>
                 <div class="electron electron-3"></div>
             </div>
-            <h1 class="brand-title">МИР АЭС</h1>
+            <h1 class="brand-title" data-i18n="brand">МИР АЭС</h1>
         </div>
-        
+
         <!-- МАТРИЧНЫЕ ЧАСЫ -->
         <div class="matrix-clock-container">
             <div class="matrix-clock">
@@ -770,16 +758,19 @@
                 <div class="digit digit-seconds-ones"></div>
             </div>
         </div>
-        
+
         <!-- НАВИГАЦИЯ -->
         <nav class="main-nav">
             <button class="nav-btn" onclick="window.location.href='index.html'">
-                <i class="fas fa-map-marked-alt"></i> <span>ИНТЕРАКТИВНАЯ КАРТА</span>
+                <i class="fas fa-map-marked-alt"></i> <span data-i18n="mapBtn">ИНТЕРАКТИВНАЯ КАРТА</span>
             </button>
             <button class="nav-btn telegram-btn" onclick="window.open('https://t.me/WorldNPP', '_blank')">
                 <i class="fab fa-telegram"></i> <span>Telegram</span>
             </button>
-            <button class="theme-toggle" id="themeToggle">
+            <button class="lang-toggle" id="langToggle" title="日本語 / Русский">
+                <span id="langLabel">JA</span>
+            </button>
+            <button class="theme-toggle" id="themeToggle" title="Theme">
                 <i class="fas fa-moon"></i>
             </button>
         </nav>
@@ -787,30 +778,37 @@
 
     <!-- ОСНОВНОЕ СОДЕРЖИМОЕ -->
     <main class="content-container">
-        <h2 class="section-title"><i class="fas fa-satellite-dish"></i> ЦИФРОВАЯ ПАНОРАМА АТОМНОЙ ЭНЕРГЕТИКИ (2026)</h2>
+        <h2 class="section-title"><i class="fas fa-satellite-dish"></i> <span data-i18n="sectionTitle">ЦИФРОВАЯ ПАНОРАМА АТОМНОЙ ЭНЕРГЕТИКИ (2026)</span></h2>
 
         <!-- НОВОСТНАЯ ЛЕНТА -->
         <section class="news-ticker">
             <div class="ticker-title">
                 <i class="fas fa-newspaper"></i>
-                <h3>СВЕЖИЕ НОВОСТИ АТОМНОЙ ОТРАСЛИ</h3>
+                <h3 data-i18n="tickerTitle">СВЕЖИЕ НОВОСТИ АТОМНОЙ ОТРАСЛИ</h3>
             </div>
             <div class="ticker-container" id="newsTicker">
-                <!-- Контент тикера будет генерироваться через JS -->
+                <!-- Генерируется через JS -->
             </div>
         </section>
 
+        <!-- БЛОК НОВОСТЕЙ (карточки) -->
+        <h2 class="section-title"><i class="fas fa-globe"></i> <span data-i18n="newsGridTitle">НОВОСТИ АТОМНОЙ ОТРАСЛИ: 2025–2026</span></h2>
+        <section class="historical-facts" id="newsGrid">
+            <!-- Генерируется через JS -->
+        </section>
+
         <!-- КЛЮЧЕВЫЕ ЦИФРЫ МИРА -->
+        <h2 class="section-title"><i class="fas fa-chart-pie"></i> <span data-i18n="worldStatsTitle">КЛЮЧЕВЫЕ ЦИФРЫ МИРА</span></h2>
         <section class="world-stats-grid" id="worldStats">
-            <!-- Контент будет генерироваться через JS -->
+            <!-- Генерируется через JS -->
         </section>
 
         <!-- ПРОГРЕСС БАРЫ -->
         <section class="progress-section">
-            <h3 class="chart-title"><i class="fas fa-chart-bar"></i> ПОКАЗАТЕЛИ РАЗВИТИЯ АТОМНОЙ ЭНЕРГЕТИКИ</h3>
+            <h3 class="chart-title"><i class="fas fa-chart-bar"></i> <span data-i18n="progressTitle">ПОКАЗАТЕЛИ РАЗВИТИЯ АТОМНОЙ ЭНЕРГЕТИКИ</span></h3>
             <div class="progress-item">
                 <div class="progress-label">
-                    <span>Глобальная мощность АЭС</span>
+                    <span data-i18n="prog1">Глобальная мощность АЭС</span>
                     <span>398 / 1000 ГВт</span>
                 </div>
                 <div class="progress-bar">
@@ -819,7 +817,7 @@
             </div>
             <div class="progress-item">
                 <div class="progress-label">
-                    <span>Доля в мировой генерации</span>
+                    <span data-i18n="prog2">Доля в мировой генерации</span>
                     <span>9% / 25%</span>
                 </div>
                 <div class="progress-bar">
@@ -828,8 +826,8 @@
             </div>
             <div class="progress-item">
                 <div class="progress-label">
-                    <span>Реакторы в стадии строительства</span>
-                    <span>63 / 120 блоков</span>
+                    <span data-i18n="prog3">Реакторы в стадии строительства</span>
+                    <span>63 / 120</span>
                 </div>
                 <div class="progress-bar">
                     <div class="progress-fill" style="width: 52.5%"></div>
@@ -837,8 +835,8 @@
             </div>
             <div class="progress-item">
                 <div class="progress-label">
-                    <span>Страны с ядерными программами</span>
-                    <span>31 / 50 стран</span>
+                    <span data-i18n="prog4">Страны с ядерными программами</span>
+                    <span>31 / 50</span>
                 </div>
                 <div class="progress-bar">
                     <div class="progress-fill" style="width: 62%"></div>
@@ -847,56 +845,50 @@
         </section>
 
         <!-- ГРАФИКИ -->
+        <h2 class="section-title"><i class="fas fa-chart-line"></i> <span data-i18n="chartsTitle">ГРАФИКИ</span></h2>
         <section class="charts-section">
             <div class="chart-container">
-                <h3 class="chart-title"><i class="fas fa-crown"></i> ТОП-5 СТРАН ПО УСТАНОВЛЕННОЙ МОЩНОСТИ</h3>
+                <h3 class="chart-title"><i class="fas fa-crown"></i> <span data-i18n="chart1">ТОП-5 СТРАН ПО УСТАНОВЛЕННОЙ МОЩНОСТИ</span></h3>
                 <div class="chart-wrapper">
                     <canvas id="topCountriesChart"></canvas>
                 </div>
             </div>
             <div class="chart-container">
-                <h3 class="chart-title"><i class="fas fa-bullseye"></i> ПРОГНОЗ РОСТА МОЩНОСТЕЙ К 2050 ГОДУ</h3>
+                <h3 class="chart-title"><i class="fas fa-bullseye"></i> <span data-i18n="chart2">ПРОГНОЗ РОСТА МОЩНОСТЕЙ К 2050 ГОДУ</span></h3>
                 <div class="chart-wrapper">
                     <canvas id="forecastChart"></canvas>
                 </div>
             </div>
         </section>
 
-        <!-- АНАЛИТИКА: РОССИЯ И УКРАИНА -->
-        <h2 class="section-title" style="margin-top: 60px;"><i class="fas fa-balance-scale-right"></i> ЭНЕРГЕТИЧЕСКИЙ ХРЕБЕТ: РОССИЯ И УКРАИНА</h2>
-        <section class="world-stats-grid" id="countryComparison">
-            <!-- Контент будет генерироваться через JS -->
-        </section>
-
         <!-- СРАВНЕНИЕ ВВЭР И РБМК -->
-        <h2 class="section-title"><i class="fas fa-chess-board"></i> АРХИТЕКТУРА НАДЁЖНОСТИ: ВВЭР vs РБМК</h2>
+        <h2 class="section-title"><i class="fas fa-chess-board"></i> <span data-i18n="reactorTitle">АРХИТЕКТУРА НАДЁЖНОСТИ: ВВЭР vs РБМК</span></h2>
         <section class="comparison-section">
             <table class="reactor-comparison-table" id="reactorComparison">
-                <!-- Контент будет генерироваться через JS -->
+                <!-- Генерируется через JS -->
             </table>
         </section>
 
         <!-- БЛОК ИСТОРИЧЕСКИХ ФАКТОВ -->
-        <h2 class="section-title"><i class="fas fa-history"></i> ХРОНОЛОГИЯ: ОТ СЕКРЕТНОГО СЛОВА «РЕАКТОР»</h2>
+        <h2 class="section-title"><i class="fas fa-history"></i> <span data-i18n="historyTitle">ХРОНОЛОГИЯ: ОТ СЕКРЕТНОГО СЛОВА «РЕАКТОР»</span></h2>
         <section class="historical-facts" id="historicalFacts">
-            <!-- Контент будет генерироваться через JS -->
+            <!-- Генерируется через JS -->
         </section>
 
         <!-- ИСТОЧНИКИ -->
         <section class="sources-footer">
-            <h3><i class="fas fa-book-open"></i> ИСПОЛЬЗОВАННЫЕ АВТОРИТЕТНЫЕ ИСТОЧНИКИ</h3>
+            <h3><i class="fas fa-book-open"></i> <span data-i18n="sourcesTitle">ИСПОЛЬЗОВАННЫЕ АВТОРИТЕТНЫЕ ИСТОЧНИКИ</span></h3>
             <div class="sources-list" id="sourcesList">
-                <!-- Контент будет генерироваться через JS -->
+                <!-- Генерируется через JS -->
             </div>
         </section>
     </main>
 
     <!-- КНОПКА "НАВЕРХ" -->
-    <div class="scroll-top" id="scrollTop">
+    <div class="scroll-top" id="scrollTop" title="Top">
         <i class="fas fa-arrow-up"></i>
     </div>
 
-    <!-- ПОДКЛЮЧЕНИЕ JS -->
     <script src="npp-stats.js"></script>
 </body>
 </html>
