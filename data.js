@@ -3728,7 +3728,1181 @@ const stationsData = [
         "ミシシッピ川の水を冷却に利用。"
     ]
 },
+{
+    id: 2000,
+    name: "АЭС Ловииса",
+    nameJa: "ロヴィーサ原子力発電所",
+    country: { name: "Финляндия", nameJa: "フィンランド", flag: "🇫🇮" },
+    coords: [60.3719, 26.3472],
+    status: "operational",
+    totalCapacity: 1014,
+    startYear: 1977,
+    overview: "Первая атомная электростанция Финляндии, расположенная на острове Хястхольмен. Состоит из двух блоков ВВЭР-440 советского дизайна, модернизированных финской компанией Fortum. Обеспечивает около 10% электроэнергии страны.",
+    overviewJa: "フィンランド初の原子力発電所で、ハストホルメン島に位置します。ソ連設計のVVER-440を2基備え、フィンランドのFortum社によって改良されました。国の電力の約10%を供給しています。",
+    location: "Ловииса, Уусимаа, Финляндия",
+    locationJa: "フィンランド・ウーシマー県ロヴィーサ",
+    city: "Ловииса",
+    cityJa: "ロヴィーサ",
+    units: [
+        { id: 1, name: "Ловииса-1", nameJa: "ロヴィーサ1号機", type: "vver", model: "ВВЭР-440/213", capacity: 507, status: "operational", startYear: 1977 },
+        { id: 2, name: "Ловииса-2", nameJa: "ロヴィーサ2号機", type: "vver", model: "ВВЭР-440/213", capacity: 507, status: "operational", startYear: 1980 }
+    ],
+    history: [
+        { year: "1971", title: "СТРОИТЕЛЬСТВО", titleJa: "建設開始", description: "Начало строительства первого блока", descriptionJa: "1号機の建設が始まる。" },
+        { year: "1977", title: "ПУСК БЛОКА-1", titleJa: "1号機運転開始", description: "Первый блок подключен к сети", descriptionJa: "1号機が送電網に接続。" },
+        { year: "1980", title: "ПУСК БЛОКА-2", titleJa: "2号機運転開始", description: "Второй блок подключен к сети", descriptionJa: "2号機が送電網に接続。" }
+    ],
+    facts: [
+        "Первая АЭС Финляндии",
+        "Использует советские реакторы ВВЭР-440, модернизированные по западным стандартам безопасности",
+        "Станция прошла периодические проверки безопасности в 2015-2017 и 2020-2022 годах [citation:15]"
+    ],
+    factsJa: [
+        "フィンランド初の原発。",
+        "ソ連製VVER-440を西側の安全基準で改良。",
+        "2015〜2017年と2020〜2022年に定期安全審査を実施 [citation:15]。"
+    ]
+},
+{
+    id: 2001,
+    name: "АЭС Олкилуото",
+    nameJa: "オルキルオト原子力発電所",
+    country: { name: "Финляндия", nameJa: "フィンランド", flag: "🇫🇮" },
+    coords: [61.2369, 21.4408],
+    status: "operational",
+    totalCapacity: 3355,
+    startYear: 1978,
+    overview: "Крупнейшая атомная электростанция Финляндии, расположенная на острове Олкилуото. Состоит из двух кипящих реакторов (BWR) шведского дизайна и одного современного EPR (OL3), который стал первым EPR, введённым в эксплуатацию в Европе.",
+    overviewJa: "フィンランド最大の原発で、オルキルオト島に位置します。スウェーデン設計のBWR2基と、欧州で初めて運転を開始したEPR（OL3）1基で構成されています。",
+    location: "Эурайоки, Сатакунта, Финляндия",
+    locationJa: "フィンランド・サタクンタ県エウラヨキ",
+    city: "Эурайоки",
+    cityJa: "エウラヨキ",
+    units: [
+        { id: 1, name: "Олкилуото-1", nameJa: "オルキルオト1号機", type: "bwr", model: "BWR-2500", capacity: 890, status: "operational", startYear: 1978 },
+        { id: 2, name: "Олкилуото-2", nameJa: "オルキルオト2号機", type: "bwr", model: "BWR-2500", capacity: 890, status: "operational", startYear: 1980 },
+        { id: 3, name: "Олкилуото-3", nameJa: "オルキルオト3号機", type: "ep_r", model: "EPR", capacity: 1575, status: "operational", startYear: 2022 }
+    ],
+    history: [
+        { year: "1974", title: "СТРОИТЕЛЬСТВО", titleJa: "建設開始", description: "Начало строительства первого блока", descriptionJa: "1号機の建設が始まる。" },
+        { year: "1978", title: "ПУСК БЛОКА-1", titleJa: "1号機運転開始", description: "Первый блок подключен к сети", descriptionJa: "1号機が送電網に接続。" },
+        { year: "1980", title: "ПУСК БЛОКА-2", titleJa: "2号機運転開始", description: "Второй блок подключен к сети", descriptionJa: "2号機が送電網に接続。" },
+        { year: "2005", title: "НАЧАЛО СТРОИТЕЛЬСТВА OL3", titleJa: "OL3建設開始", description: "Начало строительства третьего блока (EPR)", descriptionJa: "3号機（EPR）の建設が始まる。" },
+        { year: "2022", title: "ПУСК OL3", titleJa: "OL3運転開始", description: "Третий блок подключен к сети", descriptionJa: "3号機が送電網に接続。" }
+    ],
+    facts: [
+        "OL3 — первый EPR, введённый в эксплуатацию в Европе",
+        "Строительство OL3 заняло 17 лет вместо планировавшихся 4",
+        "Станция прошла периодическую проверку безопасности в 2016-2018 годах [citation:15]"
+    ],
+    factsJa: [
+        "OL3は欧州で初めて運転を開始したEPR。",
+        "OL3の建設は予定の4年ではなく17年を要した。",
+        "2016〜2018年に定期安全審査を実施 [citation:15]。"
+    ]
+},
 
+// ==========================================================================
+// ==================== ВЕЛИКОБРИТАНИЯ (ВСЕ) ================================
+// ==========================================================================
+// --- Действующие AGR (Advanced Gas-cooled Reactor) ---
+{
+    id: 2100,
+    name: "АЭС Хейшем 1",
+    nameJa: "ヒーシャム1原子力発電所",
+    country: { name: "Великобритания", nameJa: "イギリス", flag: "🇬🇧" },
+    coords: [54.0286, -2.9167],
+    status: "operational",
+    totalCapacity: 1155,
+    startYear: 1983,
+    overview: "Атомная станция в Англии с двумя усовершенствованными газоохлаждаемыми реакторами (AGR). Обеспечивает электроэнергией северо-запад Англии.",
+    overviewJa: "英国の改良型ガス冷却炉（AGR）2基を備えた原発。イングランド北西部に電力を供給しています。",
+    location: "Хейшем, Ланкашир, Англия, Великобритания",
+    locationJa: "イギリス・イングランド・ランカシャー州ヒーシャム",
+    city: "Ланкастер",
+    cityJa: "ランカスター",
+    units: [
+        { id: 1, name: "Heysham 1-1", nameJa: "ヒーシャム1-1号機", type: "gcr", model: "AGR", capacity: 578, status: "operational", startYear: 1983 },
+        { id: 2, name: "Heysham 1-2", nameJa: "ヒーシャム1-2号機", type: "gcr", model: "AGR", capacity: 577, status: "operational", startYear: 1984 }
+    ],
+    history: [
+        { year: "1970", title: "СТРОИТЕЛЬСТВО", titleJa: "建設開始", description: "Начало строительства", descriptionJa: "建設が始まる。" },
+        { year: "1983", title: "ПУСК", titleJa: "運転開始", description: "Первый блок подключен к сети", descriptionJa: "1号機が送電網に接続。" }
+    ],
+    facts: [
+        "Одна из пяти действующих AGR-станций Великобритании [citation:2]",
+        "Использует газовое охлаждение и графитовый замедлитель"
+    ],
+    factsJa: [
+        "英国で稼働中のAGR原発5か所の一つ [citation:2]。",
+        "ガス冷却・黒鉛減速炉を採用。"
+    ]
+},
+{
+    id: 2101,
+    name: "АЭС Хартлпул",
+    nameJa: "ハートルプール原子力発電所",
+    country: { name: "Великобритания", nameJa: "Иギリス", flag: "🇬🇧" },
+    coords: [54.6353, -1.1811],
+    status: "operational",
+    totalCapacity: 1180,
+    startYear: 1983,
+    overview: "Атомная станция на северо-востоке Англии с двумя реакторами AGR.",
+    overviewJa: "イングランド北東部のAGR2基を備えた原発。",
+    location: "Хартлпул, графство Дарем, Англия, Великобритания",
+    locationJa: "イギリス・イングランド・ダラム州ハートルプール",
+    city: "Хартлпул",
+    cityJa: "ハートルプール",
+    units: [
+        { id: 1, name: "Hartlepool-1", nameJa: "ハートルプール1号機", type: "gcr", model: "AGR", capacity: 590, status: "operational", startYear: 1983 },
+        { id: 2, name: "Hartlepool-2", nameJa: "ハートルプール2号機", type: "gcr", model: "AGR", capacity: 590, status: "operational", startYear: 1984 }
+    ],
+    history: [
+        { year: "1969", title: "СТРОИТЕЛЬСТВО", titleJa: "建設開始", description: "Начало строительства", descriptionJa: "建設が始まる。" },
+        { year: "1983", title: "ПУСК", titleJa: "運転開始", description: "Первый блок подключен к сети", descriptionJa: "1号機が送電網に接続。" }
+    ],
+    facts: [
+        "Одна из пяти действующих AGR-станций [citation:2]",
+        "Расположена недалеко от города Мидлсбро"
+    ],
+    factsJa: [
+        "稼働中のAGR原発5か所の一つ [citation:2]。",
+        "ミドルズブラ市の近くに位置する。"
+    ]
+},
+{
+    id: 2102,
+    name: "АЭС Хейшем 2",
+    nameJa: "ヒーシャム2原子力発電所",
+    country: { name: "Великобритания", nameJa: "イギリス", flag: "🇬🇧" },
+    coords: [54.0286, -2.9167],
+    status: "operational",
+    totalCapacity: 1220,
+    startYear: 1988,
+    overview: "Вторая очередь АЭС Хейшем с двумя более мощными реакторами AGR.",
+    overviewJa: "ヒーシャム原発の第2期で、より高出力のAGR2基を備えています。",
+    location: "Хейшем, Ланкашир, Англия, Великобритания",
+    locationJa: "イギリス・イングランド・ランカシャー州ヒーシャム",
+    city: "Ланкастер",
+    cityJa: "ランカスター",
+    units: [
+        { id: 1, name: "Heysham 2-1", nameJa: "ヒーシャム2-1号機", type: "gcr", model: "AGR", capacity: 610, status: "operational", startYear: 1988 },
+        { id: 2, name: "Heysham 2-2", nameJa: "ヒーシャム2-2号機", type: "gcr", model: "AGR", capacity: 610, status: "operational", startYear: 1989 }
+    ],
+    history: [
+        { year: "1980", title: "СТРОИТЕЛЬСТВО", titleJa: "建設開始", description: "Начало строительства", descriptionJa: "建設が始まる。" },
+        { year: "1988", title: "ПУСК", titleJa: "運転開始", description: "Первый блок подключен к сети", descriptionJa: "1号機が送電網に接続。" }
+    ],
+    facts: [
+        "Одна из пяти действующих AGR-станций [citation:2]",
+        "Расположена на той же площадке, что и Хейшем 1"
+    ],
+    factsJa: [
+        "稼働中のAGR原発5か所の一つ [citation:2]。",
+        "ヒーシャム1と同じ敷地に立地。"
+    ]
+},
+{
+    id: 2103,
+    name: "АЭС Торнесс",
+    nameJa: "トーネス原子力発電所",
+    country: { name: "Великобритания", nameJa: "Иギリス", flag: "🇬🇧" },
+    coords: [55.9667, -2.4],
+    status: "operational",
+    totalCapacity: 1185,
+    startYear: 1988,
+    overview: "Атомная станция в Шотландии с двумя реакторами AGR. Обеспечивает электроэнергией центральную Шотландию.",
+    overviewJa: "スコットランドのAGR2基を備えた原発。スコットランド中部に電力を供給しています。",
+    location: "Торнесс, Восточный Лотиан, Шотландия, Великобритания",
+    locationJa: "イギリス・スコットランド・イーストロージアン州トーネス",
+    city: "Эдинбург",
+    cityJa: "エディンバラ",
+    units: [
+        { id: 1, name: "Torness-1", nameJa: "トーネス1号機", type: "gcr", model: "AGR", capacity: 592, status: "operational", startYear: 1988 },
+        { id: 2, name: "Torness-2", nameJa: "トーネス2号機", type: "gcr", model: "AGR", capacity: 593, status: "operational", startYear: 1989 }
+    ],
+    history: [
+        { year: "1980", title: "СТРОИТЕЛЬСТВО", titleJa: "建設開始", description: "Начало строительства", descriptionJa: "建設が始まる。" },
+        { year: "1988", title: "ПУСК", titleJa: "運転開始", description: "Первый блок подключен к сети", descriptionJa: "1号機が送電網に接続。" }
+    ],
+    facts: [
+        "Одна из двух действующих AGR-станций в Шотландии",
+        "Расположена на побережье Северного моря"
+    ],
+    factsJa: [
+        "スコットランドで稼働中のAGR原発2か所の一つ。",
+        "北海沿岸に位置する。"
+    ]
+},
+// --- Действующий PWR ---
+{
+    id: 2104,
+    name: "АЭС Сайзвелл B",
+    nameJa: "サイズウェルB原子力発電所",
+    country: { name: "Великобритания", nameJa: "Иギリス", flag: "🇬🇧" },
+    coords: [52.2153, 1.6194],
+    status: "operational",
+    totalCapacity: 1198,
+    startYear: 1995,
+    overview: "Единственная действующая АЭС в Великобритании с водо-водяным реактором (PWR). Расположена на побережье Суффолка.",
+    overviewJa: "英国で唯一稼働中のPWR原発。サフォーク海岸に位置します。",
+    location: "Сайзвелл, Суффолк, Англия, Великобритания",
+    locationJa: "イギリス・イングランド・サフォーク州サイズウェル",
+    city: "Лоустофт",
+    cityJa: "ロウストフト",
+    units: [
+        { id: 1, name: "Sizewell B", nameJa: "サイズウェルB", type: "pwr", model: "SNUPPS (Westinghouse)", capacity: 1198, status: "operational", startYear: 1995 }
+    ],
+    history: [
+        { year: "1988", title: "СТРОИТЕЛЬСТВО", titleJa: "建設開始", description: "Начало строительства", descriptionJa: "建設が始まる。" },
+        { year: "1995", title: "ПУСК", titleJa: "運転開始", description: "Реактор подключен к сети", descriptionJa: "炉が送電網に接続。" }
+    ],
+    facts: [
+        "Единственный действующий PWR в Великобритании [citation:2]",
+        "Планируется продление эксплуатации до 2035 года и beyond",
+        "На площадке планируется строительство Sizewell C (два EPR) [citation:2]"
+    ],
+    factsJa: [
+        "英国で唯一稼働中のPWR [citation:2]。",
+        "2035年以降までの運転延長が計画されている。",
+        "同じ敷地にサイズウェルC（EPR2基）の建設が計画中 [citation:2]。"
+    ]
+},
+// --- Строящиеся ---
+{
+    id: 2105,
+    name: "АЭС Хинкли-Пойнт C",
+    nameJa: "ヒンクリーポイントC原子力発電所",
+    country: { name: "Великобритания", nameJa: "Иギリス", flag: "🇬🇧" },
+    coords: [51.2078, -3.1431],
+    status: "construction",
+    totalCapacity: 3200,
+    startYear: 2030,
+    overview: "Строящаяся атомная станция с двумя реакторами EPR. После завершения будет обеспечивать около 7% электроэнергии Великобритании.",
+    overviewJa: "EPR2基を建設中の原発。完成後は英国の電力の約7%を供給する見込みです。",
+    location: "Хинкли-Пойнт, Сомерсет, Англия, Великобритания",
+    locationJa: "イギリス・イングランド・サマセット州ヒンクリーポイント",
+    city: "Бриджуотер",
+    cityJa: "ブリッジウォーター",
+    units: [
+        { id: 1, name: "Hinkley Point C-1", nameJa: "ヒンクリーポイントC-1号機", type: "ep_r", model: "EPR", capacity: 1600, status: "construction", startYear: 2030, expectedYear: 2030 },
+        { id: 2, name: "Hinkley Point C-2", nameJa: "ヒンクリーポイントC-2号機", type: "ep_r", model: "EPR", capacity: 1600, status: "construction", startYear: 2030, expectedYear: 2031 }
+    ],
+    history: [
+        { year: "2017", title: "ОДОБРЕНИЕ", titleJa: "認可", description: "Правительство Великобритании одобрило проект", descriptionJa: "英国政府が計画を承認。" },
+        { year: "2018", title: "НАЧАЛО СТРОИТЕЛЬСТВА", titleJa: "建設開始", description: "Начало строительных работ", descriptionJa: "建設工事が始まる。" }
+    ],
+    facts: [
+        "Первый новый атомный блок в Великобритании за десятилетия",
+        "Ожидается, что генерация начнётся с 2030 года [citation:2]",
+        "Финансируется EDF и китайской CGN"
+    ],
+    factsJa: [
+        "英国で数十年ぶりの新規原子炉。",
+        "2030年からの発電開始が見込まれる [citation:2]。",
+        "EDFと中国CGNが資金提供。"
+    ]
+},
+{
+    id: 2106,
+    name: "АЭС Сайзвелл C (проект)",
+    nameJa: "サイズウェルC原子力発電所（計画）",
+    country: { name: "Великобритания", nameJa: "Иギリス", flag: "🇬🇧" },
+    coords: [52.2153, 1.6194],
+    status: "construction",
+    totalCapacity: 3200,
+    startYear: 2035,
+    overview: "Планируемая атомная станция с двумя EPR, которая станет второй крупной новой АЭС Великобритании. В 2025 году правительство объявило об инвестициях в £14,2 млрд.",
+    overviewJa: "EPR2基を計画する原発で、英国で2番目の大型新設原発となる予定です。2025年に政府が142億ポンドの投資を発表しました。",
+    location: "Сайзвелл, Суффолк, Англия, Великобритания",
+    locationJa: "イギリス・イングランド・サフォーク州サイズウェル",
+    city: "Лоустофт",
+    cityJa: "ロウストフト",
+    units: [
+        { id: 1, name: "Sizewell C-1", nameJa: "サイズウェルC-1号機", type: "ep_r", model: "EPR", capacity: 1600, status: "construction", startYear: 2035, expectedYear: 2035 },
+        { id: 2, name: "Sizewell C-2", nameJa: "サイズウェルC-2号機", type: "ep_r", model: "EPR", capacity: 1600, status: "construction", startYear: 2035, expectedYear: 2036 }
+    ],
+    history: [
+        { year: "2025", title: "ИНВЕСТИЦИИ", titleJa: "投資", description: "Правительство объявило о £14,2 млрд инвестиций", descriptionJa: "政府が142億ポンドの投資を発表。" }
+    ],
+    facts: [
+        "Ожидается начало генерации с середины-конца 2030-х [citation:2]",
+        "Расположена рядом с действующей АЭС Сайзвелл B"
+    ],
+    factsJa: [
+        "2030年代半ば〜後半の発電開始が見込まれる [citation:2]。",
+        "稼働中のサイズウェルBの隣に位置する。"
+    ]
+},
+// --- Закрытые AGR и Magnox (основные) ---
+{
+    id: 2110,
+    name: "АЭС Хинкли-Пойнт B",
+    nameJa: "ヒンクリーポイントB原子力発電所",
+    country: { name: "Великобритания", nameJa: "Иギリス", flag: "🇬🇧" },
+    coords: [51.2078, -3.1431],
+    status: "closed",
+    totalCapacity: 880,
+    startYear: 1976,
+    endYear: 2023,
+    overview: "Атомная станция с двумя реакторами AGR, закрытая в 2023 году после 47 лет эксплуатации.",
+    overviewJa: "AGR2基を備えた原発。47年間の運転を経て2023年に閉鎖されました。",
+    location: "Хинкли-Пойнт, Сомерсет, Англия, Великобритания",
+    locationJa: "イギリス・イングランド・サマセット州ヒンクリーポイント",
+    city: "Бриджуотер",
+    cityJa: "ブリッジウォーター",
+    units: [
+        { id: 1, name: "Hinkley Point B-1", nameJa: "ヒンクリーポイントB-1号機", type: "gcr", model: "AGR", capacity: 440, status: "closed", startYear: 1976, endYear: 2023 },
+        { id: 2, name: "Hinkley Point B-2", nameJa: "ヒンクリーポイントB-2号機", type: "gcr", model: "AGR", capacity: 440, status: "closed", startYear: 1976, endYear: 2023 }
+    ],
+    history: [
+        { year: "1967", title: "СТРОИТЕЛЬСТВО", titleJa: "建設開始", description: "Начало строительства", descriptionJa: "建設が始まる。" },
+        { year: "1976", title: "ПУСК", titleJa: "運転開始", description: "Первый блок подключен к сети", descriptionJa: "1号機が送電網に接続。" },
+        { year: "2023", title: "ЗАКРЫТИЕ", titleJa: "閉鎖", description: "Окончательная остановка", descriptionJa: "最終停止。" }
+    ],
+    facts: [
+        "Одна из первых коммерческих AGR-станций Великобритании",
+        "Закрыта в 2023 году после 47 лет работы [citation:16]"
+    ],
+    factsJa: [
+        "英国初期の商業用AGR原発の一つ。",
+        "47年間の運転を経て2023年に閉鎖 [citation:16]。"
+    ]
+},
+{
+    id: 2111,
+    name: "АЭС Хантерстон B",
+    nameJa: "ハンターストンB原子力発電所",
+    country: { name: "Великобритания", nameJa: "Иギリス", flag: "🇬🇧" },
+    coords: [55.7167, -4.8833],
+    status: "closed",
+    totalCapacity: 890,
+    startYear: 1976,
+    endYear: 2023,
+    overview: "Атомная станция в Шотландии с двумя реакторами AGR, закрытая в 2023 году.",
+    overviewJa: "スコットランドのAGR2基を備えた原発。2023年に閉鎖されました。",
+    location: "Хантерстон, Северный Эйршир, Шотландия, Великобритания",
+    locationJa: "イギリス・スコットランド・ノースエアシャー州ハンターストン",
+    city: "Глазго",
+    cityJa: "グラスゴー",
+    units: [
+        { id: 1, name: "Hunterston B-1", nameJa: "ハンターストンB-1号機", type: "gcr", model: "AGR", capacity: 445, status: "closed", startYear: 1976, endYear: 2023 },
+        { id: 2, name: "Hunterston B-2", nameJa: "ハンターストンB-2号機", type: "gcr", model: "AGR", capacity: 445, status: "closed", startYear: 1977, endYear: 2023 }
+    ],
+    history: [
+        { year: "1967", title: "СТРОИТЕЛЬСТВО", titleJa: "建設開始", description: "Начало строительства", descriptionJa: "建設が始まる。" },
+        { year: "1976", title: "ПУСК", titleJa: "運転開始", description: "Первый блок подключен к сети", descriptionJa: "1号機が送電網に接続。" },
+        { year: "2023", title: "ЗАКРЫТИЕ", titleJa: "閉鎖", description: "Окончательная остановка", descriptionJa: "最終停止。" }
+    ],
+    facts: [
+        "Закрыта в 2023 году после 47 лет работы [citation:16]",
+        "Расположена на побережье залива Фёрт-оф-Клайд"
+    ],
+    factsJa: [
+        "47年間の運転を経て2023年に閉鎖 [citation:16]。",
+        "クライド湾岸に位置する。"
+    ]
+},
+{
+    id: 2112,
+    name: "АЭС Дангенесс B",
+    nameJa: "ダンジネスB原子力発電所",
+    country: { name: "Великобритания", nameJa: "Иギリス", flag: "🇬🇧" },
+    coords: [50.9139, 0.9569],
+    status: "closed",
+    totalCapacity: 1040,
+    startYear: 1983,
+    endYear: 2021,
+    overview: "Атомная станция с двумя реакторами AGR на юго-востоке Англии, закрытая в 2021 году.",
+    overviewJa: "イングランド南東部のAGR2基を備えた原発。2021年に閉鎖されました。",
+    location: "Дангенесс, Кент, Англия, Великобритания",
+    locationJa: "イギリス・イングランド・ケント州ダンジネス",
+    city: "Фолкстон",
+    cityJa: "フォルクストン",
+    units: [
+        { id: 1, name: "Dungeness B-1", nameJa: "ダンジネスB-1号機", type: "gcr", model: "AGR", capacity: 520, status: "closed", startYear: 1983, endYear: 2021 },
+        { id: 2, name: "Dungeness B-2", nameJa: "ダンジネスB-2号機", type: "gcr", model: "AGR", capacity: 520, status: "closed", startYear: 1985, endYear: 2021 }
+    ],
+    history: [
+        { year: "1965", title: "СТРОИТЕЛЬСТВО", titleJa: "建設開始", description: "Начало строительства", descriptionJa: "建設が始まる。" },
+        { year: "1983", title: "ПУСК", titleJa: "運転開始", description: "Первый блок подключен к сети", descriptionJa: "1号機が送電網に接続。" },
+        { year: "2021", title: "ЗАКРЫТИЕ", titleJa: "閉鎖", description: "Окончательная остановка", descriptionJa: "最終停止。" }
+    ],
+    facts: [
+        "Закрыта в 2021 году после серии технических проблем",
+        "Была одной из самых проблемных AGR-станций Великобритании"
+    ],
+    factsJa: [
+        "度重なる技術的問題を経て2021年に閉鎖。",
+        "英国で最も問題の多いAGR原発の一つだった。"
+    ]
+},
+{
+    id: 2113,
+    name: "АЭС Уилфа",
+    nameJa: "ウィルファ原子力発電所",
+    country: { name: "Великобритания", nameJa: "Иギリス", flag: "🇬🇧" },
+    coords: [53.4167, -4.4833],
+    status: "closed",
+    totalCapacity: 490,
+    startYear: 1971,
+    endYear: 2015,
+    overview: "Последняя действовавшая АЭС типа Magnox в Великобритании, закрытая в 2015 году после 44 лет эксплуатации.",
+    overviewJa: "英国最後の稼働中マグノックス型原発。44年間の運転を経て2015年に閉鎖されました。",
+    location: "Уилфа, Англси, Уэльс, Великобритания",
+    locationJa: "イギリス・ウェールズ・アングルシー島ウィルファ",
+    city: "Холихед",
+    cityJa: "ホーリーヘッド",
+    units: [
+        { id: 1, name: "Wylfa-1", nameJa: "ウィルファ1号機", type: "gcr", model: "Magnox", capacity: 490, status: "closed", startYear: 1971, endYear: 2015 }
+    ],
+    history: [
+        { year: "1963", title: "СТРОИТЕЛЬСТВО", titleJa: "建設開始", description: "Начало строительства", descriptionJa: "建設が始まる。" },
+        { year: "1971", title: "ПУСК", titleJa: "運転開始", description: "Реактор подключен к сети", descriptionJa: "炉が送電網に接続。" },
+        { year: "2015", title: "ЗАКРЫТИЕ", titleJa: "閉鎖", description: "Окончательная остановка", descriptionJa: "最終停止。" }
+    ],
+    facts: [
+        "Последняя действовавшая Magnox-станция в мире",
+        "Закрыта в 2015 году [citation:16]"
+    ],
+    factsJa: [
+        "世界最後の稼働中マグノックス原発。",
+        "2015年に閉鎖 [citation:16]。"
+    ]
+},
+
+// ==========================================================================
+// ==================== ШВЕЦИЯ ==============================================
+// ==========================================================================
+{
+    id: 2200,
+    name: "АЭС Форсмарк",
+    nameJa: "フォルスマルク原子力発電所",
+    country: { name: "Швеция", nameJa: "スウェーデン", flag: "🇸🇪" },
+    coords: [60.4033, 18.1667],
+    status: "operational",
+    totalCapacity: 3274,
+    startYear: 1980,
+    overview: "Крупнейшая атомная станция Швеции, состоящая из трёх кипящих реакторов (BWR). Расположена на побережье Балтийского моря.",
+    overviewJa: "スウェーデン最大の原発で、BWR3基で構成されています。バルト海沿岸に位置します。",
+    location: "Форсмарк, лен Уппсала, Швеция",
+    locationJa: "スウェーデン・ウプサラ県フォルスマルク",
+    city: "Эстхаммар",
+    cityJa: "エストハンマル",
+    units: [
+        { id: 1, name: "Forsmark-1", nameJa: "フォルスマルク1号機", type: "bwr", model: "BWR", capacity: 1103, status: "operational", startYear: 1980 },
+        { id: 2, name: "Forsmark-2", nameJa: "フォルスマルク2号機", type: "bwr", model: "BWR", capacity: 1121, status: "operational", startYear: 1981 },
+        { id: 3, name: "Forsmark-3", nameJa: "フォルスマルク3号機", type: "bwr", model: "BWR", capacity: 1172, status: "operational", startYear: 1985 }
+    ],
+    history: [
+        { year: "1973", title: "СТРОИТЕЛЬСТВО", titleJa: "建設開始", description: "Начало строительства", descriptionJa: "建設が始まる。" },
+        { year: "1980", title: "ПУСК", titleJa: "運転開始", description: "Первый блок подключен к сети", descriptionJa: "1号機が送電網に接続。" }
+    ],
+    facts: [
+        "Крупнейшая АЭС Швеции по установленной мощности [citation:3]",
+        "Все три реактора произведены ASEA Atom (ныне Westinghouse Sweden)"
+    ],
+    factsJa: [
+        "設備容量でスウェーデン最大の原発 [citation:3]。",
+        "全号機がASEA Atom（現Westinghouse Sweden）製。"
+    ]
+},
+{
+    id: 2201,
+    name: "АЭС Рингхальс",
+    nameJa: "リングハルス原子力発電所",
+    country: { name: "Швеция", nameJa: "スウェーデン", flag: "🇸🇪" },
+    coords: [57.2597, 12.1111],
+    status: "operational",
+    totalCapacity: 2215,
+    startYear: 1974,
+    overview: "Атомная станция на западном побережье Швеции. Два блока PWR продолжают работу, два старых блока (BWR и PWR) закрыты.",
+    overviewJa: "スウェーデン西岸の原発。PWR2基が稼働中で、旧型のBWRとPWRは閉鎖されています。",
+    location: "Варберг, лен Халланд, Швеция",
+    locationJa: "スウェーデン・ハッランド県ヴァールベリ",
+    city: "Варберг",
+    cityJa: "ヴァールベリ",
+    units: [
+        { id: 1, name: "Ringhals-3", nameJa: "リングハルス3号機", type: "pwr", model: "PWR (Westinghouse)", capacity: 1081, status: "operational", startYear: 1980 },
+        { id: 2, name: "Ringhals-4", nameJa: "リングハルス4号機", type: "pwr", model: "PWR (Westinghouse)", capacity: 1134, status: "operational", startYear: 1982 }
+    ],
+    history: [
+        { year: "1969", title: "СТРОИТЕЛЬСТВО", titleJa: "建設開始", description: "Начало строительства первого блока", descriptionJa: "1号機の建設が始まる。" },
+        { year: "1974", title: "ПУСК", titleJa: "運転開始", description: "Первый блок подключен к сети", descriptionJa: "1号機が送電網に接続。" }
+    ],
+    facts: [
+        "Единственная АЭС Швеции с реакторами PWR [citation:3]",
+        "Блоки 1 и 2 были закрыты в 2020 и 2019 годах соответственно",
+        "Оставшиеся блоки модернизированы для длительной эксплуатации"
+    ],
+    factsJa: [
+        "スウェーデン唯一のPWR原発 [citation:3]。",
+        "1・2号機はそれぞれ2020年・2019年に閉鎖。",
+        "残存号機は長期運転のため改良済み。"
+    ]
+},
+{
+    id: 2202,
+    name: "АЭС Оскарсхамн",
+    nameJa: "オスカルスハムン原子力発電所",
+    country: { name: "Швеция", nameJa: "スウェーデン", flag: "🇸🇪" },
+    coords: [57.4167, 16.6667],
+    status: "operational",
+    totalCapacity: 1400,
+    startYear: 1972,
+    overview: "Атомная станция на юго-востоке Швеции. Блок 3 — самый мощный отдельный реактор в Швеции (1450 МВт). Блоки 1 и 2 закрыты.",
+    overviewJa: "スウェーデン南東部の原発。3号機はスウェーデン最大の単一炉（1450MW）。1・2号機は閉鎖済み。",
+    location: "Оскарсхамн, лен Кальмар, Швеция",
+    locationJa: "スウェーデン・カルマル県オスカルスハムン",
+    city: "Оскарсхамн",
+    cityJa: "オスカルスハムン",
+    units: [
+        { id: 1, name: "Oskarshamn-3", nameJa: "オスカルスハムン3号機", type: "bwr", model: "BWR", capacity: 1400, status: "operational", startYear: 1985 }
+    ],
+    history: [
+        { year: "1965", title: "СТРОИТЕЛЬСТВО", titleJa: "建設開始", description: "Начало строительства первого блока", descriptionJa: "1号機の建設が始まる。" },
+        { year: "1972", title: "ПУСК O1", titleJa: "O1運転開始", description: "Первый коммерческий реактор Швеции", descriptionJa: "スウェーデン初の商業炉が運転開始。" },
+        { year: "1985", title: "ПУСК O3", titleJa: "O3運転開始", description: "Самый мощный реактор Швеции подключен к сети", descriptionJa: "スウェーデン最大の炉が送電網に接続。" }
+    ],
+    facts: [
+        "Oskarshamn 1 был первым коммерческим реактором Швеции",
+        "Oskarshamn 3 — самый мощный отдельный реактор в Швеции (1450 МВт) [citation:3]",
+        "Блоки O1 и O2 закрыты в 2017 и 2015 годах соответственно"
+    ],
+    factsJa: [
+        "O1はスウェーデン初の商業炉。",
+        "O3はスウェーデン最大の単一炉（1450MW）[citation:3]。",
+        "O1とO2はそれぞれ2017年・2015年に閉鎖。"
+    ]
+},
+
+// ==========================================================================
+// ==================== ШВЕЙЦАРИЯ ===========================================
+// ==========================================================================
+{
+    id: 2300,
+    name: "АЭС Безнау",
+    nameJa: "ベツナウ原子力発電所",
+    country: { name: "Швейцария", nameJa: "スイス", flag: "🇨🇭" },
+    coords: [47.5519, 8.2283],
+    status: "operational",
+    totalCapacity: 730,
+    startYear: 1969,
+    overview: "Старейшая действующая АЭС в мире (по состоянию на 2026 год). Состоит из двух блоков PWR. Расположена на реке Аре.",
+    overviewJa: "2026年時点で世界最古の稼働中原発。PWR2基で構成され、アーレ川沿いに位置します。",
+    location: "Безнау, кантон Аргау, Швейцария",
+    locationJa: "スイス・アールガウ州ベツナウ",
+    city: "Бругг",
+    cityJa: "ブルック",
+    units: [
+        { id: 1, name: "Beznau-1", nameJa: "ベツナウ1号機", type: "pwr", model: "PWR (Westinghouse)", capacity: 365, status: "operational", startYear: 1969 },
+        { id: 2, name: "Beznau-2", nameJa: "ベツナウ2号機", type: "pwr", model: "PWR (Westinghouse)", capacity: 365, status: "operational", startYear: 1971 }
+    ],
+    history: [
+        { year: "1965", title: "СТРОИТЕЛЬСТВО", titleJa: "建設開始", description: "Начало строительства", descriptionJa: "建設が始まる。" },
+        { year: "1969", title: "ПУСК", titleJa: "運転開始", description: "Первый блок подключен к сети", descriptionJa: "1号機が送電網に接続。" }
+    ],
+    facts: [
+        "Beznau-1 — старейший действующий коммерческий реактор в мире",
+        "Обеспечивает около 3 ТВт·ч электроэнергии в год"
+    ],
+    factsJa: [
+        "ベツナウ1号機は世界最古の稼働中商業炉。",
+        "年間約3TWhを発電。"
+    ]
+},
+{
+    id: 2301,
+    name: "АЭС Гёсген",
+    nameJa: "ゲスゲン原子力発電所",
+    country: { name: "Швейцария", nameJa: "スイス", flag: "🇨🇭" },
+    coords: [47.3667, 7.9667],
+    status: "operational",
+    totalCapacity: 1010,
+    startYear: 1979,
+    overview: "Атомная станция с одним блоком PWR, обеспечивающая значительную часть электроэнергии Швейцарии.",
+    overviewJa: "PWR1基を備えた原発で、スイス電力の重要な部分を供給しています。",
+    location: "Дэникен, кантон Золотурн, Швейцария",
+    locationJa: "スイス・ゾロトゥルン州デーニケン",
+    city: "Ольтен",
+    cityJa: "オルテン",
+    units: [
+        { id: 1, name: "Gösgen", nameJa: "ゲスゲン1号機", type: "pwr", model: "PWR (3-loop)", capacity: 1010, status: "operational", startYear: 1979 }
+    ],
+    history: [
+        { year: "1973", title: "СТРОИТЕЛЬСТВО", titleJa: "建設開始", description: "Начало строительства", descriptionJa: "建設が始まる。" },
+        { year: "1979", title: "ПУСК", titleJa: "運転開始", description: "Реактор подключен к сети", descriptionJa: "炉が送電網に接続。" }
+    ],
+    facts: [
+        "Один из самых мощных реакторов Швейцарии",
+        "Использует уран из разных стран, включая Россию и Казахстан"
+    ],
+    factsJa: [
+        "スイス最大級の原子炉。",
+        "ロシアやカザフスタンを含む各国のウランを使用。"
+    ]
+},
+{
+    id: 2302,
+    name: "АЭС Лайбштадт",
+    nameJa: "ライプシュタット原子力発電所",
+    country: { name: "Швейцария", nameJa: "スイス", flag: "🇨🇭" },
+    coords: [47.6, 8.1833],
+    status: "operational",
+    totalCapacity: 1233,
+    startYear: 1984,
+    overview: "Самая мощная атомная станция Швейцарии с кипящим реактором (BWR).",
+    overviewJa: "スイス最大のBWR原発。",
+    location: "Лайбштадт, кантон Аргау, Швейцария",
+    locationJa: "スイス・アールガウ州ライプシュタット",
+    city: "Вальдсхут",
+    cityJa: "ヴァルトスフート",
+    units: [
+        { id: 1, name: "Leibstadt", nameJa: "ライプシュタット1号機", type: "bwr", model: "BWR-6", capacity: 1233, status: "operational", startYear: 1984 }
+    ],
+    history: [
+        { year: "1979", title: "СТРОИТЕЛЬСТВО", titleJa: "建設開始", description: "Начало строительства", descriptionJa: "建設が始まる。" },
+        { year: "1984", title: "ПУСК", titleJa: "運転開始", description: "Реактор подключен к сети", descriptionJa: "炉が送電網に接続。" }
+    ],
+    facts: [
+        "Самый мощный реактор Швейцарии [citation:4]",
+        "Использует технологию General Electric"
+    ],
+    factsJa: [
+        "スイス最大の原子炉 [citation:4]。",
+        "ゼネラル・エレクトリック技術を採用。"
+    ]
+},
+
+// ==========================================================================
+// ==================== ИСПАНИЯ =============================================
+// ==========================================================================
+{
+    id: 2400,
+    name: "АЭС Альмарас",
+    nameJa: "アルマラス原子力発電所",
+    country: { name: "Испания", nameJa: "スペイン", flag: "🇪🇸" },
+    coords: [39.8083, -5.6969],
+    status: "operational",
+    totalCapacity: 2017,
+    startYear: 1981,
+    overview: "Крупнейшая атомная станция Испании с двумя реакторами PWR. Расположена на реке Тахо.",
+    overviewJa: "スペイン最大の原発で、PWR2基を備えています。タホ川沿いに位置します。",
+    location: "Альмарас, Касерес, Испания",
+    locationJa: "スペイン・カセレス県アルマラス",
+    city: "Касерес",
+    cityJa: "カセレス",
+    units: [
+        { id: 1, name: "Almaraz-1", nameJa: "アルマラス1号機", type: "pwr", model: "PWR (Westinghouse)", capacity: 1011, status: "operational", startYear: 1981 },
+        { id: 2, name: "Almaraz-2", nameJa: "アルマラス2号機", type: "pwr", model: "PWR (Westinghouse)", capacity: 1006, status: "operational", startYear: 1983 }
+    ],
+    history: [
+        { year: "1973", title: "СТРОИТЕЛЬСТВО", titleJa: "建設開始", description: "Начало строительства", descriptionJa: "建設が始まる。" },
+        { year: "1981", title: "ПУСК", titleJa: "運転開始", description: "Первый блок подключен к сети", descriptionJa: "1号機が送電網に接続。" }
+    ],
+    facts: [
+        "Крупнейшая АЭС Испании [citation:5]",
+        "Лицензия на эксплуатацию продлена до 2027-2028 годов [citation:19]"
+    ],
+    factsJa: [
+        "スペイン最大の原発 [citation:5]。",
+        "運転許可は2027〜2028年まで延長 [citation:19]。"
+    ]
+},
+{
+    id: 2401,
+    name: "АЭС Аско",
+    nameJa: "アスコ原子力発電所",
+    country: { name: "Испания", nameJa: "スペイン", flag: "🇪🇸" },
+    coords: [41.2, 0.5667],
+    status: "operational",
+    totalCapacity: 1992,
+    startYear: 1983,
+    overview: "Атомная станция в Каталонии с двумя реакторами PWR.",
+    overviewJa: "カタルーニャ州のPWR2基を備えた原発。",
+    location: "Аско, Таррагона, Испания",
+    locationJa: "スペイン・タラゴナ県アスコ",
+    city: "Таррагона",
+    cityJa: "タラゴナ",
+    units: [
+        { id: 1, name: "Ascó-1", nameJa: "アスコ1号機", type: "pwr", model: "PWR (Westinghouse)", capacity: 995, status: "operational", startYear: 1983 },
+        { id: 2, name: "Ascó-2", nameJa: "アスコ2号機", type: "pwr", model: "PWR (Westinghouse)", capacity: 997, status: "operational", startYear: 1985 }
+    ],
+    history: [
+        { year: "1974", title: "СТРОИТЕЛЬСТВО", titleJa: "建設開始", description: "Начало строительства", descriptionJa: "建設が始まる。" },
+        { year: "1983", title: "ПУСК", titleJa: "運転開始", description: "Первый блок подключен к сети", descriptionJa: "1号機が送電網に接続。" }
+    ],
+    facts: [
+        "Расположена на побережье Средиземного моря",
+        "Лицензия продлена до 2030-2031 годов [citation:19]"
+    ],
+    factsJa: [
+        "地中海沿岸に位置する。",
+        "運転許可は2030〜2031年まで延長 [citation:19]。"
+    ]
+},
+{
+    id: 2402,
+    name: "АЭС Кофрентес",
+    nameJa: "コフレンテス原子力発電所",
+    country: { name: "Испания", nameJa: "スペイン", flag: "🇪🇸" },
+    coords: [39.2167, -1.05],
+    status: "operational",
+    totalCapacity: 1064,
+    startYear: 1984,
+    overview: "Единственная действующая АЭС Испании с кипящим реактором (BWR).",
+    overviewJa: "スペインで唯一稼働中のBWR原発。",
+    location: "Кофрентес, Валенсия, Испания",
+    locationJa: "スペイン・バレンシア州コフレンテス",
+    city: "Валенсия",
+    cityJa: "バレンシア",
+    units: [
+        { id: 1, name: "Cofrentes", nameJa: "コフレンテス1号機", type: "bwr", model: "BWR-6", capacity: 1064, status: "operational", startYear: 1984 }
+    ],
+    history: [
+        { year: "1975", title: "СТРОИТЕЛЬСТВО", titleJa: "建設開始", description: "Начало строительства", descriptionJa: "建設が始まる。" },
+        { year: "1984", title: "ПУСК", titleJa: "運転開始", description: "Реактор подключен к сети", descriptionJa: "炉が送電網に接続。" }
+    ],
+    facts: [
+        "Единственный BWR в Испании [citation:5]",
+        "Лицензия продлена до 2030 года [citation:19]"
+    ],
+    factsJa: [
+        "スペイン唯一のBWR [citation:5]。",
+        "運転許可は2030年まで延長 [citation:19]。"
+    ]
+},
+{
+    id: 2403,
+    name: "АЭС Трильо",
+    nameJa: "トリリョ原子力発電所",
+    country: { name: "Испания", nameJa: "スペイン", flag: "🇪🇸" },
+    coords: [40.7, -2.6167],
+    status: "operational",
+    totalCapacity: 1003,
+    startYear: 1988,
+    overview: "Атомная станция с одним реактором PWR, расположенная в центральной Испании.",
+    overviewJa: "スペイン中部のPWR1基の原発。",
+    location: "Трильо, Гвадалахара, Испания",
+    locationJa: "スペイン・グアダラハラ県トリリョ",
+    city: "Гвадалахара",
+    cityJa: "グアダラハラ",
+    units: [
+        { id: 1, name: "Trillo-1", nameJa: "トリリョ1号機", type: "pwr", model: "PWR (KWU/Siemens)", capacity: 1003, status: "operational", startYear: 1988 }
+    ],
+    history: [
+        { year: "1979", title: "СТРОИТЕЛЬСТВО", titleJa: "建設開始", description: "Начало строительства", descriptionJa: "建設が始まる。" },
+        { year: "1988", title: "ПУСК", titleJa: "運転開始", description: "Реактор подключен к сети", descriptionJa: "炉が送電網に接続。" }
+    ],
+    facts: [
+        "Последняя АЭС, введённая в эксплуатацию в Испании [citation:19]",
+        "Использует немецкую технологию KWU/Siemens",
+        "Лицензия продлена до 2035 года [citation:19]"
+    ],
+    factsJa: [
+        "スペインで最後に運転開始した原発 [citation:19]。",
+        "ドイツKWU/シーメンス技術を採用。",
+        "運転許可は2035年まで延長 [citation:19]。"
+    ]
+},
+{
+    id: 2404,
+    name: "АЭС Вандельос II",
+    nameJa: "バンデジョスII原子力発電所",
+    country: { name: "Испания", nameJa: "スペイン", flag: "🇪🇸" },
+    coords: [40.95, 0.8667],
+    status: "operational",
+    totalCapacity: 1047,
+    startYear: 1987,
+    overview: "Атомная станция в Каталонии с одним реактором PWR. Заменила закрытую Вандельос I (GCR).",
+    overviewJa: "カタルーニャ州のPWR1基の原発。閉鎖されたバンデジョスI（GCR）に代わるものです。",
+    location: "Вандельос, Таррагона, Испания",
+    locationJa: "スペイン・タラゴナ県バンデジョス",
+    city: "Таррагона",
+    cityJa: "タラゴナ",
+    units: [
+        { id: 1, name: "Vandellós II", nameJa: "バンデジョスII", type: "pwr", model: "PWR (Westinghouse)", capacity: 1047, status: "operational", startYear: 1987 }
+    ],
+    history: [
+        { year: "1980", title: "СТРОИТЕЛЬСТВО", titleJa: "建設開始", description: "Начало строительства", descriptionJa: "建設が始まる。" },
+        { year: "1987", title: "ПУСК", titleJa: "運転開始", description: "Реактор подключен к сети", descriptionJa: "炉が送電網に接続。" }
+    ],
+    facts: [
+        "Заменяет Vandellós I, закрытую после пожара 1989 года",
+        "Лицензия продлена до 2030 года [citation:19]"
+    ],
+    factsJa: [
+        "1989年の火災後に閉鎖されたバンデジョスIに代わる。",
+        "運転許可は2030年まで延長 [citation:19]。"
+    ]
+},
+
+// ==========================================================================
+// ==================== БЕЛЬГИЯ =============================================
+// ==========================================================================
+{
+    id: 2500,
+    name: "АЭС Доэл",
+    nameJa: "ドール原子力発電所",
+    country: { name: "Бельгия", nameJa: "ベルギー", flag: "🇧🇪" },
+    coords: [51.325, 4.2583],
+    status: "operational",
+    totalCapacity: 2911,
+    startYear: 1975,
+    overview: "Крупная атомная станция на севере Бельгии, недалеко от Антверпена. Состоит из четырёх блоков PWR. Блоки 1 и 2 закрыты, блоки 3 и 4 продлены до 2035 года.",
+    overviewJa: "ベルギー北部アントワープ近くの大型原発。PWR4基で構成され、1・2号機は閉鎖、3・4号機は2035年まで延長されています。",
+    location: "Доэл, Восточная Фландрия, Бельгия",
+    locationJa: "ベルギー・オースト＝フランデレン州ドール",
+    city: "Антверпен",
+    cityJa: "アントワープ",
+    units: [
+        { id: 3, name: "Doel-3", nameJa: "ドール3号機", type: "pwr", model: "PWR (Framatome)", capacity: 1039, status: "operational", startYear: 1982 },
+        { id: 4, name: "Doel-4", nameJa: "ドール4号機", type: "pwr", model: "PWR (Framatome)", capacity: 1038, status: "operational", startYear: 1985 }
+    ],
+    history: [
+        { year: "1969", title: "СТРОИТЕЛЬСТВО", titleJa: "建設開始", description: "Начало строительства первого блока", descriptionJa: "1号機の建設が始まる。" },
+        { year: "1975", title: "ПУСК", titleJa: "運転開始", description: "Первый блок подключен к сети", descriptionJa: "1号機が送電網に接続。" },
+        { year: "2025", title: "ПРОДЛЕНИЕ", titleJa: "延長", description: "Блоки 3 и 4 продлены до 2035 года", descriptionJa: "3・4号機が2035年まで延長。" }
+    ],
+    facts: [
+        "Крупнейшая АЭС Бельгии",
+        "Блоки 1 и 2 закрыты в 2025 году",
+        "Бельгия планирует полностью отказаться от атомной энергии к 2035 году"
+    ],
+    factsJa: [
+        "ベルギー最大の原発。",
+        "1・2号機は2025年に閉鎖。",
+        "ベルギーは2035年までの脱原子力を計画。"
+    ]
+},
+{
+    id: 2501,
+    name: "АЭС Тиханж",
+    nameJa: "ティアンジュ原子力発電所",
+    country: { name: "Бельгия", nameJa: "ベルギー", flag: "🇧🇪" },
+    coords: [50.5333, 5.2667],
+    status: "operational",
+    totalCapacity: 3016,
+    startYear: 1975,
+    overview: "Крупная атомная станция на реке Маас в Бельгии. Состоит из трёх блоков PWR. Все блоки продлены до 2035 года.",
+    overviewJa: "ベルギー・マース川沿いの大型原発。PWR3基で構成され、全号機が2035年まで延長されています。",
+    location: "Тиханж, Льеж, Бельгия",
+    locationJa: "ベルギー・リエージュ州ティアンジュ",
+    city: "Юи",
+    cityJa: "ユイ",
+    units: [
+        { id: 1, name: "Tihange-1", nameJa: "ティアンジュ1号機", type: "pwr", model: "PWR (Framatome)", capacity: 962, status: "operational", startYear: 1975 },
+        { id: 2, name: "Tihange-2", nameJa: "ティアンジュ2号機", type: "pwr", model: "PWR (Framatome)", capacity: 1008, status: "operational", startYear: 1983 },
+        { id: 3, name: "Tihange-3", nameJa: "ティアンジュ3号機", type: "pwr", model: "PWR (Framatome)", capacity: 1046, status: "operational", startYear: 1985 }
+    ],
+    history: [
+        { year: "1970", title: "СТРОИТЕЛЬСТВО", titleJa: "建設開始", description: "Начало строительства первого блока", descriptionJa: "1号機の建設が始まる。" },
+        { year: "1975", title: "ПУСК", titleJa: "運転開始", description: "Первый блок подключен к сети", descriptionJa: "1号機が送電網に接続。" }
+    ],
+    facts: [
+        "Вторая по мощности АЭС Бельгии",
+        "Блок 2 был остановлен на ремонт в 2012-2013 годах из-за трещин в корпусе",
+        "Вызывает обеспокоенность в Германии и Люксембурге из-за близости к границе"
+    ],
+    factsJa: [
+        "ベルギー第2の原発。",
+        "2号機は2012〜2013年に炉容器亀裂のため停止。",
+        "国境に近いためドイツとルクセンブルクで懸念を呼んだ。"
+    ]
+},
+
+// ==========================================================================
+// ==================== ЧЕХИЯ ===============================================
+// ==========================================================================
+{
+    id: 2600,
+    name: "АЭС Дуковани",
+    nameJa: "ドゥコヴァニ原子力発電所",
+    country: { name: "Чехия", nameJa: "チェコ", flag: "🇨🇿" },
+    coords: [49.0833, 16.15],
+    status: "operational",
+    totalCapacity: 2000,
+    startYear: 1985,
+    overview: "Крупная атомная станция Чехии с четырьмя реакторами ВВЭР-440. Расположена в Южной Моравии.",
+    overviewJa: "チェコの大型原発で、VVER-440を4基備えています。南モラヴィアに位置します。",
+    location: "Дуковани, Высочина, Чехия",
+    locationJa: "チェコ・ヴィソチナ州ドゥコヴァニ",
+    city: "Тршебич",
+    cityJa: "トシェビーチ",
+    units: [
+        { id: 1, name: "Dukovany-1", nameJa: "ドゥコヴァニ1号機", type: "vver", model: "ВВЭР-440/213", capacity: 500, status: "operational", startYear: 1985 },
+        { id: 2, name: "Dukovany-2", nameJa: "ドゥコヴァニ2号機", type: "vver", model: "ВВЭР-440/213", capacity: 500, status: "operational", startYear: 1986 },
+        { id: 3, name: "Dukovany-3", nameJa: "ドゥコヴァニ3号機", type: "vver", model: "ВВЭР-440/213", capacity: 500, status: "operational", startYear: 1987 },
+        { id: 4, name: "Dukovany-4", nameJa: "ドゥコヴァニ4号機", type: "vver", model: "ВВЭР-440/213", capacity: 500, status: "operational", startYear: 1988 }
+    ],
+    history: [
+        { year: "1979", title: "СТРОИТЕЛЬСТВО", titleJa: "建設開始", description: "Начало строительства первого блока", descriptionJa: "1号機の建設が始まる。" },
+        { year: "1985", title: "ПУСК", titleJa: "運転開始", description: "Первый блок подключен к сети", descriptionJa: "1号機が送電網に接続。" }
+    ],
+    facts: [
+        "Крупнейшая АЭС Чехии",
+        "Все четыре блока прошли модернизацию и повышение мощности [citation:7]"
+    ],
+    factsJa: [
+        "チェコ最大の原発。",
+        "4基すべてが改良と出力増強を実施 [citation:7]。"
+    ]
+},
+{
+    id: 2601,
+    name: "АЭС Темелин",
+    nameJa: "テメリン原子力発電所",
+    country: { name: "Чехия", nameJa: "チェコ", flag: "🇨🇿" },
+    coords: [49.1833, 14.3833],
+    status: "operational",
+    totalCapacity: 2000,
+    startYear: 2001,
+    overview: "Атомная станция Чехии с двумя реакторами ВВЭР-1000. Расположена в Южной Чехии.",
+    overviewJa: "チェコのVVER-1000 2基を備えた原発。南チェコに位置します。",
+    location: "Темелин, Южная Чехия, Чехия",
+    locationJa: "チェコ・南ボヘミア州テメリン",
+    city: "Ческе-Будеёвице",
+    cityJa: "チェスケー・ブジェヨヴィツェ",
+    units: [
+        { id: 1, name: "Temelín-1", nameJa: "テメリン1号機", type: "vver", model: "ВВЭР-1000", capacity: 1000, status: "operational", startYear: 2001 },
+        { id: 2, name: "Temelín-2", nameJa: "テメリン2号機", type: "vver", model: "ВВЭР-1000", capacity: 1000, status: "operational", startYear: 2002 }
+    ],
+    history: [
+        { year: "1987", title: "СТРОИТЕЛЬСТВО", titleJa: "建設開始", description: "Начало строительства", descriptionJa: "建設が始まる。" },
+        { year: "2001", title: "ПУСК", titleJa: "運転開始", description: "Первый блок подключен к сети", descriptionJa: "1号機が送電網に接続。" }
+    ],
+    facts: [
+        "Самая новая АЭС Чехии",
+        "Планируется строительство новых блоков и SMR на площадке [citation:7]"
+    ],
+    factsJa: [
+        "チェコ最新の原発。",
+        "敷地内に新号機とSMRの建設計画がある [citation:7]。"
+    ]
+},
+
+// ==========================================================================
+// ==================== СЛОВАКИЯ ============================================
+// ==========================================================================
+{
+    id: 2700,
+    name: "АЭС Богунице",
+    nameJa: "ボフニツェ原子力発電所",
+    country: { name: "Словакия", nameJa: "スロバキア", flag: "🇸🇰" },
+    coords: [48.4667, 17.6667],
+    status: "operational",
+    totalCapacity: 932,
+    startYear: 1984,
+    overview: "Атомная станция в Словакии с двумя действующими реакторами ВВЭР-440. Блоки 1 и 2 закрыты, блоки 3 и 4 работают.",
+    overviewJa: "スロバキアのVVER-440 2基が稼働中の原発。1・2号機は閉鎖され、3・4号機が運転中です。",
+    location: "Ясловске-Богунице, Трнава, Словакия",
+    locationJa: "スロバキア・トルナヴァ県ヤスロフスケー・ボフニツェ",
+    city: "Трнава",
+    cityJa: "トルナヴァ",
+    units: [
+        { id: 3, name: "Bohunice-3", nameJa: "ボフニツェ3号機", type: "vver", model: "ВВЭР-440/213", capacity: 466, status: "operational", startYear: 1984 },
+        { id: 4, name: "Bohunice-4", nameJa: "ボフニツェ4号機", type: "vver", model: "ВВЭР-440/213", capacity: 466, status: "operational", startYear: 1985 }
+    ],
+    history: [
+        { year: "1972", title: "ПУСК A1", titleJa: "A1運転開始", description: "Первый блок (HWGCR) подключен к сети", descriptionJa: "1号機（HWGCR）が送電網に接続。" },
+        { year: "1984", title: "ПУСК БЛОКА-3", titleJa: "3号機運転開始", description: "Третий блок (ВВЭР-440) подключен к сети", descriptionJa: "3号機（VVER-440）が送電網に接続。" }
+    ],
+    facts: [
+        "Блок A1 (HWGCR) был закрыт после аварии в 1977 году",
+        "Блоки 1 и 2 (ВВЭР-440/230) закрыты в 2006 и 2008 годах для вступления в ЕС [citation:8]"
+    ],
+    factsJa: [
+        "A1号機（HWGCR）は1977年の事故後に閉鎖。",
+        "1・2号機（VVER-440/230）はEU加盟のため2006年・2008年に閉鎖 [citation:8]。"
+    ]
+},
+{
+    id: 2701,
+    name: "АЭС Моховце",
+    nameJa: "モホフツェ原子力発電所",
+    country: { name: "Словакия", nameJa: "スロバキア", flag: "🇸🇰" },
+    coords: [48.2, 18.45],
+    status: "operational",
+    totalCapacity: 1374,
+    startYear: 1998,
+    overview: "Атомная станция в Словакии с тремя действующими реакторами ВВЭР-440 и одним строящимся. Блоки 3 и 4 были достроены и введены в 2023 году.",
+    overviewJa: "スロバキアのVVER-440 3基が稼働中で、1基が建設中の原発。3・4号機は完成し2023年に運転開始しました。",
+    location: "Моховце, Нитранский край, Словакия",
+    locationJa: "スロバキア・ニトラ県モホフツェ",
+    city: "Левице",
+    cityJa: "レヴィツェ",
+    units: [
+        { id: 1, name: "Mochovce-1", nameJa: "モホフツェ1号機", type: "vver", model: "ВВЭР-440/213", capacity: 467, status: "operational", startYear: 1998 },
+        { id: 2, name: "Mochovce-2", nameJa: "モホフツェ2号機", type: "vver", model: "ВВЭР-440/213", capacity: 469, status: "operational", startYear: 1999 },
+        { id: 3, name: "Mochovce-3", nameJa: "モホフツェ3号機", type: "vver", model: "ВВЭР-440/213", capacity: 438, status: "operational", startYear: 2023 },
+        { id: 4, name: "Mochovce-4", nameJa: "モホフツェ4号機", type: "vver", model: "ВВЭР-440/213", capacity: 440, status: "construction", startYear: 2025, expectedYear: 2027 }
+    ],
+    history: [
+        { year: "1987", title: "СТРОИТЕЛЬСТВО", titleJa: "建設開始", description: "Начало строительства", descriptionJa: "建設が始まる。" },
+        { year: "1998", title: "ПУСК БЛОКА-1", titleJa: "1号機運転開始", description: "Первый блок подключен к сети", descriptionJa: "1号機が送電網に接続。" },
+        { year: "2023", title: "ПУСК БЛОКА-3", titleJa: "3号機運転開始", description: "Третий блок подключен к сети", descriptionJa: "3号機が送電網に接続。" }
+    ],
+    facts: [
+        "Блоки 3 и 4 были достроены спустя десятилетия после начала строительства",
+        "Блок 4 находится в стадии строительства [citation:8]"
+    ],
+    factsJa: [
+        "3・4号機は着工から数十年を経て完成。",
+        "4号機は建設中 [citation:8]。"
+    ]
+},
+
+// ==========================================================================
+// ==================== ВЕНГРИЯ =============================================
+// ==========================================================================
+{
+    id: 2800,
+    name: "АЭС Пакш",
+    nameJa: "パクシュ原子力発電所",
+    country: { name: "Венгрия", nameJa: "ハンガリー", flag: "🇭🇺" },
+    coords: [46.5725, 18.8556],
+    status: "operational",
+    totalCapacity: 1892,
+    startYear: 1983,
+    overview: "Единственная атомная станция Венгрии, обеспечивающая около половины электроэнергии страны. Состоит из четырёх реакторов ВВЭР-440.",
+    overviewJa: "ハンガリー唯一の原発で、国の電力の約半分を供給しています。VVER-440を4基備えています。",
+    location: "Пакш, Тольна, Венгрия",
+    locationJa: "ハンガリー・トルナ県パクシュ",
+    city: "Пакш",
+    cityJa: "パクシュ",
+    units: [
+        { id: 1, name: "Paks-1", nameJa: "パクシュ1号機", type: "vver", model: "ВВЭР-440/213", capacity: 473, status: "operational", startYear: 1983 },
+        { id: 2, name: "Paks-2", nameJa: "パクシュ2号機", type: "vver", model: "ВВЭР-440/213", capacity: 473, status: "operational", startYear: 1984 },
+        { id: 3, name: "Paks-3", nameJa: "パクシュ3号機", type: "vver", model: "ВВЭР-440/213", capacity: 473, status: "operational", startYear: 1986 },
+        { id: 4, name: "Paks-4", nameJa: "パクシュ4号機", type: "vver", model: "ВВЭР-440/213", capacity: 473, status: "operational", startYear: 1987 }
+    ],
+    history: [
+        { year: "1974", title: "СТРОИТЕЛЬСТВО", titleJa: "建設開始", description: "Начало строительства", descriptionJa: "建設が始まる。" },
+        { year: "1983", title: "ПУСК", titleJa: "運転開始", description: "Первый блок подключен к сети", descriptionJa: "1号機が送電網に接続。" }
+    ],
+    facts: [
+        "Обеспечивает около 50% электроэнергии Венгрии",
+        "В 2003 году на блоке 2 произошла серьёзная авария с повреждением топлива (уровень 3 по INES) [citation:9]",
+        "Планируется строительство новых блоков ВВЭР-1200 (Paks II)"
+    ],
+    factsJa: [
+        "ハンガリー電力の約50%を供給。",
+        "2003年に2号機で燃料損傷事故（INESレベル3）が発生 [citation:9]。",
+        "VVER-1200の新号機（パクシュII）建設計画がある。"
+    ]
+},
+
+// ==========================================================================
+// ==================== БОЛГАРИЯ ============================================
+// ==========================================================================
+{
+    id: 2900,
+    name: "АЭС Козлодуй",
+    nameJa: "コズロドゥイ原子力発電所",
+    country: { name: "Болгария", nameJa: "ブルガリア", flag: "🇧🇬" },
+    coords: [43.75, 23.7667],
+    status: "operational",
+    totalCapacity: 2000,
+    startYear: 1974,
+    overview: "Единственная действующая атомная станция Болгарии. Блоки 1-4 закрыты для вступления в ЕС, блоки 5 и 6 (ВВЭР-1000) продолжают работу.",
+    overviewJa: "ブルガリア唯一の稼働中の原発。1〜4号機はEU加盟のため閉鎖され、5・6号機（VVER-1000）が運転を続けています。",
+    location: "Козлодуй, Враца, Болгария",
+    locationJa: "ブルガリア・ヴラツァ州コズロドゥイ",
+    city: "Козлодуй",
+    cityJa: "コズロドゥイ",
+    units: [
+        { id: 5, name: "Kozloduy-5", nameJa: "コズロドゥイ5号機", type: "vver", model: "ВВЭР-1000", capacity: 1000, status: "operational", startYear: 1987 },
+        { id: 6, name: "Kozloduy-6", nameJa: "コズロドゥイ6号機", type: "vver", model: "ВВЭР-1000", capacity: 1000, status: "operational", startYear: 1991 }
+    ],
+    history: [
+        { year: "1970", title: "СТРОИТЕЛЬСТВО", titleJa: "建設開始", description: "Начало строительства первого блока", descriptionJa: "1号機の建設が始まる。" },
+        { year: "1974", title: "ПУСК", titleJa: "運転開始", description: "Первый блок подключен к сети", descriptionJa: "1号機が送電網に接続。" },
+        { year: "2006", title: "ЗАКРЫТИЕ БЛОКОВ 1-4", titleJa: "1〜4号機閉鎖", description: "Блоки 1-4 закрыты для вступления в ЕС", descriptionJa: "EU加盟のため1〜4号機を閉鎖。" }
+    ],
+    facts: [
+        "Блоки 1-4 были закрыты в 2002-2006 годах",
+        "Блоки 5 и 6 прошли модернизацию и продление срока службы [citation:10]",
+        "Планируется строительство новых блоков AP1000"
+    ],
+    factsJa: [
+        "1〜4号機は2002〜2006年に閉鎖。",
+        "5・6号機は改良と寿命延長を実施 [citation:10]。",
+        "AP1000の新号機建設計画がある。"
+    ]
+},
+
+// ==========================================================================
+// ==================== СЛОВЕНИЯ ============================================
+// ==========================================================================
+{
+    id: 3000,
+    name: "АЭС Кршко",
+    nameJa: "クルシュコ原子力発電所",
+    country: { name: "Словения", nameJa: "スロベニア", flag: "🇸🇮" },
+    coords: [45.9333, 15.5333],
+    status: "operational",
+    totalCapacity: 696,
+    startYear: 1983,
+    overview: "Единственная атомная станция Словении (и Хорватии, совместное владение). Расположена на реке Сава.",
+    overviewJa: "スロベニア（およびクロアチアとの共同所有）唯一の原発。サヴァ川沿いに位置します。",
+    location: "Кршко, Посавский регион, Словения",
+    locationJa: "スロベニア・ポサヴスキ地方クルシュコ",
+    city: "Кршко",
+    cityJa: "クルシュコ",
+    units: [
+        { id: 1, name: "Krško", nameJa: "クルシュコ1号機", type: "pwr", model: "PWR (Westinghouse)", capacity: 696, status: "operational", startYear: 1983 }
+    ],
+    history: [
+        { year: "1975", title: "СТРОИТЕЛЬСТВО", titleJa: "建設開始", description: "Начало строительства", descriptionJa: "建設が始まる。" },
+        { year: "1983", title: "ПУСК", titleJa: "運転開始", description: "Реактор подключен к сети", descriptionJa: "炉が送電網に接続。" },
+        { year: "2023", title: "ПРОДЛЕНИЕ", titleJa: "延長", description: "Лицензия продлена с 40 до 60 лет", descriptionJa: "許可が40年から60年に延長。" }
+    ],
+    facts: [
+        "Совместное владение Словении и Хорватии",
+        "Обеспечивает около 20% электроэнергии Словении и 15% Хорватии",
+        "Планируется строительство второго блока (JEK2) [citation:12]"
+    ],
+    factsJa: [
+        "スロベニアとクロアチアの共同所有。",
+        "スロベニア電力の約20%、クロアチアの約15%を供給。",
+        "2号機（JEK2）の建設計画がある [citation:12]。"
+    ]
+},
+
+// ==========================================================================
+// ==================== НИДЕРЛАНДЫ ==========================================
+// ==========================================================================
+{
+    id: 3100,
+    name: "АЭС Борсселе",
+    nameJa: "ボルセレ原子力発電所",
+    country: { name: "Нидерланды", nameJa: "オランダ", flag: "🇳🇱" },
+    coords: [51.4333, 3.7167],
+    status: "operational",
+    totalCapacity: 482,
+    startYear: 1973,
+    overview: "Единственная действующая атомная станция Нидерландов. Расположена в провинции Зеландия.",
+    overviewJa: "オランダ唯一の稼働中の原発。ゼーラント州に位置します。",
+    location: "Борсселе, Зеландия, Нидерланды",
+    locationJa: "オランダ・ゼーラント州ボルセレ",
+    city: "Борсселе",
+    cityJa: "ボルセレ",
+    units: [
+        { id: 1, name: "Borssele", nameJa: "ボルセレ1号機", type: "pwr", model: "PWR (KWU/Siemens)", capacity: 482, status: "operational", startYear: 1973 }
+    ],
+    history: [
+        { year: "1969", title: "СТРОИТЕЛЬСТВО", titleJa: "建設開始", description: "Начало строительства", descriptionJa: "建設が始まる。" },
+        { year: "1973", title: "ПУСК", titleJa: "運転開始", description: "Реактор подключен к сети", descriptionJa: "炉が送電網に接続。" }
+    ],
+    facts: [
+        "Единственный действующий реактор Нидерландов [citation:13]",
+        "Правительство планирует продлить работу после 2033 года и построить 4 новых АЭС [citation:13]"
+    ],
+    factsJa: [
+        "オランダ唯一の稼働中の原子炉 [citation:13]。",
+        "政府は2033年以降の運転延長と新規原発4基の建設を計画 [citation:13]。"
+    ]
+},
 {
     id: 3522,
     name: "АЭС Сейлем (PSEG)",
