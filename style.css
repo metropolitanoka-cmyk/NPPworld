@@ -14,10 +14,57 @@ html, body {
     overflow: hidden;
 }
 
-/* Японский шрифт */
-html[lang="ja"] * {
+/* ============================================================
+   ЯПОНСКИЙ ШРИФТ — ВАЖНО: НЕ ТРОГАЕМ ИКОНКИ FONT AWESOME
+   ============================================================ */
+html[lang="ja"] body,
+html[lang="ja"] .brand-title,
+html[lang="ja"] .station-title,
+html[lang="ja"] .tab,
+html[lang="ja"] .nav-btn,
+html[lang="ja"] .filter-title,
+html[lang="ja"] .overview-description,
+html[lang="ja"] .event-description,
+html[lang="ja"] .fact-text,
+html[lang="ja"] .unit-description,
+html[lang="ja"] .search-result-name,
+html[lang="ja"] .search-result-country,
+html[lang="ja"] .legend-text,
+html[lang="ja"] .stat-label,
+html[lang="ja"] .stat-value,
+html[lang="ja"] #station-search,
+html[lang="ja"] .filter-option,
+html[lang="ja"] .unit-name,
+html[lang="ja"] .unit-type-badge,
+html[lang="ja"] .unit-years,
+html[lang="ja"] .unit-detail,
+html[lang="ja"] .location-info,
+html[lang="ja"] .status-badge,
+html[lang="ja"] .units-summary,
+html[lang="ja"] .lang-notice,
+html[lang="ja"] .tooltip-content p,
+html[lang="ja"] .clock-label,
+html[lang="ja"] .no-data-message {
     font-family: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Segoe UI', Tahoma, sans-serif;
 }
+
+/* Явно возвращаем Font Awesome его шрифты — иначе иконки ломаются в JA */
+html[lang="ja"] .fas,
+html[lang="ja"] .fa-solid,
+html[lang="ja"] .far,
+html[lang="ja"] .fa-regular,
+html[lang="ja"] .fab,
+html[lang="ja"] .fa-brands,
+html[lang="ja"] .fa {
+    font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands", "FontAwesome" !important;
+    font-weight: 900;
+}
+html[lang="ja"] .fab,
+html[lang="ja"] .fa-brands {
+    font-family: "Font Awesome 6 Brands", "FontAwesome" !important;
+    font-weight: 400;
+}
+
 html[lang="ja"] .brand-title,
 html[lang="ja"] .station-title,
 html[lang="ja"] .tab,
@@ -25,6 +72,7 @@ html[lang="ja"] .nav-btn,
 html[lang="ja"] .filter-title {
     letter-spacing: 0;
 }
+
 html[lang="ja"] .overview-description,
 html[lang="ja"] .event-description,
 html[lang="ja"] .fact-text,
@@ -323,6 +371,7 @@ body {
 .segment-display {
     font-size: 14px;
     font-weight: 700;
+    font-family: 'Orbitron', monospace !important;
 }
 
 .clock-label {
@@ -417,6 +466,7 @@ body {
     font-size: 14px;
     line-height: 1;
     white-space: nowrap;
+    font-family: 'Orbitron', 'Noto Sans JP', sans-serif;
 }
 
 /* ===== ЖЁЛТОЕ УВЕДОМЛЕНИЕ ===== */
