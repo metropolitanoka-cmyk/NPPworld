@@ -20,6 +20,7 @@
     <meta property="og:url" content="https://worldnpp.com">
     <meta property="og:image" content="https://worldnpp.com/images/og-image.jpg">
     <meta property="og:locale" content="ru_RU">
+    <meta property="og:locale:alternate" content="ja_JP">
     <meta property="og:site_name" content="МИР АЭС">
     
     <!-- Twitter Card -->
@@ -35,6 +36,12 @@
     
     <!-- Канонический URL -->
     <link rel="canonical" href="https://worldnpp.com">
+    
+    <!-- Hreflang: сообщаем Google о двуязычности без создания дублей -->
+    <!-- Основной URL — русский. Японская версия рендерится на том же URL через JS -->
+    <link rel="alternate" hreflang="ru" href="https://worldnpp.com/">
+    <link rel="alternate" hreflang="ja" href="https://worldnpp.com/">
+    <link rel="alternate" hreflang="x-default" href="https://worldnpp.com/">
     
     <!-- ТОЛЬКО 2 FAVICON: -->
     <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -59,7 +66,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     
     <!-- JSON-LD структурированные данные -->
     <script type="application/ld+json">
@@ -67,10 +74,13 @@
         "@context": "https://schema.org",
         "@type": "WebApplication",
         "name": "МИР АЭС | Интерактивная карта атомных станций",
+        "alternateName": "世界の原子力発電所 | インタラクティブマップ",
         "description": "Интерактивная карта всех атомных электростанций мира с детальной информацией и статистикой",
         "url": "https://worldnpp.com",
         "applicationCategory": "EducationalApplication",
         "operatingSystem": "Web",
+        "inLanguage": ["ru", "ja"],
+        "availableLanguage": ["ru", "ja"],
         "author": {
             "@type": "Organization",
             "name": "МИР АЭС"
@@ -150,6 +160,9 @@
                     <button class="control-btn" id="theme-toggle" title="День/Ночь" aria-label="Переключить тему">
                         <i class="fas fa-moon"></i>
                     </button>
+                    <button class="control-btn" id="lang-toggle" title="日本語 / Русский" aria-label="Переключить язык" style="font-size:14px; font-weight:700; font-family:'Orbitron',sans-serif;">
+                        <span id="lang-label">JA</span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -160,27 +173,27 @@
         <div class="legend">
             <div class="legend-item">
                 <div class="legend-color operational" aria-hidden="true"></div>
-                <span>Работает</span>
+                <span class="legend-text" data-i18n="legendOperational">Работает</span>
             </div>
             <div class="legend-item">
                 <div class="legend-color stopped" aria-hidden="true"></div>
-                <span>Остановлен</span>
+                <span class="legend-text" data-i18n="legendStopped">Остановлен</span>
             </div>
             <div class="legend-item">
                 <div class="legend-color construction" aria-hidden="true"></div>
-                <span>Строится</span>
+                <span class="legend-text" data-i18n="legendConstruction">Строится</span>
             </div>
             <div class="legend-item">
                 <div class="legend-color closed" aria-hidden="true"></div>
-                <span>Закрыт</span>
+                <span class="legend-text" data-i18n="legendClosed">Закрыт</span>
             </div>
             <div class="legend-item">
                 <div class="legend-color abandoned" aria-hidden="true"></div>
-                <span>Заброшена</span>
+                <span class="legend-text" data-i18n="legendAbandoned">Заброшена</span>
             </div>
             <div class="legend-item">
                 <div class="legend-color accident" aria-hidden="true"></div>
-                <span>Авария</span>
+                <span class="legend-text" data-i18n="legendAccident">Авария</span>
             </div>
         </div>
     </div>
@@ -193,21 +206,21 @@
     <!-- Панель фильтров -->
     <div class="filters-panel" id="filters-panel" role="region" aria-label="Панель фильтров">
         <div class="filter-section">
-            <div class="filter-title">СТРАНЫ</div>
+            <div class="filter-title" data-i18n="filterCountries">СТРАНЫ</div>
             <div class="filter-options" id="country-filters" role="group" aria-label="Фильтр по странам"></div>
         </div>
         
         <div class="filter-section">
-            <div class="filter-title">СТАТУС АЭС</div>
+            <div class="filter-title" data-i18n="filterStatus">СТАТУС АЭС</div>
             <div class="filter-options" id="status-filters" role="group" aria-label="Фильтр по статусу"></div>
         </div>
         
         <div class="filter-section">
-            <div class="filter-title">ТИП РЕАКТОРА</div>
+            <div class="filter-title" data-i18n="filterType">ТИП РЕАКТОРА</div>
             <div class="filter-options" id="type-filters" role="group" aria-label="Фильтр по типу реактора"></div>
         </div>
         
-        <button class="nav-btn" style="width:100%; margin-top:10px;" id="reset-filters" aria-label="Сбросить все фильтры">
+        <button class="nav-btn" style="width:100%; margin-top:10px;" id="reset-filters" aria-label="Сбросить все фильтры" data-i18n="resetFilters">
             СБРОСИТЬ ФИЛЬТРЫ
         </button>
     </div>
@@ -230,10 +243,10 @@
         </div>
         
         <div class="tabs" role="tablist" aria-label="Вкладки информации">
-            <div class="tab active" data-tab="overview" role="tab" aria-selected="true" aria-controls="overview-tab" tabindex="0">ОБЗОР</div>
-            <div class="tab" data-tab="units" role="tab" aria-selected="false" aria-controls="units-tab" tabindex="0">БЛОКИ</div>
-            <div class="tab" data-tab="history" role="tab" aria-selected="false" aria-controls="history-tab" tabindex="0">ИСТОРИЯ</div>
-            <div class="tab" data-tab="facts" role="tab" aria-selected="false" aria-controls="facts-tab" tabindex="0">ФАКТЫ</div>
+            <div class="tab active" data-tab="overview" role="tab" aria-selected="true" aria-controls="overview-tab" tabindex="0" data-i18n="tabOverview">ОБЗОР</div>
+            <div class="tab" data-tab="units" role="tab" aria-selected="false" aria-controls="units-tab" tabindex="0" data-i18n="tabUnits">БЛОКИ</div>
+            <div class="tab" data-tab="history" role="tab" aria-selected="false" aria-controls="history-tab" tabindex="0" data-i18n="tabHistory">ИСТОРИЯ</div>
+            <div class="tab" data-tab="facts" role="tab" aria-selected="false" aria-controls="facts-tab" tabindex="0" data-i18n="tabFacts">ФАКТЫ</div>
         </div>
         
         <div class="tab-content">
@@ -247,34 +260,34 @@
                     <div class="stat-card">
                         <div class="stat-icon" aria-hidden="true"><i class="fas fa-bolt"></i></div>
                         <div class="stat-value" id="total-capacity" aria-live="polite">—</div>
-                        <div class="stat-label">Мощность, МВт</div>
+                        <div class="stat-label" data-i18n="statCapacity">Мощность, МВт</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-icon" aria-hidden="true"><i class="fas fa-industry"></i></div>
                         <div class="stat-value" id="units-count" aria-live="polite">—</div>
-                        <div class="stat-label">Блоков</div>
+                        <div class="stat-label" data-i18n="statUnits">Блоков</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-icon" aria-hidden="true"><i class="fas fa-flag"></i></div>
                         <div class="stat-value" id="panel-country" aria-live="polite">—</div>
-                        <div class="stat-label">Страна</div>
+                        <div class="stat-label" data-i18n="statCountry">Страна</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-icon" aria-hidden="true"><i class="fas fa-calendar-alt"></i></div>
                         <div class="stat-value" id="panel-year" aria-live="polite">—</div>
-                        <div class="stat-label">Год пуска</div>
+                        <div class="stat-label" data-i18n="statYear">Год пуска</div>
                     </div>
                 </div>
                 
                 <div class="info-block">
-                    <h3><i class="fas fa-info-circle" aria-hidden="true"></i> О СТАНЦИИ</h3>
-                    <div class="overview-description" id="overview-description">
+                    <h3><i class="fas fa-info-circle" aria-hidden="true"></i> <span data-i18n="aboutStation">О СТАНЦИИ</span></h3>
+                    <div class="overview-description" id="overview-description" data-i18n="selectStationHint">
                         Выберите атомную электростанцию на карте для просмотра подробной информации.
                     </div>
                 </div>
                 
                 <div class="info-block">
-                    <h3><i class="fas fa-map-marker-alt" aria-hidden="true"></i> МЕСТОПОЛОЖЕНИЕ</h3>
+                    <h3><i class="fas fa-map-marker-alt" aria-hidden="true"></i> <span data-i18n="locationTitle">МЕСТОПОЛОЖЕНИЕ</span></h3>
                     <div class="location-info" id="location-info">
                         <i class="fas fa-city" aria-hidden="true"></i>
                         <span id="location-text">—</span>
@@ -284,21 +297,21 @@
             
             <div class="tab-pane" id="units-tab" role="tabpanel" aria-labelledby="units-tab" hidden>
                 <div class="units-header">
-                    <h3>ЭНЕРГОБЛОКИ СТАНЦИИ</h3>
+                    <h3 data-i18n="unitsHeader">ЭНЕРГОБЛОКИ СТАНЦИИ</h3>
                     <div class="units-summary" id="units-summary" aria-live="polite">
-                        Всего блоков: <span id="total-units">0</span> | Работает: <span id="operational-units">0</span>
+                        <span data-i18n="unitsTotal">Всего блоков:</span> <span id="total-units">0</span> | <span data-i18n="unitsOperational">Работает:</span> <span id="operational-units">0</span>
                     </div>
                 </div>
                 <div class="units-list" id="units-list" role="list" aria-label="Список энергоблоков"></div>
             </div>
             
             <div class="tab-pane" id="history-tab" role="tabpanel" aria-labelledby="history-tab" hidden>
-                <h3><i class="fas fa-history" aria-hidden="true"></i> ИСТОРИЯ СТАНЦИИ</h3>
+                <h3><i class="fas fa-history" aria-hidden="true"></i> <span data-i18n="historyHeader">ИСТОРИЯ СТАНЦИИ</span></h3>
                 <div class="timeline" id="history-timeline"></div>
             </div>
             
             <div class="tab-pane" id="facts-tab" role="tabpanel" aria-labelledby="facts-tab" hidden>
-                <h3><i class="fas fa-star" aria-hidden="true"></i> ИНТЕРЕСНЫЕ ФАКТЫ</h3>
+                <h3><i class="fas fa-star" aria-hidden="true"></i> <span data-i18n="factsHeader">ИНТЕРЕСНЫЕ ФАКТЫ</span></h3>
                 <div class="facts-grid" id="facts-list" role="list" aria-label="Интересные факты"></div>
             </div>
         </div>
@@ -307,7 +320,7 @@
     <!-- Всплывающая подсказка -->
     <div class="floating-tooltip" id="floating-tooltip" role="tooltip" aria-hidden="true">
         <div class="tooltip-content">
-            <p><i class="fas fa-mouse-pointer" aria-hidden="true"></i> Нажмите на АЭС для просмотра информации</p>
+            <p><i class="fas fa-mouse-pointer" aria-hidden="true"></i> <span data-i18n="tooltipClick">Нажмите на АЭС для просмотра информации</span></p>
             <button class="close-tooltip" id="close-tooltip" aria-label="Закрыть подсказку">
                 <i class="fas fa-times"></i>
             </button>
