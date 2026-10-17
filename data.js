@@ -3457,6 +3457,895 @@ const stationsData = [
         "フェルミ2号機は米国最大級のBWR。"
     ]
 },
+// ==========================================================================
+// ДОПОЛНИТЕЛЬНЫЙ ФАЙЛ: ВСЕ АЭС КИТАЯ (ВКЛЮЧАЯ СТРОЯЩИЕСЯ)
+// ID от 20000
+// ==========================================================================
+
+const chinaNuclearStations = [
+
+// ==========================================================================
+// ==================== КИТАЙ: ДЕЙСТВУЮЩИЕ И СТРОЯЩИЕСЯ АЭС =================
+// ==========================================================================
+
+// ---------- Циньшань (Qinshan) ----------
+{
+    id: 20000,
+    name: "Циньшань (Qinshan)",
+    nameJa: "秦山原子力発電所",
+    country: { name: "Китай", nameJa: "中国", flag: "🇨🇳" },
+    coords: [30.4400, 120.9500],
+    status: "operational",
+    totalCapacity: 6660,
+    startYear: 1991,
+    overview: "Первая атомная электростанция, построенная на территории материкового Китая, и символ начала китайской ядерной энергетики. Площадка включает несколько этапов (Qinshan Phase I, II, III и Fangjiashan) с реакторами PWR и PHWR. По состоянию на 2025 год здесь работают 9 энергоблоков суммарной мощностью около 6,66 ГВт — это крупнейшая по числу блоков и разнообразию типов reactors площадка в стране [citation:1][citation:15].",
+    overviewJa: "中国大陸で最初に建設された原子力発電所であり、中国核エネルギーの出発点を象徴する。敷地には秦山一期、二期、三期、方家山の各工程があり、PWRとPHWRが混在する。2025年時点で9基、合計約6.66GWが稼働し、国内で最も多くの炉数を誇り、炉型も多様な拠点である [citation:1][citation:15]。",
+    location: "Хайянь, Чжэцзян, Китай",
+    locationJa: "中国浙江省海塩県",
+    city: "Цзясин",
+    cityJa: "嘉興",
+    units: [
+        { id: 1, name: "Qinshan-I", nameJa: "秦山1号機", type: "pwr", model: "CNP-300", capacity: 300, status: "operational", startYear: 1991 },
+        { id: 2, name: "Qinshan-II-1", nameJa: "秦山二期1号機", type: "pwr", model: "CNP-600", capacity: 650, status: "operational", startYear: 2002 },
+        { id: 3, name: "Qinshan-II-2", nameJa: "秦山二期2号機", type: "pwr", model: "CNP-600", capacity: 650, status: "operational", startYear: 2004 },
+        { id: 4, name: "Qinshan-II-3", nameJa: "秦山二期3号機", type: "pwr", model: "CNP-600", capacity: 660, status: "operational", startYear: 2010 },
+        { id: 5, name: "Qinshan-II-4", nameJa: "秦山二期4号機", type: "pwr", model: "CNP-600", capacity: 660, status: "operational", startYear: 2012 },
+        { id: 6, name: "Qinshan-III-1", nameJa: "秦山三期1号機", type: "phwr", model: "CANDU 6", capacity: 700, status: "operational", startYear: 2002 },
+        { id: 7, name: "Qinshan-III-2", nameJa: "秦山三期2号機", type: "phwr", model: "CANDU 6", capacity: 700, status: "operational", startYear: 2003 },
+        { id: 8, name: "Fangjiashan-1", nameJa: "方家山1号機", type: "pwr", model: "CPR-1000", capacity: 1080, status: "operational", startYear: 2014 },
+        { id: 9, name: "Fangjiashan-2", nameJa: "方家山2号機", type: "pwr", model: "CPR-1000", capacity: 1080, status: "operational", startYear: 2015 }
+    ],
+    history: [
+        { year: "1991", title: "ПУСК", titleJa: "運転開始", description: "Qinshan-I подключён к сети, завершив эпоху отсутствия ядерной энергетики в материковом Китае", descriptionJa: "秦山1号機が送電網に接続し、中国大陸に原子力発電が存在しない時代を終えた。" },
+        { year: "2024", title: "ПРОИЗВОДСТВО ИЗОТОПОВ", titleJa: "同位体生産", description: "Запущено первое в Китае коммерческое производство медицинских изотопов на тяжеловодном реакторе", descriptionJa: "中国初の商用重水炉による医療用同位体生産が開始された。" }
+    ],
+    facts: [
+        "Первая АЭС материкового Китая, положившая начало национальной ядерной программе",
+        "Единственная площадка в Китае, где одновременно эксплуатируются реакторы PWR и PHWR (CANDU)",
+        "В 2024 году начато коммерческое производство углерода-14 и других медицинских изотопов"
+    ],
+    factsJa: [
+        "中国大陸初の原発であり、国産原子力計画の起点。",
+        "中国で唯一、PWRとPHWR（CANDU）を同時に運転する拠点。",
+        "2024年に炭素14などの医療用同位体の商業生産を開始。"
+    ]
+},
+
+// ---------- Даявань (Daya Bay) ----------
+{
+    id: 20001,
+    name: "Даявань (Daya Bay)",
+    nameJa: "大亜湾原子力発電所",
+    country: { name: "Китай", nameJa: "中国", flag: "🇨🇳" },
+    coords: [22.5983, 114.5444],
+    status: "operational",
+    totalCapacity: 1968,
+    startYear: 1993,
+    overview: "Первая крупная коммерческая АЭС Китая, построенная по французской технологии M310 (PWR). Два блока по 984 МВт были подключены к сети в 1993 и 1994 годах. Станция стала важным шагом в освоении западных технологий и подготовке китайских специалистов [citation:3][citation:9].",
+    overviewJa: "中国初の大型商業原発で、フランスのM310（PWR）技術を採用。984MWの2基が1993年と1994年に送電網に接続された。西側技術の吸収と中国人技術者の育成において重要な役割を果たした [citation:3][citation:9]。",
+    location: "Шэньчжэнь, Гуандун, Китай",
+    locationJa: "中国広東省深セン市",
+    city: "Шэньчжэнь",
+    cityJa: "深セン",
+    units: [
+        { id: 1, name: "Daya Bay-1", nameJa: "大亜湾1号機", type: "pwr", model: "M310", capacity: 984, status: "operational", startYear: 1993 },
+        { id: 2, name: "Daya Bay-2", nameJa: "大亜湾2号機", type: "pwr", model: "M310", capacity: 984, status: "operational", startYear: 1994 }
+    ],
+    history: [
+        { year: "1993", title: "ПУСК", titleJa: "運転開始", description: "Первый блок подключён к сети", descriptionJa: "1号機が送電網に接続。" },
+        { year: "1994", title: "ВТОРОЙ БЛОК", titleJa: "2号機運転開始", description: "Второй блок введён в коммерческую эксплуатацию", descriptionJa: "2号機が商業運転を開始。" }
+    ],
+    facts: [
+        "Первая крупная коммерческая АЭС Китая с реакторами PWR западного дизайна",
+        "Стала базой для подготовки китайских специалистов и локализации технологий",
+        "Демонстрирует стабильно высокий коэффициент использования мощности (более 90%)"
+    ],
+    factsJa: [
+        "中国初の大型商業PWR原発。",
+        "技術者の育成と技術の国産化の基盤となった。",
+        "設備利用率は90%以上と安定して高い。"
+    ]
+},
+
+// ---------- Линъао (Ling Ao) ----------
+{
+    id: 20002,
+    name: "Линъао (Ling Ao)",
+    nameJa: "嶺澳原子力発電所",
+    country: { name: "Китай", nameJa: "中国", flag: "🇨🇳" },
+    coords: [22.5500, 114.5333],
+    status: "operational",
+    totalCapacity: 2174,
+    startYear: 2002,
+    overview: "Вторая крупная АЭС в Гуандуне, расположенная рядом с Даявань. Первая очередь (Ling Ao I) использует французскую технологию M310, вторая очередь (Ling Ao II) — усовершенствованный китайский CPR-1000. Четыре блока суммарной мощностью около 2,17 ГВт [citation:19].",
+    overviewJa: "広東省にある大亜湾に隣接する大型原発。一期（嶺澳I）はフランスのM310技術、二期（嶺澳II）は中国改良型のCPR-1000を採用。4基、合計約2.17GW [citation:19]。",
+    location: "Шэньчжэнь, Гуандун, Китай",
+    locationJa: "中国広東省深セン市",
+    city: "Шэньчжэнь",
+    cityJa: "深セン",
+    units: [
+        { id: 1, name: "Ling Ao-1", nameJa: "嶺澳1号機", type: "pwr", model: "M310", capacity: 938, status: "operational", startYear: 2002 },
+        { id: 2, name: "Ling Ao-2", nameJa: "嶺澳2号機", type: "pwr", model: "M310", capacity: 938, status: "operational", startYear: 2003 },
+        { id: 3, name: "Ling Ao-3", nameJa: "嶺澳3号機", type: "pwr", model: "CPR-1000", capacity: 1087, status: "operational", startYear: 2010 },
+        { id: 4, name: "Ling Ao-4", nameJa: "嶺澳4号機", type: "pwr", model: "CPR-1000", capacity: 1087, status: "operational", startYear: 2011 }
+    ],
+    history: [
+        { year: "2002", title: "ПУСК", titleJa: "運転開始", description: "Первый блок Ling Ao I подключён к сети", descriptionJa: "嶺澳I 1号機が送電網に接続。" },
+        { year: "2011", title: "ЗАВЕРШЕНИЕ II ОЧЕРЕДИ", titleJa: "二期完成", description: "Все четыре блока введены в эксплуатацию", descriptionJa: "4基すべてが運転を開始。" }
+    ],
+    facts: [
+        "Первая станция, где был применён китайский реактор CPR-1000 (Ling Ao II)",
+        "Сыграла ключевую роль в переходе от импортных технологий к собственным разработкам",
+        "Расположена в непосредственной близости от Даявань, образуя крупный ядерный кластер в дельте Чжуцзян"
+    ],
+    factsJa: [
+        "中国製CPR-1000を初めて採用した発電所（嶺澳II）。",
+        "輸入技術から自主開発への移行において重要な役割を果たした。",
+        "大亜湾に隣接し、珠江デルタの大規模原子力クラスターを形成。"
+    ]
+},
+
+// ---------- Тяньвань (Tianwan) ----------
+{
+    id: 20003,
+    name: "Тяньвань (Tianwan)",
+    nameJa: "田湾原子力発電所",
+    country: { name: "Китай", nameJa: "中国", flag: "🇨🇳" },
+    coords: [34.6869, 119.4603],
+    status: "operational",
+    totalCapacity: 6070,
+    startYear: 2007,
+    overview: "Крупнейшая АЭС в провинции Цзянсу, построенная при российском участии. Первые два блока используют реакторы ВВЭР-1000 (AES-91), блоки 3-4 — ВВЭР-1200, блоки 5-6 — китайские ACPR-1000, блок 7 — ВВЭР-1200. После завершения всех очередей станция станет одной из крупнейших в мире [citation:13].",
+    overviewJa: "江蘇省最大の原発で、ロシアの協力のもと建設された。1・2号機はVVER-1000（AES-91）、3・4号機はVVER-1200、5・6号機は中国のACPR-1000、7号機はVVER-1200を採用。全工程完成後は世界最大級の原発となる [citation:13]。",
+    location: "Ляньюньган, Цзянсу, Китай",
+    locationJa: "中国江蘇省連雲港市",
+    city: "Ляньюньган",
+    cityJa: "連雲港",
+    units: [
+        { id: 1, name: "Tianwan-1", nameJa: "田湾1号機", type: "pwr", model: "VVER-1000 (AES-91)", capacity: 1060, status: "operational", startYear: 2007 },
+        { id: 2, name: "Tianwan-2", nameJa: "田湾2号機", type: "pwr", model: "VVER-1000 (AES-91)", capacity: 1060, status: "operational", startYear: 2007 },
+        { id: 3, name: "Tianwan-3", nameJa: "田湾3号機", type: "pwr", model: "VVER-1200", capacity: 1126, status: "operational", startYear: 2018 },
+        { id: 4, name: "Tianwan-4", nameJa: "田湾4号機", type: "pwr", model: "VVER-1200", capacity: 1126, status: "operational", startYear: 2018 },
+        { id: 5, name: "Tianwan-5", nameJa: "田湾5号機", type: "pwr", model: "ACPR-1000", capacity: 1118, status: "operational", startYear: 2020 },
+        { id: 6, name: "Tianwan-6", nameJa: "田湾6号機", type: "pwr", model: "ACPR-1000", capacity: 1118, status: "operational", startYear: 2021 },
+        { id: 7, name: "Tianwan-7", nameJa: "田湾7号機", type: "pwr", model: "VVER-1200", capacity: 1265, status: "under_construction", startYear: 2021 }
+    ],
+    history: [
+        { year: "2007", title: "ПУСК", titleJa: "運転開始", description: "Первые блоки ВВЭР-1000 введены в эксплуатацию", descriptionJa: "VVER-1000の初号機が運転を開始。" },
+        { year: "2021", title: "НАЧАЛО СТРОИТЕЛЬСТВА БЛОКА 7", titleJa: "7号機建設開始", description: "Начато сооружение седьмого блока ВВЭР-1200", descriptionJa: "7号機VVER-1200の建設が開始された。" }
+    ],
+    facts: [
+        "Крупнейший проект российско-китайского сотрудничества в области ядерной энергетики",
+        "Сочетает российские реакторы ВВЭР и китайские ACPR-1000 на одной площадке",
+        "Блок 7 (ВВЭР-1200) находится в стадии строительства, ожидаемый пуск — 2026-2027 гг."
+    ],
+    factsJa: [
+        "中露原子力協力の最大プロジェクト。",
+        "ロシアのVVERと中国のACPR-1000を同一敷地で運用。",
+        "7号機（VVER-1200）は建設中で、2026〜2027年の運転開始が見込まれる。"
+    ]
+},
+
+// ---------- Хунъяньхэ (Hongyanhe) ----------
+{
+    id: 20004,
+    name: "Хунъяньхэ (Hongyanhe)",
+    nameJa: "紅沿河原子力発電所",
+    country: { name: "Китай", nameJa: "中国", flag: "🇨🇳" },
+    coords: [39.8000, 121.4667],
+    status: "operational",
+    totalCapacity: 6710,
+    startYear: 2013,
+    overview: "Первая АЭС на северо-востоке Китая (провинция Ляонин), крупнейший энергетический объект региона. Шесть блоков CPR-1000/ACPR-1000 суммарной мощностью около 6,71 ГВт. Станция играет ключевую роль в энергоснабжении промышленного северо-востока [citation:9][citation:19].",
+    overviewJa: "中国東北地方（遼寧省）初の原発であり、地域最大のエネルギー施設。CPR-1000/ACPR-1000の6基、合計約6.71GW。東北地方の工業地帯への電力供給において重要な役割を担う [citation:9][citation:19]。",
+    location: "Далянь, Ляонин, Китай",
+    locationJa: "中国遼寧省大連市",
+    city: "Далянь",
+    cityJa: "大連",
+    units: [
+        { id: 1, name: "Hongyanhe-1", nameJa: "紅沿河1号機", type: "pwr", model: "CPR-1000", capacity: 1119, status: "operational", startYear: 2013 },
+        { id: 2, name: "Hongyanhe-2", nameJa: "紅沿河2号機", type: "pwr", model: "CPR-1000", capacity: 1119, status: "operational", startYear: 2013 },
+        { id: 3, name: "Hongyanhe-3", nameJa: "紅沿河3号機", type: "pwr", model: "CPR-1000", capacity: 1119, status: "operational", startYear: 2015 },
+        { id: 4, name: "Hongyanhe-4", nameJa: "紅沿河4号機", type: "pwr", model: "CPR-1000", capacity: 1119, status: "operational", startYear: 2016 },
+        { id: 5, name: "Hongyanhe-5", nameJa: "紅沿河5号機", type: "pwr", model: "ACPR-1000", capacity: 1119, status: "operational", startYear: 2021 },
+        { id: 6, name: "Hongyanhe-6", nameJa: "紅沿河6号機", type: "pwr", model: "ACPR-1000", capacity: 1119, status: "operational", startYear: 2022 }
+    ],
+    history: [
+        { year: "2013", title: "ПУСК", titleJa: "運転開始", description: "Первые блоки подключены к сети", descriptionJa: "初号機が送電網に接続。" },
+        { year: "2022", title: "ЗАВЕРШЕНИЕ", titleJa: "全号機完成", description: "Все шесть блоков введены в эксплуатацию", descriptionJa: "6基すべてが運転を開始。" }
+    ],
+    facts: [
+        "Первая и крупнейшая АЭС на северо-востоке Китая",
+        "Шесть блоков покрывают значительную часть потребностей региона в электроэнергии",
+        "Использует как оригинальные CPR-1000, так и усовершенствованные ACPR-1000"
+    ],
+    factsJa: [
+        "中国東北地方初かつ最大の原発。",
+        "6基が地域の電力需要の大きな部分を賄う。",
+        "初期型CPR-1000と改良型ACPR-1000の両方を採用。"
+    ]
+},
+
+// ---------- Ниндэ (Ningde) ----------
+{
+    id: 20005,
+    name: "Ниндэ (Ningde)",
+    nameJa: "寧徳原子力発電所",
+    country: { name: "Китай", nameJa: "中国", flag: "🇨🇳" },
+    coords: [27.0500, 120.2833],
+    status: "operational",
+    totalCapacity: 4356,
+    startYear: 2013,
+    overview: "АЭС в провинции Фуцзянь, первая в экономической зоне западного берега Тайваньского пролива. Четыре действующих блока CPR-1000 (около 4,36 ГВт). Ведутся работы по расширению: блоки 5 и 6 с реакторами Hualong One находятся в стадии строительства [citation:2][citation:10].",
+    overviewJa: "福建省にある原発で、台湾海峡西岸経済区初の原子力施設。CPR-1000の4基（約4.36GW）が稼働中。拡張工事として5・6号機（華龍一号）が建設中 [citation:2][citation:10]。",
+    location: "Ниндэ, Фуцзянь, Китай",
+    locationJa: "中国福建省寧徳市",
+    city: "Ниндэ",
+    cityJa: "寧徳",
+    units: [
+        { id: 1, name: "Ningde-1", nameJa: "寧徳1号機", type: "pwr", model: "CPR-1000", capacity: 1089, status: "operational", startYear: 2013 },
+        { id: 2, name: "Ningde-2", nameJa: "寧徳2号機", type: "pwr", model: "CPR-1000", capacity: 1089, status: "operational", startYear: 2014 },
+        { id: 3, name: "Ningde-3", nameJa: "寧徳3号機", type: "pwr", model: "CPR-1000", capacity: 1089, status: "operational", startYear: 2015 },
+        { id: 4, name: "Ningde-4", nameJa: "寧徳4号機", type: "pwr", model: "CPR-1000", capacity: 1089, status: "operational", startYear: 2016 },
+        { id: 5, name: "Ningde-5", nameJa: "寧徳5号機", type: "pwr", model: "Hualong One", capacity: 1150, status: "under_construction", startYear: 2024 },
+        { id: 6, name: "Ningde-6", nameJa: "寧徳6号機", type: "pwr", model: "Hualong One", capacity: 1150, status: "under_construction", startYear: 2025 }
+    ],
+    history: [
+        { year: "2013", title: "ПУСК", titleJa: "運転開始", description: "Первый блок подключён к сети", descriptionJa: "1号機が送電網に接続。" },
+        { year: "2024", title: "НАЧАЛО РАСШИРЕНИЯ", titleJa: "拡張工事開始", description: "Начато строительство блока 5 (Hualong One)", descriptionJa: "5号機（華龍一号）の建設が開始。" }
+    ],
+    facts: [
+        "Первая АЭС в экономической зоне западного берега Тайваньского пролива",
+        "Расширение использует реакторы Hualong One — флагманскую китайскую технологию III поколения",
+        "Блок 6 начал строительство в декабре 2025 года"
+    ],
+    factsJa: [
+        "台湾海峡西岸経済区初の原発。",
+        "拡張には中国の第3世代主力技術である華龍一号を採用。",
+        "6号機は2025年12月に建設を開始。"
+    ]
+},
+
+// ---------- Фуцин (Fuqing) ----------
+{
+    id: 20006,
+    name: "Фуцин (Fuqing)",
+    nameJa: "福清原子力発電所",
+    country: { name: "Китай", nameJa: "中国", flag: "🇨🇳" },
+    coords: [25.4500, 119.4500],
+    status: "operational",
+    totalCapacity: 6150,
+    startYear: 2014,
+    overview: "Крупная АЭС в провинции Фуцзянь. Первые четыре блока используют CPR-1000, блоки 5 и 6 — Hualong One (первая в мире коммерческая демонстрация этого реактора). Блок 5 был подключён к сети в 2020 году, блок 6 — в 2022 году. Суммарная мощность шести блоков около 6,15 ГВт [citation:3][citation:6].",
+    overviewJa: "福建省の大型原発。1〜4号機はCPR-1000、5・6号機は華龍一号（世界初の商業実証）。5号機は2020年、6号機は2022年に送電網に接続。6基合計約6.15GW [citation:3][citation:6]。",
+    location: "Фуцин, Фуцзянь, Китай",
+    locationJa: "中国福建省福清市",
+    city: "Фуцин",
+    cityJa: "福清",
+    units: [
+        { id: 1, name: "Fuqing-1", nameJa: "福清1号機", type: "pwr", model: "CPR-1000", capacity: 1000, status: "operational", startYear: 2014 },
+        { id: 2, name: "Fuqing-2", nameJa: "福清2号機", type: "pwr", model: "CPR-1000", capacity: 1000, status: "operational", startYear: 2015 },
+        { id: 3, name: "Fuqing-3", nameJa: "福清3号機", type: "pwr", model: "CPR-1000", capacity: 1000, status: "operational", startYear: 2016 },
+        { id: 4, name: "Fuqing-4", nameJa: "福清4号機", type: "pwr", model: "CPR-1000", capacity: 1000, status: "operational", startYear: 2017 },
+        { id: 5, name: "Fuqing-5", nameJa: "福清5号機", type: "pwr", model: "Hualong One", capacity: 1075, status: "operational", startYear: 2020 },
+        { id: 6, name: "Fuqing-6", nameJa: "福清6号機", type: "pwr", model: "Hualong One", capacity: 1075, status: "operational", startYear: 2022 }
+    ],
+    history: [
+        { year: "2014", title: "ПУСК", titleJa: "運転開始", description: "Первый блок CPR-1000 подключён к сети", descriptionJa: "CPR-1000の1号機が送電網に接続。" },
+        { year: "2020", title: "HUALONG ONE", titleJa: "華龍一号運転開始", description: "Блок 5 стал первым в мире коммерческим реактором Hualong One", descriptionJa: "5号機が世界初の華龍一号商業炉となった。" },
+        { year: "2022", title: "ЗАВЕРШЕНИЕ", titleJa: "全号機完成", description: "Блок 6 завершил строительство станции", descriptionJa: "6号機の完成により全号機が揃った。" }
+    ],
+    facts: [
+        "Площадка первой в мире коммерческой эксплуатации реактора Hualong One",
+        "Демонстрирует переход Китая от импортных технологий к собственной разработке III поколения",
+        "Блок 5 Hualong One имеет один из самых высоких коэффициентов использования мощности в Китае"
+    ],
+    factsJa: [
+        "世界初の華龍一号商業運転の拠点。",
+        "輸入技術から第3世代自主開発への移行を象徴する。",
+        "5号機（華龍一号）は中国国内でも特に設備利用率が高い。"
+    ]
+},
+
+// ---------- Янцзян (Yangjiang) ----------
+{
+    id: 20007,
+    name: "Янцзян (Yangjiang)",
+    nameJa: "陽江原子力発電所",
+    country: { name: "Китай", nameJa: "中国", flag: "🇨🇳" },
+    coords: [21.7000, 111.5833],
+    status: "operational",
+    totalCapacity: 6516,
+    startYear: 2014,
+    overview: "Крупная АЭС в провинции Гуандун, шесть блоков CPR-1000/ACPR-1000 суммарной мощностью около 6,5 ГВт. Блок 6 (ACPR-1000) показал один из лучших коэффициентов использования мощности в мире (101,5% в 2025 году) [citation:9][citation:19].",
+    overviewJa: "広東省の大型原発。CPR-1000/ACPR-1000の6基、合計約6.5GW。6号機（ACPR-1000）は2025年の設備利用率101.5%と世界最高水準を記録 [citation:9][citation:19]。",
+    location: "Янцзян, Гуандун, Китай",
+    locationJa: "中国広東省陽江市",
+    city: "Янцзян",
+    cityJa: "陽江",
+    units: [
+        { id: 1, name: "Yangjiang-1", nameJa: "陽江1号機", type: "pwr", model: "CPR-1000", capacity: 1086, status: "operational", startYear: 2014 },
+        { id: 2, name: "Yangjiang-2", nameJa: "陽江2号機", type: "pwr", model: "CPR-1000", capacity: 1086, status: "operational", startYear: 2015 },
+        { id: 3, name: "Yangjiang-3", nameJa: "陽江3号機", type: "pwr", model: "CPR-1000", capacity: 1086, status: "operational", startYear: 2016 },
+        { id: 4, name: "Yangjiang-4", nameJa: "陽江4号機", type: "pwr", model: "CPR-1000", capacity: 1086, status: "operational", startYear: 2017 },
+        { id: 5, name: "Yangjiang-5", nameJa: "陽江5号機", type: "pwr", model: "ACPR-1000", capacity: 1086, status: "operational", startYear: 2018 },
+        { id: 6, name: "Yangjiang-6", nameJa: "陽江6号機", type: "pwr", model: "ACPR-1000", capacity: 1086, status: "operational", startYear: 2019 }
+    ],
+    history: [
+        { year: "2014", title: "ПУСК", titleJa: "運転開始", description: "Первый блок подключён к сети", descriptionJa: "1号機が送電網に接続。" },
+        { year: "2019", title: "ЗАВЕРШЕНИЕ", titleJa: "全号機完成", description: "Все шесть блоков введены в эксплуатацию", descriptionJa: "6基すべてが運転を開始。" }
+    ],
+    facts: [
+        "Блок 6 (ACPR-1000) достиг коэффициента использования мощности 101,5% в 2025 году — один из лучших показателей в мире",
+        "Один из крупнейших энергетических объектов в Южном Китае",
+        "Станция использует как оригинальные, так и усовершенствованные китайские реакторы CPR/ACPR"
+    ],
+    factsJa: [
+        "6号機（ACPR-1000）は2025年に設備利用率101.5%を達成し、世界最高水準の一つ。",
+        "中国南部有数の大規模電力施設。",
+        "CPR/ACPRの初期型と改良型の両方を運用。"
+    ]
+},
+
+// ---------- Саньмэнь (Sanmen) ----------
+{
+    id: 20008,
+    name: "Саньмэнь (Sanmen)",
+    nameJa: "三門原子力発電所",
+    country: { name: "Китай", nameJa: "中国", flag: "🇨🇳" },
+    coords: [29.1000, 121.6167],
+    status: "operational",
+    totalCapacity: 2314,
+    startYear: 2018,
+    overview: "Первая в мире АЭС с реакторами AP1000 (Westinghouse). Два блока по 1157 МВт подключены к сети в 2018 году. Площадка стала полигоном для освоения технологии AP1000 и последующей локализации (CAP1000) [citation:9][citation:13].",
+    overviewJa: "世界初のAP1000（ウェスチングハウス）採用原発。1157MWの2基が2018年に送電網に接続。AP1000技術の習得とその後の国産化（CAP1000）の拠点となった [citation:9][citation:13]。",
+    location: "Саньмэнь, Чжэцзян, Китай",
+    locationJa: "中国浙江省三門県",
+    city: "Тайчжоу",
+    cityJa: "台州",
+    units: [
+        { id: 1, name: "Sanmen-1", nameJa: "三門1号機", type: "pwr", model: "AP1000", capacity: 1157, status: "operational", startYear: 2018 },
+        { id: 2, name: "Sanmen-2", nameJa: "三門2号機", type: "pwr", model: "AP1000", capacity: 1157, status: "operational", startYear: 2018 }
+    ],
+    history: [
+        { year: "2018", title: "ПУСК", titleJa: "運転開始", description: "Первый в мире блок AP1000 подключён к сети", descriptionJa: "世界初のAP1000が送電網に接続。" }
+    ],
+    facts: [
+        "Первая в мире действующая АЭС с реакторами AP1000",
+        "Стала основой для китайской программы CAP1000 (локализованная версия AP1000)",
+        "Планируется расширение с блоками 3 и 4 (CAP1000)"
+    ],
+    factsJa: [
+        "世界初のAP1000運転開始施設。",
+        "中国のCAP1000（AP1000国産化版）計画の基盤。",
+        "3・4号機（CAP1000）の増設計画がある。"
+    ]
+},
+
+// ---------- Хайян (Haiyang) ----------
+{
+    id: 20009,
+    name: "Хайян (Haiyang)",
+    nameJa: "海陽原子力発電所",
+    country: { name: "Китай", nameJa: "中国", flag: "🇨🇳" },
+    coords: [36.7000, 121.1667],
+    status: "operational",
+    totalCapacity: 2340,
+    startYear: 2018,
+    overview: "АЭС в провинции Шаньдун с двумя блоками AP1000 (по 1170 МВт). Станция также обеспечивает центральное отопление города Хайян и промышленную теплофикацию. Блок 3 (CAP1000) находится в стадии строительства [citation:3][citation:9].",
+    overviewJa: "山東省の原発で、AP1000の2基（各1170MW）が稼働。海陽市への地域暖房と産業用熱供給も行う。3号機（CAP1000）は建設中 [citation:3][citation:9]。",
+    location: "Хайян, Шаньдун, Китай",
+    locationJa: "中国山東省海陽市",
+    city: "Яньтай",
+    cityJa: "煙台",
+    units: [
+        { id: 1, name: "Haiyang-1", nameJa: "海陽1号機", type: "pwr", model: "AP1000", capacity: 1170, status: "operational", startYear: 2018 },
+        { id: 2, name: "Haiyang-2", nameJa: "海陽2号機", type: "pwr", model: "AP1000", capacity: 1170, status: "operational", startYear: 2018 },
+        { id: 3, name: "Haiyang-3", nameJa: "海陽3号機", type: "pwr", model: "CAP1000", capacity: 1161, status: "under_construction", startYear: 2022 }
+    ],
+    history: [
+        { year: "2018", title: "ПУСК", titleJa: "運転開始", description: "Оба блока AP1000 подключены к сети", descriptionJa: "AP1000の2基が送電網に接続。" },
+        { year: "2022", title: "НАЧАЛО СТРОИТЕЛЬСТВА БЛОКА 3", titleJa: "3号機建設開始", description: "Начато сооружение блока CAP1000", descriptionJa: "CAP1000の建設が開始。" }
+    ],
+    facts: [
+        "Первая в Китае АЭС, обеспечивающая центральное отопление города (с 2021 года)",
+        "Использует AP1000 и строящийся CAP1000 на одной площадке",
+        "Блок 3 (CAP1000) прошёл горячие функциональные испытания в августе 2026 года"
+    ],
+    factsJa: [
+        "中国初の都市地域暖房を行う原発（2021年開始）。",
+        "同一敷地でAP1000とCAP1000を運用。",
+        "3号機（CAP1000）は2026年8月に高温機能試験を完了。"
+    ]
+},
+
+// ---------- Тайшань (Taishan) ----------
+{
+    id: 20010,
+    name: "Тайшань (Taishan)",
+    nameJa: "台山原子力発電所",
+    country: { name: "Китай", nameJa: "中国", flag: "🇨🇳" },
+    coords: [21.9167, 112.8000],
+    status: "operational",
+    totalCapacity: 3500,
+    startYear: 2018,
+    overview: "АЭС в провинции Гуандун с двумя реакторами EPR (European Pressurized Reactor) мощностью по 1750 МВт — крупнейшими действующими реакторами в мире по единичной мощности. Блок 1 был подключён к сети в 2018 году, блок 2 — в 2019 году. Тайшань-2 произвёл рекордное количество электроэнергии в 2025 году (12,2 ТВт·ч) [citation:9][citation:13].",
+    overviewJa: "広東省にある原発で、EPR（欧州加圧水型炉）1750MWの2基を擁し、単機出力としては世界最大の運転中原子炉。1号機は2018年、2号機は2019年に送電網に接続。台山2号機は2025年に12.2TWhを発電し記録を更新 [citation:9][citation:13]。",
+    location: "Тайшань, Гуандун, Китай",
+    locationJa: "中国広東省台山市",
+    city: "Цзянмэнь",
+    cityJa: "江門",
+    units: [
+        { id: 1, name: "Taishan-1", nameJa: "台山1号機", type: "pwr", model: "EPR-1750", capacity: 1750, status: "operational", startYear: 2018 },
+        { id: 2, name: "Taishan-2", nameJa: "台山2号機", type: "pwr", model: "EPR-1750", capacity: 1750, status: "operational", startYear: 2019 }
+    ],
+    history: [
+        { year: "2018", title: "ПУСК", titleJa: "運転開始", description: "Первый блок EPR в Китае подключён к сети", descriptionJa: "中国初のEPRが送電網に接続。" },
+        { year: "2019", title: "ВТОРОЙ БЛОК", titleJa: "2号機運転開始", description: "Оба блока EPR введены в коммерческую эксплуатацию", descriptionJa: "EPR2基が商業運転を開始。" }
+    ],
+    facts: [
+        "Крупнейшие действующие реакторы в мире по единичной мощности (1750 МВт)",
+        "Тайшань-2 произвёл 12,2 ТВт·ч в 2025 году — один из самых высоких показателей среди отдельных блоков",
+        "Единственная АЭС с EPR в Китае (вторая — Olkiluoto-3 в Финляндии, третья — Flamanville-3 во Франции)"
+    ],
+    factsJa: [
+        "単機出力世界最大の運転中原子炉（1750MW）。",
+        "台山2号機は2025年に12.2TWhを発電し、単機としては世界最高水準。",
+        "中国唯一のEPR採用原発（他はフィンランドのオルキルオト3号機、フランスのフラマンヴィル3号機）。"
+    ]
+},
+
+// ---------- Чанцзян (Changjiang) ----------
+{
+    id: 20011,
+    name: "Чанцзян (Changjiang)",
+    nameJa: "昌江原子力発電所",
+    country: { name: "Китай", nameJa: "中国", flag: "🇨🇳" },
+    coords: [19.4500, 108.9167],
+    status: "operational",
+    totalCapacity: 2302,
+    startYear: 2015,
+    overview: "АЭС на острове Хайнань, обеспечивающая значительную часть энергопотребностей острова. Два блока CNP-600 работают с 2015-2016 годов. Блоки 3 и 4 (Hualong One) находятся в стадии строительства/пусконаладки. Также на площадке строится демонстрационный малый модульный реактор ACP100 (Linglong One) [citation:3][citation:18].",
+    overviewJa: "海南島の原発で、島の電力需要の大部分を賄う。CNP-600の2基が2015〜2016年から稼働。3・4号機（華龍一号）は建設・試運転段階。さらに小型モジュール炉ACP100（玲龍一号）の実証炉も建設中 [citation:3][citation:18]。",
+    location: "Чанцзян, Хайнань, Китай",
+    locationJa: "中国海南省昌江県",
+    city: "Дунфан",
+    cityJa: "東方",
+    units: [
+        { id: 1, name: "Changjiang-1", nameJa: "昌江1号機", type: "pwr", model: "CNP-600", capacity: 601, status: "operational", startYear: 2015 },
+        { id: 2, name: "Changjiang-2", nameJa: "昌江2号機", type: "pwr", model: "CNP-600", capacity: 601, status: "operational", startYear: 2016 },
+        { id: 3, name: "Changjiang-3", nameJa: "昌江3号機", type: "pwr", model: "Hualong One", capacity: 1100, status: "operational", startYear: 2026 },
+        { id: 4, name: "Changjiang-4", nameJa: "昌江4号機", type: "pwr", model: "Hualong One", capacity: 1100, status: "under_construction", startYear: 2021 }
+    ],
+    history: [
+        { year: "2015", title: "ПУСК", titleJa: "運転開始", description: "Первый блок CNP-600 подключён к сети", descriptionJa: "CNP-600の1号機が送電網に接続。" },
+        { year: "2026", title: "HUALONG ONE", titleJa: "華龍一号運転開始", description: "Блок 3 (Hualong One) введён в коммерческую эксплуатацию", descriptionJa: "3号機（華龍一号）が商業運転を開始。" }
+    ],
+    facts: [
+        "Основной источник электроэнергии для острова Хайнань",
+        "На площадке также строится демонстрационный SMR ACP100 (Linglong One) — первый в мире наземный коммерческий малый модульный реактор",
+        "Блок 3 (Hualong One) начал коммерческую эксплуатацию в августе 2026 года"
+    ],
+    factsJa: [
+        "海南島の主要電源。",
+        "敷地内では世界初の陸上商用SMRであるACP100（玲龍一号）も建設中。",
+        "3号機（華龍一号）は2026年8月に商業運転を開始。"
+    ]
+},
+
+// ---------- Фанчэнган (Fangchenggang) ----------
+{
+    id: 20012,
+    name: "Фанчэнган (Fangchenggang)",
+    nameJa: "防城港原子力発電所",
+    country: { name: "Китай", nameJa: "中国", flag: "🇨🇳" },
+    coords: [21.6667, 108.5500],
+    status: "operational",
+    totalCapacity: 4420,
+    startYear: 2015,
+    overview: "АЭС в Гуанси-Чжуанском автономном районе, крупнейший энергетический объект региона. Блоки 1-2 используют CPR-1000 (по 1000 МВт), блоки 3-4 — Hualong One (по 1105 МВт). Блоки 3 и 4 стали первыми Hualong One в западном Китае. Планируется расширение (блоки 5-6) [citation:3][citation:6].",
+    overviewJa: "広西チワン族自治区の原発で、地域最大のエネルギー施設。1・2号機はCPR-1000（各1000MW）、3・4号機は華龍一号（各1105MW）。3・4号機は中国西部初の華龍一号。5・6号機の増設計画がある [citation:3][citation:6]。",
+    location: "Фанчэнган, Гуанси, Китай",
+    locationJa: "中国広西チワン族自治区防城港市",
+    city: "Фанчэнган",
+    cityJa: "防城港",
+    units: [
+        { id: 1, name: "Fangchenggang-1", nameJa: "防城港1号機", type: "pwr", model: "CPR-1000", capacity: 1000, status: "operational", startYear: 2015 },
+        { id: 2, name: "Fangchenggang-2", nameJa: "防城港2号機", type: "pwr", model: "CPR-1000", capacity: 1000, status: "operational", startYear: 2016 },
+        { id: 3, name: "Fangchenggang-3", nameJa: "防城港3号機", type: "pwr", model: "Hualong One", capacity: 1105, status: "operational", startYear: 2023 },
+        { id: 4, name: "Fangchenggang-4", nameJa: "防城港4号機", type: "pwr", model: "Hualong One", capacity: 1105, status: "operational", startYear: 2024 }
+    ],
+    history: [
+        { year: "2015", title: "ПУСК", titleJa: "運転開始", description: "Первый блок CPR-1000 подключён к сети", descriptionJa: "CPR-1000の1号機が送電網に接続。" },
+        { year: "2023", title: "HUALONG ONE", titleJa: "華龍一号運転開始", description: "Блок 3 стал первым Hualong One в западном Китае", descriptionJa: "3号機が中国西部初の華龍一号となった。" }
+    ],
+    facts: [
+        "Крупнейшая АЭС в Гуанси-Чжуанском автономном районе",
+        "Первая площадка в западном Китае, где введён в эксплуатацию Hualong One",
+        "Блоки 5 и 6 (Hualong One) находятся в стадии подготовки к строительству"
+    ],
+    factsJa: [
+        "広西チワン族自治区最大の原発。",
+        "中国西部で初めて華龍一号が運転開始した拠点。",
+        "5・6号機（華龍一号）は建設準備段階。"
+    ]
+},
+
+// ---------- Тайпинлин (Taipingling) ----------
+{
+    id: 20013,
+    name: "Тайпинлин (Taipingling)",
+    nameJa: "太平嶺原子力発電所",
+    country: { name: "Китай", nameJa: "中国", flag: "🇨🇳" },
+    coords: [22.9167, 114.9500],
+    status: "operational",
+    totalCapacity: 2232,
+    startYear: 2026,
+    overview: "Новая АЭС в провинции Гуандун, первый проект Hualong One в районе Большого залива (Greater Bay Area). Блок 1 подключён к сети в феврале 2026 года и начал коммерческую эксплуатацию в марте 2026 года. Блок 2 введён в коммерческую эксплуатацию в августе 2026 года. Планируется шесть блоков Hualong One [citation:14][citation:18].",
+    overviewJa: "広東省の新設原発で、大湾区内初の華龍一号プロジェクト。1号機は2026年2月に送電網に接続し、3月に商業運転を開始。2号機は2026年8月に商業運転を開始。華龍一号6基の計画 [citation:14][citation:18]。",
+    location: "Хуэйдун, Гуандун, Китай",
+    locationJa: "中国広東省恵東県",
+    city: "Хуэйчжоу",
+    cityJa: "惠州",
+    units: [
+        { id: 1, name: "Taipingling-1", nameJa: "太平嶺1号機", type: "pwr", model: "Hualong One", capacity: 1116, status: "operational", startYear: 2026 },
+        { id: 2, name: "Taipingling-2", nameJa: "太平嶺2号機", type: "pwr", model: "Hualong One", capacity: 1116, status: "operational", startYear: 2026 },
+        { id: 3, name: "Taipingling-3", nameJa: "太平嶺3号機", type: "pwr", model: "Hualong One", capacity: 1209, status: "under_construction", startYear: 2025 },
+        { id: 4, name: "Taipingling-4", nameJa: "太平嶺4号機", type: "pwr", model: "Hualong One", capacity: 1209, status: "under_construction", startYear: 2025 }
+    ],
+    history: [
+        { year: "2026", title: "ПУСК", titleJa: "運転開始", description: "Блок 1 подключён к сети и введён в коммерческую эксплуатацию", descriptionJa: "1号機が送電網に接続し商業運転を開始。" },
+        { year: "2026", title: "БЛОК 2", titleJa: "2号機運転開始", description: "Блок 2 введён в коммерческую эксплуатацию в августе 2026 года", descriptionJa: "2号機が2026年8月に商業運転を開始。" }
+    ],
+    facts: [
+        "Первый проект Hualong One в районе Большого залива (Greater Bay Area)",
+        "Блок 1 был подключён к сети в феврале 2026 года и начал коммерческую эксплуатацию в марте 2026 года",
+        "После завершения всех шести блоков станция будет производить около 55 ТВт·ч в год"
+    ],
+    factsJa: [
+        "大湾区内初の華龍一号プロジェクト。",
+        "1号機は2026年2月に送電網接続、3月に商業運転開始。",
+        "6基完成後は年間約55TWhを発電する見込み。"
+    ]
+},
+
+// ---------- Саньао (Sanao / San'ao) ----------
+{
+    id: 20014,
+    name: "Саньао (Sanao)",
+    nameJa: "三澳原子力発電所",
+    country: { name: "Китай", nameJa: "中国", flag: "🇨🇳" },
+    coords: [27.2000, 120.5000],
+    status: "under_construction",
+    totalCapacity: 2500,
+    startYear: 2020,
+    overview: "Новая АЭС в провинции Чжэцзян, строящаяся с 2020 года. Блок 1 (Hualong One) завершил загрузку топлива и готовится к подключению к сети. Блок 2 находится в стадии горячих испытаний. Планируется не менее четырёх блоков Hualong One [citation:2][citation:10].",
+    overviewJa: "浙江省の新設原発で、2020年から建設中。1号機（華龍一号）は燃料装荷を完了し送電網接続を目指す。2号機は高温試験段階。華龍一号4基以上の計画 [citation:2][citation:10]。",
+    location: "Цаннань, Чжэцзян, Китай",
+    locationJa: "中国浙江省蒼南県",
+    city: "Вэньчжоу",
+    cityJa: "温州",
+    units: [
+        { id: 1, name: "Sanao-1", nameJa: "三澳1号機", type: "pwr", model: "Hualong One", capacity: 1250, status: "under_construction", startYear: 2020 },
+        { id: 2, name: "Sanao-2", nameJa: "三澳2号機", type: "pwr", model: "Hualong One", capacity: 1250, status: "under_construction", startYear: 2021 }
+    ],
+    history: [
+        { year: "2020", title: "НАЧАЛО СТРОИТЕЛЬСТВА", titleJa: "建設開始", description: "Первый блок Hualong One начат строительством", descriptionJa: "華龍一号1号機の建設が開始。" },
+        { year: "2026", title: "ЗАГРУЗКА ТОПЛИВА", titleJa: "燃料装荷", description: "Блок 1 завершил загрузку ядерного топлива", descriptionJa: "1号機が核燃料装荷を完了。" }
+    ],
+    facts: [
+        "Один из первых проектов Hualong One в восточном Китае",
+        "Блок 1 должен стать первым действующим реактором на площадке",
+        "Планируется расширение до четырёх и более блоков"
+    ],
+    factsJa: [
+        "中国東部における初期の華龍一号プロジェクトの一つ。",
+        "1号機が敷地初の運転炉となる予定。",
+        "4基以上への拡張が計画されている。"
+    ]
+},
+
+// ---------- Чжанчжоу (Zhangzhou) ----------
+{
+    id: 20015,
+    name: "Чжанчжоу (Zhangzhou)",
+    nameJa: "漳州原子力発電所",
+    country: { name: "Китай", nameJa: "中国", flag: "🇨🇳" },
+    coords: [23.8333, 117.6167],
+    status: "operational",
+    totalCapacity: 2252,
+    startYear: 2025,
+    overview: "Новая АЭС в провинции Фуцзянь, использующая реакторы Hualong One. Блок 1 подключён к сети в 2025 году и введён в коммерческую эксплуатацию. Блок 2 находится в стадии строительства. Планируется четыре блока [citation:6][citation:9].",
+    overviewJa: "福建省の新設原発で、華龍一号を採用。1号機は2025年に送電網に接続し商業運転を開始。2号機は建設中。4基の計画 [citation:6][citation:9]。",
+    location: "Чжанчжоу, Фуцзянь, Китай",
+    locationJa: "中国福建省漳州市",
+    city: "Чжанчжоу",
+    cityJa: "漳州",
+    units: [
+        { id: 1, name: "Zhangzhou-1", nameJa: "漳州1号機", type: "pwr", model: "Hualong One", capacity: 1126, status: "operational", startYear: 2025 },
+        { id: 2, name: "Zhangzhou-2", nameJa: "漳州2号機", type: "pwr", model: "Hualong One", capacity: 1126, status: "under_construction", startYear: 2021 }
+    ],
+    history: [
+        { year: "2025", title: "ПУСК", titleJa: "運転開始", description: "Блок 1 подключён к сети и введён в коммерческую эксплуатацию", descriptionJa: "1号機が送電網に接続し商業運転を開始。" }
+    ],
+    facts: [
+        "Один из новых проектов Hualong One, реализуемых CNNC",
+        "Блок 1 произвёл 9,49 ТВт·ч в 2025 году, войдя в топ-5 по выработке среди отдельных блоков в Китае",
+        "Планируется расширение до четырёх блоков"
+    ],
+    factsJa: [
+        "CNNCが進める華龍一号の新規プロジェクトの一つ。",
+        "1号機は2025年に9.49TWhを発電し、中国国内の単機発電量トップ5に入った。",
+        "4基への拡張が計画されている。"
+    ]
+},
+
+// ---------- Сюйдапу (Xudabao) ----------
+{
+    id: 20016,
+    name: "Сюйдапу (Xudabao)",
+    nameJa: "徐大堡原子力発電所",
+    country: { name: "Китай", nameJa: "中国", flag: "🇨🇳" },
+    coords: [40.3500, 120.5333],
+    status: "under_construction",
+    totalCapacity: 4000,
+    startYear: 2021,
+    overview: "Новая АЭС в провинции Ляонин, строящаяся при участии России. Блоки 1-2 используют CAP1000 (китайская локализация AP1000), блоки 3-4 — российские ВВЭР-1200. Блок 3 завершил горячие испытания в июне 2026 года [citation:17].",
+    overviewJa: "遼寧省の新設原発で、ロシアの協力のもと建設中。1・2号機はCAP1000（AP1000の中国国産化版）、3・4号機はロシアのVVER-1200。3号機は2026年6月に高温試験を完了 [citation:17]。",
+    location: "Хулудао, Ляонин, Китай",
+    locationJa: "中国遼寧省葫芦島市",
+    city: "Хулудао",
+    cityJa: "葫芦島",
+    units: [
+        { id: 1, name: "Xudabao-1", nameJa: "徐大堡1号機", type: "pwr", model: "CAP1000", capacity: 1250, status: "under_construction", startYear: 2023 },
+        { id: 2, name: "Xudabao-2", nameJa: "徐大堡2号機", type: "pwr", model: "CAP1000", capacity: 1250, status: "under_construction", startYear: 2024 },
+        { id: 3, name: "Xudabao-3", nameJa: "徐大堡3号機", type: "pwr", model: "VVER-1200", capacity: 1200, status: "under_construction", startYear: 2021 },
+        { id: 4, name: "Xudabao-4", nameJa: "徐大堡4号機", type: "pwr", model: "VVER-1200", capacity: 1200, status: "under_construction", startYear: 2022 }
+    ],
+    history: [
+        { year: "2021", title: "НАЧАЛО СТРОИТЕЛЬСТВА", titleJa: "建設開始", description: "Начато сооружение блока 3 (ВВЭР-1200)", descriptionJa: "3号機（VVER-1200）の建設が開始。" },
+        { year: "2026", title: "ГОРЯЧИЕ ИСПЫТАНИЯ", titleJa: "高温試験", description: "Блок 3 завершил горячие функциональные испытания", descriptionJa: "3号機が高温機能試験を完了。" }
+    ],
+    facts: [
+        "Сочетает китайские CAP1000 и российские ВВЭР-1200 на одной площадке",
+        "Блок 3 (ВВЭР-1200) завершил горячие испытания в июне 2026 года и готовится к пуску",
+        "Один из крупнейших российско-китайских проектов в области ядерной энергетики"
+    ],
+    factsJa: [
+        "中国のCAP1000とロシアのVVER-1200を同一敷地で運用。",
+        "3号機（VVER-1200）は2026年6月に高温試験を完了し、起動準備中。",
+        "中露原子力協力の最大プロジェクトの一つ。"
+    ]
+},
+
+// ---------- Луфэн (Lufeng) ----------
+{
+    id: 20017,
+    name: "Луфэн (Lufeng)",
+    nameJa: "陸豊原子力発電所",
+    country: { name: "Китай", nameJa: "中国", flag: "🇨🇳" },
+    coords: [22.8167, 115.6167],
+    status: "under_construction",
+    totalCapacity: 2500,
+    startYear: 2024,
+    overview: "Новая АЭС в провинции Гуандун, строящаяся с 2024 года. Блоки 1-2 используют CAP1000, блоки 5-6 — Hualong One. Блок 5 находится в стадии строительства, реактор давления завершил первую установку крышки в марте 2026 года [citation:2][citation:5].",
+    overviewJa: "広東省の新設原発で、2024年から建設中。1・2号機はCAP1000、5・6号機は華龍一号。5号機は建設中で、2026年3月に原子炉圧力容器の初回蓋閉めを完了 [citation:2][citation:5]。",
+    location: "Луфэн, Гуандун, Китай",
+    locationJa: "中国広東省陸豊市",
+    city: "Шаньвэй",
+    cityJa: "汕尾",
+    units: [
+        { id: 1, name: "Lufeng-1", nameJa: "陸豊1号機", type: "pwr", model: "CAP1000", capacity: 1250, status: "under_construction", startYear: 2024 },
+        { id: 2, name: "Lufeng-2", nameJa: "陸豊2号機", type: "pwr", model: "CAP1000", capacity: 1250, status: "under_construction", startYear: 2024 },
+        { id: 5, name: "Lufeng-5", nameJa: "陸豊5号機", type: "pwr", model: "Hualong One", capacity: 1200, status: "under_construction", startYear: 2024 },
+        { id: 6, name: "Lufeng-6", nameJa: "陸豊6号機", type: "pwr", model: "Hualong One", capacity: 1200, status: "under_construction", startYear: 2024 }
+    ],
+    history: [
+        { year: "2024", title: "НАЧАЛО СТРОИТЕЛЬСТВА", titleJa: "建設開始", description: "Начато сооружение блоков 1 и 5", descriptionJa: "1号機と5号機の建設が開始。" },
+        { year: "2026", title: "УСТАНОВКА КРЫШКИ РЕАКТОРА", titleJa: "原子炉蓋設置", description: "Блок 5 завершил первую установку крышки корпуса реактора", descriptionJa: "5号機が原子炉圧力容器の初回蓋閉めを完了。" }
+    ],
+    facts: [
+        "Один из новых проектов, сочетающих CAP1000 и Hualong One",
+        "Блок 5 (Hualong One) — первый реактор этого типа на площадке",
+        "Строительство ведётся CGN"
+    ],
+    factsJa: [
+        "CAP1000と華龍一号を組み合わせた新規プロジェクト。",
+        "5号機（華龍一号）は敷地内初の同型炉。",
+        "CGNが建設を担当。"
+    ]
+},
+
+// ---------- Чжаоюань (Zhaoyuan) ----------
+{
+    id: 20018,
+    name: "Чжаоюань (Zhaoyuan)",
+    nameJa: "招遠原子力発電所",
+    country: { name: "Китай", nameJa: "中国", flag: "🇨🇳" },
+    coords: [37.3500, 120.4000],
+    status: "under_construction",
+    totalCapacity: 2400,
+    startYear: 2026,
+    overview: "Новая АЭС в провинции Шаньдун, первый проект Hualong One с градирнями (для снижения теплового воздействия на морскую среду). Блок 1 находится в стадии строительства, блок 2 начал строительство в сентябре 2026 года [citation:5][citation:10][citation:16].",
+    overviewJa: "山東省の新設原発で、華龍一号として初めて冷却塔を備える（海洋熱影響軽減のため）。1号機は建設中、2号機は2026年9月に建設を開始 [citation:5][citation:10][citation:16]。",
+    location: "Чжаоюань, Шаньдун, Китай",
+    locationJa: "中国山東省招遠市",
+    city: "Яньтай",
+    cityJa: "煙台",
+    units: [
+        { id: 1, name: "Zhaoyuan-1", nameJa: "招遠1号機", type: "pwr", model: "Hualong One", capacity: 1200, status: "under_construction", startYear: 2026 },
+        { id: 2, name: "Zhaoyuan-2", nameJa: "招遠2号機", type: "pwr", model: "Hualong One", capacity: 1200, status: "under_construction", startYear: 2026 }
+    ],
+    history: [
+        { year: "2026", title: "НАЧАЛО СТРОИТЕЛЬСТВА", titleJa: "建設開始", description: "Блок 2 начал строительство в сентябре 2026 года", descriptionJa: "2号機が2026年9月に建設を開始。" }
+    ],
+    facts: [
+        "Первый проект Hualong One, оснащённый градирнями для снижения теплового сброса в море",
+        "Строительство ведётся CGN",
+        "Блок 2 начал строительство 5 сентября 2026 года"
+    ],
+    factsJa: [
+        "海洋への熱放出を抑えるため冷却塔を備えた初の華龍一号プロジェクト。",
+        "CGNが建設を担当。",
+        "2号機は2026年9月5日に建設を開始。"
+    ]
+},
+
+// ---------- Шидаовань (Shidaowan) ----------
+{
+    id: 20019,
+    name: "Шидаовань (Shidaowan)",
+    nameJa: "石島湾原子力発電所",
+    country: { name: "Китай", nameJa: "中国", flag: "🇨🇳" },
+    coords: [36.9667, 122.5333],
+    status: "operational",
+    totalCapacity: 2110,
+    startYear: 2021,
+    overview: "Уникальная площадка в провинции Шаньдун, где работают реакторы разных типов. Блок HTR-PM (210 МВт) — первый в мире коммерческий высокотемпературный газоохлаждаемый реактор (IV поколение). Также на площадке строится расширение с Hualong One (блоки 1-2, 2400 МВт) [citation:6][citation:17].",
+    overviewJa: "山東省にある特殊な拠点で、異なるタイプの炉が稼働。HTR-PM（210MW）は世界初の商用高温ガス炉（第4世代）。さらに華龍一号（1・2号機、2400MW）の拡張工事も進行中 [citation:6][citation:17]。",
+    location: "Жунчэн, Шаньдун, Китай",
+    locationJa: "中国山東省栄成市",
+    city: "Вэйхай",
+    cityJa: "威海",
+    units: [
+        { id: 1, name: "HTR-PM", nameJa: "高温ガス炉実証炉", type: "htgr", model: "HTR-PM (High-Temperature Gas-Cooled Reactor)", capacity: 210, status: "operational", startYear: 2021 },
+        { id: 2, name: "Shidaowan-1", nameJa: "石島湾1号機", type: "pwr", model: "Hualong One", capacity: 1200, status: "under_construction", startYear: 2024 },
+        { id: 3, name: "Shidaowan-2", nameJa: "石島湾2号機", type: "pwr", model: "Hualong One", capacity: 1200, status: "under_construction", startYear: 2024 }
+    ],
+    history: [
+        { year: "2021", title: "HTR-PM", titleJa: "高温ガス炉運転開始", description: "Первый в мире коммерческий высокотемпературный газоохлаждаемый реактор подключён к сети", descriptionJa: "世界初の商用高温ガス炉が送電網に接続。" },
+        { year: "2024", title: "РАСШИРЕНИЕ HUALONG ONE", titleJa: "華龍一号拡張", description: "Начато строительство блоков 1-2 Hualong One", descriptionJa: "華龍一号1・2号機の建設が開始。" }
+    ],
+    facts: [
+        "Площадка первого в мире коммерческого высокотемпературного газоохлаждаемого реактора (HTR-PM)",
+        "HTR-PM использует технологию IV поколения с пассивной безопасностью",
+        "Одновременно ведётся строительство двух блоков Hualong One"
+    ],
+    factsJa: [
+        "世界初の商用高温ガス炉（HTR-PM）の拠点。",
+        "HTR-PMは受動的安全性を備えた第4世代技術。",
+        "同時に華龍一号2基の建設も進行中。"
+    ]
+},
+
+// ---------- Цаннань (Cangnan / Sanao) — уже включён как Sanao выше
+// (дублирование не требуется)
+
+// ---------- Сяпу (Xiapu) ----------
+{
+    id: 20020,
+    name: "Сяпу (Xiapu)",
+    nameJa: "霞浦原子力発電所",
+    country: { name: "Китай", nameJa: "中国", flag: "🇨🇳" },
+    coords: [26.8000, 120.0333],
+    status: "under_construction",
+    totalCapacity: 1200,
+    startYear: 2017,
+    overview: "Площадка в провинции Фуцзянь, где строятся два демонстрационных реактора на быстрых нейтронах с натриевым охлаждением CFR-600 (по 600 МВт). Это часть китайской программы развития быстрых реакторов и замкнутого топливного цикла. Строительство начато в 2017 году [citation:17].",
+    overviewJa: "福建省の拠点で、ナトリウム冷却高速炉CFR-600（各600MW）の実証炉2基が建設中。中国の高速炉開発と閉鎖燃料サイクル計画の一環。2017年に建設開始 [citation:17]。",
+    location: "Сяпу, Фуцзянь, Китай",
+    locationJa: "中国福建省霞浦県",
+    city: "Ниндэ",
+    cityJa: "寧徳",
+    units: [
+        { id: 1, name: "CFR-600-1", nameJa: "CFR-600 1号機", type: "fast", model: "CFR-600 (Sodium-cooled fast reactor)", capacity: 600, status: "under_construction", startYear: 2017 },
+        { id: 2, name: "CFR-600-2", nameJa: "CFR-600 2号機", type: "fast", model: "CFR-600 (Sodium-cooled fast reactor)", capacity: 600, status: "under_construction", startYear: 2020 }
+    ],
+    history: [
+        { year: "2017", title: "НАЧАЛО СТРОИТЕЛЬСТВА", titleJa: "建設開始", description: "Начато сооружение первого блока CFR-600", descriptionJa: "CFR-600の1号機の建設が開始。" }
+    ],
+    facts: [
+        "Демонстрационные реакторы на быстрых нейтронах IV поколения",
+        "Часть стратегии Китая по замыканию ядерного топливного цикла",
+        "CFR-600 — развитие технологии, опробованной на экспериментальном CEFR",
+        "Строительство ведётся CNNC"
+    ],
+    factsJa: [
+        "第4世代ナトリウム冷却高速炉の実証炉。",
+        "中国の核燃料サイクル閉鎖戦略の一環。",
+        "CFR-600は実験炉CEFRで実証された技術の発展型。",
+        "CNNCが建設を担当。"
+    ]
+},
+
+// ---------- Лайян (Laiyang) ----------
+{
+    id: 20021,
+    name: "Лайян (Laiyang)",
+    nameJa: "莱陽原子力発電所",
+    country: { name: "Китай", nameJa: "中国", flag: "🇨🇳" },
+    coords: [36.9667, 120.7167],
+    status: "under_construction",
+    totalCapacity: 3000,
+    startYear: 2026,
+    overview: "Новая АЭС в провинции Шаньдун, где будет развёрнута первая стандартизированная серийная партия реакторов CAP1400 (Guohe One) — китайской усовершенствованной версии AP1000. Блоки 1-2 одобрены в июле 2026 года [citation:12][citation:17].",
+    overviewJa: "山東省の新設原発で、CAP1400（国和一号）の初の標準化量産バッチが建設される。CAP1400はAP1000を基に中国が改良した型式。1・2号機は2026年7月に認可 [citation:12][citation:17]。",
+    location: "Лайян, Шаньдун, Китай",
+    locationJa: "中国山東省莱陽市",
+    city: "Яньтай",
+    cityJa: "煙台",
+    units: [
+        { id: 1, name: "Laiyang-1", nameJa: "莱陽1号機", type: "pwr", model: "CAP1400 (Guohe One)", capacity: 1500, status: "under_construction", startYear: 2026 },
+        { id: 2, name: "Laiyang-2", nameJa: "莱陽2号機", type: "pwr", model: "CAP1400 (Guohe One)", capacity: 1500, status: "under_construction", startYear: 2026 }
+    ],
+    history: [
+        { year: "2026", title: "ОДОБРЕНИЕ", titleJa: "認可", description: "Блоки 1-2 одобрены Государственным советом КНР в июле 2026 года", descriptionJa: "1・2号機が2026年7月に国務院の認可を取得。" }
+    ],
+    facts: [
+        "Первая площадка серийного развёртывания реакторов CAP1400 (Guohe One)",
+        "CAP1400 — китайская усовершенствованная версия AP1000 мощностью 1500 МВт",
+        "Одобрена в рамках пакета из 8 реакторов, утверждённого в июле 2026 года"
+    ],
+    factsJa: [
+        "CAP1400（国和一号）の初の量産展開拠点。",
+        "CAP1400はAP1000を基に中国が改良した1500MW級炉。",
+        "2026年7月に認可された8基のパッケージの一部。"
+    ]
+},
+
+// ---------- Чжуанхэ (Zhuanghe) ----------
+{
+    id: 20022,
+    name: "Чжуанхэ (Zhuanghe)",
+    nameJa: "荘河原子力発電所",
+    country: { name: "Китай", nameJa: "中国", flag: "🇨🇳" },
+    coords: [39.6833, 122.9667],
+    status: "under_construction",
+    totalCapacity: 2400,
+    startYear: 2026,
+    overview: "Новая АЭС в провинции Ляонин, одобренная в июле 2026 года в составе пакета из 8 реакторов. Блоки 1-2 будут использовать Hualong One. Строительство находится в начальной стадии [citation:12][citation:17].",
+    overviewJa: "遼寧省の新設原発で、2026年7月に8基パッケージの一部として認可。1・2号機は華龍一号を採用。建設は初期段階 [citation:12][citation:17]。",
+    location: "Чжуанхэ, Ляонин, Китай",
+    locationJa: "中国遼寧省荘河市",
+    city: "Далянь",
+    cityJa: "大連",
+    units: [
+        { id: 1, name: "Zhuanghe-1", nameJa: "荘河1号機", type: "pwr", model: "Hualong One", capacity: 1200, status: "under_construction", startYear: 2026 },
+        { id: 2, name: "Zhuanghe-2", nameJa: "荘河2号機", type: "pwr", model: "Hualong One", capacity: 1200, status: "under_construction", startYear: 2026 }
+    ],
+    history: [
+        { year: "2026", title: "ОДОБРЕНИЕ", titleJa: "認可", description: "Блоки 1-2 одобрены Государственным советом КНР в июле 2026 года", descriptionJa: "1・2号機が2026年7月に国務院の認可を取得。" }
+    ],
+    facts: [
+        "Один из четырёх проектов, одобренных в июле 2026 года",
+        "Использует реакторы Hualong One",
+        "Строительство ведётся CNNC"
+    ],
+    factsJa: [
+        "2026年7月に認可された4プロジェクトの一つ。",
+        "華龍一号を採用。",
+        "CNNCが建設を担当。"
+    ]
+}
+
+];
+
+// ==========================================================================
+// ==================== ЭКСПОРТ =============================================
+// ==========================================================================
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { chinaNuclearStations };
+},
 {
     id: 3504,
     name: "АЭС Джинна (R. E. Ginna)",
@@ -7786,17 +8675,17 @@ const stationsData = [
 // ==========================================================================
 {
     id: 403,
-    name: "АЭС Цзиньшань (Тайвань, Китай)",
+    name: "АЭС Цзиньшань (Тайвань)",
     nameJa: "金山原子力発電所（中国・台湾）",
-    country: { name: "Китай", nameJa: "中国", flag: "🇨🇳" },
+    country: { name: "", nameJa: "", flag: "" },
     region: "Тайвань",
     coords: [25.2883, 121.5944],
     status: "closed",
     totalCapacity: 1272,
     startYear: 1978,
-    overview: "Первая коммерческая атомная электростанция на Тайване (Китай). Остановлена после 40 лет эксплуатации.",
-    overviewJa: "台湾（中国）初の商業用原発。40年間の運転を経て停止されました。",
-    location: "поселок Шимэнь, Новый Тайбэй, Тайвань, Китай",
+    overview: "Первая коммерческая атомная электростанция на Тайване. Остановлена после 40 лет эксплуатации.",
+    overviewJa: "台湾初の商業用原発。40年間の運転を経て停止されました。",
+    location: "поселок Шимэнь, Новый Тайбэй, Тайвань",
     locationJa: "中国・台湾・新北市石門区",
     city: "Шимэнь",
     cityJa: "石門",
@@ -7810,12 +8699,12 @@ const stationsData = [
         { year: "2019", title: "ОКОНЧАТЕЛЬНАЯ ОСТАНОВКА", titleJa: "最終停止", description: "Блок 2 выведен из эксплуатации в июле 2019 года", descriptionJa: "2019年7月に2号機が廃炉となった。" }
     ],
     facts: [
-        "Первая АЭС на Тайване (Китай), введена в коммерческую эксплуатацию в 1978 году",
+        "Первая АЭС на Тайване, введена в коммерческую эксплуатацию в 1978 году",
         "Остановлена в рамках политики отказа от ядерной энергетики в регионе",
         "Процесс вывода из эксплуатации рассчитан на 25 лет"
     ],
     factsJa: [
-        "台湾（中国）初の原発として1978年に営業運転開始。",
+        "台湾初の原発として1978年に営業運転開始。",
         "地域の脱原子力政策により停止された。",
         "廃炉作業は25年かかる予定。"
     ]
@@ -7823,18 +8712,18 @@ const stationsData = [
 
 {
     id: 404,
-    name: "АЭС Гошэн (Тайвань, Китай)",
-    nameJa: "国聖原子力発電所（中国・台湾）",
-    country: { name: "Китай", nameJa: "中国", flag: "🇨🇳" },
+    name: "АЭС Гошэн (Тайвань)",
+    nameJa: "国聖原子力発電所",
+    country: { name: "", nameJa: "", flag: "" },
     region: "Тайвань",
     coords: [25.2078, 121.6603],
     status: "closed",
     totalCapacity: 1970,
     startYear: 1981,
-    overview: "Крупнейшая из остановленных АЭС на Тайване (Китай). Второй блок остановлен досрочно из-за нехватки места в бассейне выдержки отработанного топлива.",
-    overviewJa: "台湾（中国）で停止された原発の中で最大。2号機は使用済燃料プールの容量不足により早期停止されました。",
-    location: "поселок Ваньли, Новый Тайбэй, Тайвань, Китай",
-    locationJa: "中国・台湾・新北市万里区",
+    overview: "Крупнейшая из остановленных АЭС на Тайване. Второй блок остановлен досрочно из-за нехватки места в бассейне выдержки отработанного топлива.",
+    overviewJa: "台湾で停止された原発の中で最大。2号機は使用済燃料プールの容量不足により早期停止されました。",
+    location: "поселок Ваньли, Новый Тайбэй, Тайвань",
+    locationJa: "台湾・新北市万里区",
     city: "Ваньли",
     cityJa: "万里",
     units: [
@@ -7860,9 +8749,9 @@ const stationsData = [
 
 {
     id: 405,
-    name: "АЭС Мааньшань (Тайвань, Китай)",
-    nameJa: "馬鞍山原子力発電所（中国・台湾）",
-    country: { name: "Китай", nameJa: "中国", flag: "🇨🇳" },
+    name: "АЭС Мааньшань (Тайвань)",
+    nameJa: "馬鞍山原子力発電所",
+    country: { name: "", nameJa: "", flag: "" },
     region: "Тайвань",
     coords: [21.9625, 120.7583],
     status: "closed",
@@ -7870,8 +8759,8 @@ const stationsData = [
     startYear: 1984,
     overview: "Последняя действовавшая АЭС на Тайване (Китай). Остановлена в мае 2025 года после истечения 40-летнего срока эксплуатации.",
     overviewJa: "台湾（中国）最後の稼働中原発。40年の運転期間満了に伴い、2025年5月に停止されました。",
-    location: "город Хэнчунь, уезд Пиндун, Тайвань, Китай",
-    locationJa: "中国・台湾・屏東県恒春鎮",
+    location: "город Хэнчунь, уезд Пиндун, Тайвань",
+    locationJa: "台湾・屏東県恒春鎮",
     city: "Хэнчунь",
     cityJa: "恒春",
     units: [
@@ -7884,12 +8773,12 @@ const stationsData = [
         { year: "2025", title: "ПОЛНАЯ ОСТАНОВКА", titleJa: "全基停止", description: "Блок 2 отключен от сети 17 мая 2025 года", descriptionJa: "2025年5月17日に2号機が送電網から切り離された。" }
     ],
     facts: [
-        "Единственная АЭС на Тайване (Китай) с реакторами типа PWR (Westinghouse)",
+        "Единственная АЭС на Тайване с реакторами типа PWR (Westinghouse)",
         "Выработала более 526 ТВт·ч за 40 лет эксплуатации",
         "Остановка блока 2 в мае 2025 года ознаменовала полный отказ от ядерной энергетики в регионе"
     ],
     factsJa: [
-        "台湾（中国）で唯一PWR（ウェスチングハウス製）を採用した原発。",
+        "台湾で唯一PWR（ウェスチングハウス製）を採用した原発。",
         "40年間で526TWh以上を発電。",
         "2025年5月の2号機停止により、地域の脱原子力が完了した。"
     ]
@@ -7897,9 +8786,9 @@ const stationsData = [
 
 {
     id: 406,
-    name: "АЭС Лунмэнь (Тайвань, Китай)",
-    nameJa: "龍門原子力発電所（中国・台湾）",
-    country: { name: "Китай", nameJa: "中国", flag: "🇨🇳" },
+    name: "АЭС Лунмэнь (Тайвань)",
+    nameJa: "龍門原子力発電所",
+    country: { name: "", nameJa: "", flag: "" },
     region: "Тайвань",
     coords: [25.0353, 121.9242],
     status: "abandoned",
@@ -7907,8 +8796,8 @@ const stationsData = [
     startYear: null,
     overview: "Проект АЭС с двумя передовыми кипящими реакторами (ABWR) мощностью 1350 МВт каждый. Строительство заморожено в 2014 году, окончательно отменено в 2019-м.",
     overviewJa: "ABWR（改良型沸騰水型炉）1350MW×2基の建設計画。2014年に凍結され、2019年に正式中止されました。",
-    location: "поселок Гунляо, Новый Тайбэй, Тайвань, Китай",
-    locationJa: "中国・台湾・新北市貢寮区",
+    location: "поселок Гунляо, Новый Тайбэй, Тайвань",
+    locationJa: "台湾・新北市貢寮区",
     city: "Гунляо",
     cityJa: "貢寮",
     units: [
