@@ -164,6 +164,12 @@ function getReactorTypeName(type) {
     return currentLang === 'ja' ? (cfg.nameJa || cfg.name) : cfg.name;
 }
 
+// ХЕЛПЕР ДЛЯ ВЫБОРА ЯЗЫКА
+function getLoc(fieldRu, fieldJa) {
+    if (currentLang === 'ja' && fieldJa) return fieldJa;
+    return fieldRu || '';
+}
+
 function detectBrowserLang() {
     const langs = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language || 'ru'];
     for (const l of langs) {
@@ -192,26 +198,21 @@ function applyLanguage(lang) {
     currentLang = lang;
     document.documentElement.lang = lang;
 
-    // Кнопка языка
     const langLabel = document.getElementById('lang-label');
     if (langLabel) langLabel.textContent = lang === 'ru' ? 'JA' : 'RU';
 
-    // data-i18n
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         const translated = t(key);
         if (translated) el.textContent = translated;
     });
 
-    // Placeholder
     const searchInput = document.getElementById('station-search');
     if (searchInput) searchInput.placeholder = t('searchPlaceholder');
 
-    // Логотип
     const brandTitle = document.getElementById('brand-title');
     if (brandTitle) brandTitle.textContent = t('brandTitle');
 
-    // Перерисовка панели, если открыта
     if (selectedStation) {
         renderStationPanel(selectedStation);
     } else {
@@ -221,16 +222,12 @@ function applyLanguage(lang) {
         if (locEl) locEl.textContent = '—';
     }
 
-    // Обновляем фильтры
     refreshFilterLabels();
     rebuildCountryFilters();
 
-    // Обновляем маркеры
     updateStationMarkers();
     updateUnitMarkers();
 
-    // Сохраняем ТОЛЬКО если пользователь явно переключил (не автоопределение)
-    // Это делает initLanguageToggle, а здесь мы просто ставим флаг, что язык применён
     if (prevLang !== lang) {
         showLangNotice(lang);
     }
@@ -256,12 +253,22 @@ function rebuildCountryFilters() {
     if (!container) return;
     const activeCountries = Array.from(container.querySelectorAll('.filter-option.active')).map(o => o.dataset.country);
     container.innerHTML = '';
-    const countries = [...new Set(allStationsData.map(s => s.country.name))].sort();
-    countries.forEach(country => {
+    
+    // Собираем страны с учетом языка
+    const countryMap = new Map();
+    allStationsData.forEach(s => {
+        if (s.country && s.country.name && s.country.name !== '-') {
+            countryMap.set(s.country.name, getLoc(s.country.name, s.country.nameJa));
+        }
+    });
+    
+    const sortedCountries = Array.from(countryMap.entries()).sort((a, b) => a[1].localeCompare(b[1]));
+
+    sortedCountries.forEach(([origName, displayName]) => {
         const option = document.createElement('div');
-        option.className = 'filter-option' + (activeCountries.includes(country) ? ' active' : '');
-        option.textContent = country;
-        option.dataset.country = country;
+        option.className = 'filter-option' + (activeCountries.includes(origName) ? ' active' : '');
+        option.textContent = displayName;
+        option.dataset.country = origName;
         option.addEventListener('click', function(e) {
             e.preventDefault(); e.stopPropagation();
             this.classList.toggle('active');
@@ -275,16 +282,10 @@ function initLanguageToggle() {
     const btn = document.getElementById('lang-toggle');
     if (!btn) return;
 
-    // ПРИОРИТЕТ: если пользователь ЯВНО выбрал язык — берём его.
-    // Иначе — язык браузера (ja → японский, иначе русский).
     const saved = localStorage.getItem('npp-lang');
     const lang = saved || detectBrowserLang();
-
     applyLanguage(lang);
 
-    // Если язык определён автоматически (не сохранён) — сохраняем его,
-    // чтобы при следующем визите не пересчитывать. Но при этом
-    // автоопределение браузера всё равно имеет приоритет при первом визите.
     if (!saved) {
         localStorage.setItem('npp-lang', lang);
     }
@@ -294,7 +295,6 @@ function initLanguageToggle() {
         e.stopPropagation();
         const next = currentLang === 'ru' ? 'ja' : 'ru';
         applyLanguage(next);
-        // Явный выбор пользователя — сохраняем
         localStorage.setItem('npp-lang', next);
     });
 
@@ -316,14 +316,6 @@ function getStatusConfig(status) {
     return window.statusConfig[status] || window.statusConfig.operational;
 }
 
-function getStatusGradient(status) {
-    return getStatusConfig(status).gradient;
-}
-
-function getPinColor(status) {
-    return getStatusConfig(status).color;
-}
-
 function getReactorType(type) {
     return window.reactorTypes[type] || window.reactorTypes.vver;
 }
@@ -339,68 +331,33 @@ function getReactorShapeClass(type) {
     }
 }
 
-function getReactorColor(type) {
-    return getReactorType(type).color;
-}
-
 // ============================================================
 // ИНИЦИАЛИЗАЦИЯ КАРТЫ
 // ============================================================
 function initMap() {
     const mapOptions = {
-        center: [50, 30],
-        zoom: 3,
-        minZoom: 1,
-        maxZoom: 18,
-        zoomControl: false,
-        attributionControl: true,
-        tap: true,
-        touchZoom: true,
-        scrollWheelZoom: true,
-        doubleClickZoom: true,
-        boxZoom: true,
-        dragging: true,
-        keyboard: false,
-        fadeAnimation: true,
-        zoomAnimation: true,
-        markerZoomAnimation: true,
-        bounceAtZoomLimits: true,
-        inertia: true,
-        inertiaDeceleration: 3000,
-        inertiaMaxSpeed: 1500,
-        easeLinearity: 0.2,
-        worldCopyJump: false,
-        maxBoundsViscosity: 1.0,
-        preferCanvas: false,
-        renderer: L.svg()
+        center: [50, 30], zoom: 3, minZoom: 1, maxZoom: 18,
+        zoomControl: false, attributionControl: true, tap: true,
+        touchZoom: true, scrollWheelZoom: true, doubleClickZoom: true,
+        boxZoom: true, dragging: true, keyboard: false, fadeAnimation: true,
+        zoomAnimation: true, markerZoomAnimation: true, bounceAtZoomLimits: true,
+        inertia: true, inertiaDeceleration: 3000, inertiaMaxSpeed: 1500,
+        easeLinearity: 0.2, worldCopyJump: false, maxBoundsViscosity: 1.0,
+        preferCanvas: false, renderer: L.svg()
     };
 
     map = L.map('map', mapOptions);
 
     const streetLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors',
-        maxZoom: 19,
-        minZoom: 1,
-        detectRetina: true,
-        noWrap: true,
-        bounds: [[-90, -180], [90, 180]]
+        maxZoom: 19, minZoom: 1, detectRetina: true, noWrap: true, bounds: [[-90, -180], [90, 180]]
     });
 
     const satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-        attribution: '© Esri',
-        maxZoom: 19,
-        minZoom: 1,
-        detectRetina: true,
-        noWrap: true,
-        bounds: [[-90, -180], [90, 180]]
+        maxZoom: 19, minZoom: 1, detectRetina: true, noWrap: true, bounds: [[-90, -180], [90, 180]]
     });
 
     const alternativeStreetLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-        attribution: '© CARTO',
-        maxZoom: 19,
-        minZoom: 1,
-        detectRetina: true,
-        noWrap: true
+        maxZoom: 19, minZoom: 1, detectRetina: true, noWrap: true
     });
 
     streetLayer.addTo(map);
@@ -408,45 +365,36 @@ function initMap() {
     document.getElementById('satellite-layer').classList.remove('active');
 
     document.getElementById('street-layer').addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        map.removeLayer(satelliteLayer);
-        map.removeLayer(alternativeStreetLayer);
+        e.preventDefault(); e.stopPropagation();
+        map.removeLayer(satelliteLayer); map.removeLayer(alternativeStreetLayer);
         streetLayer.addTo(map);
         document.getElementById('street-layer').classList.add('active');
         document.getElementById('satellite-layer').classList.remove('active');
     });
 
     document.getElementById('satellite-layer').addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        map.removeLayer(streetLayer);
-        map.removeLayer(alternativeStreetLayer);
+        e.preventDefault(); e.stopPropagation();
+        map.removeLayer(streetLayer); map.removeLayer(alternativeStreetLayer);
         satelliteLayer.addTo(map);
         document.getElementById('satellite-layer').classList.add('active');
         document.getElementById('street-layer').classList.remove('active');
     });
 
     document.getElementById('theme-toggle').addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
+        e.preventDefault(); e.stopPropagation();
         const icon = this.querySelector('i');
         isDarkTheme = !isDarkTheme;
 
         if (isDarkTheme) {
             document.body.classList.remove('light-theme');
             document.body.classList.add('dark-theme');
-            icon.classList.remove('fa-sun');
-            icon.classList.add('fa-moon');
+            icon.classList.remove('fa-sun'); icon.classList.add('fa-moon');
         } else {
             document.body.classList.remove('dark-theme');
             document.body.classList.add('light-theme');
-            icon.classList.remove('fa-moon');
-            icon.classList.add('fa-sun');
+            icon.classList.remove('fa-moon'); icon.classList.add('fa-sun');
         }
-
-        updateStationMarkers();
-        updateUnitMarkers();
+        updateStationMarkers(); updateUnitMarkers();
     });
 
     map.on('zoomend', function() {
@@ -457,29 +405,23 @@ function initMap() {
     let moveEndTimeout;
     map.on('moveend', function() {
         clearTimeout(moveEndTimeout);
-        moveEndTimeout = setTimeout(() => {
-            updateAllMarkers();
-        }, 100);
+        moveEndTimeout = setTimeout(() => { updateAllMarkers(); }, 100);
     });
 
-    const zoomControl = L.control.zoom({
+    L.control.zoom({
         position: 'topright',
         zoomInTitle: currentLang === 'ja' ? '拡大' : 'Приблизить',
         zoomOutTitle: currentLang === 'ja' ? '縮小' : 'Отдалить'
     }).addTo(map);
 
     map.on('tileerror', function(e) {
-        console.warn('Ошибка загрузки тайла:', e);
         if (map.hasLayer(streetLayer)) {
-            map.removeLayer(streetLayer);
-            alternativeStreetLayer.addTo(map);
+            map.removeLayer(streetLayer); alternativeStreetLayer.addTo(map);
         }
     });
 
     map.on('touchstart', function(e) {
-        if (e.originalEvent.touches.length > 1) {
-            e.originalEvent.preventDefault();
-        }
+        if (e.originalEvent.touches.length > 1) e.originalEvent.preventDefault();
     }, { passive: false });
 
     initStationMarkers();
@@ -493,92 +435,62 @@ function initMap() {
 // ============================================================
 function updateAllMarkers() {
     updateStationMarkers();
-    if (currentZoom >= 6) {
-        updateUnitMarkers();
-    } else {
-        clearUnitMarkers();
-    }
+    if (currentZoom >= 6) { updateUnitMarkers(); } else { clearUnitMarkers(); }
 }
 
 function createStationPinHTML(status) {
-    const statusConfig = getStatusConfig(status);
-    const pinColor = statusConfig.color;
-
+    const pinColor = getStatusConfig(status).color;
     return `
         <div class="station-pin">
             <div class="pin-head" style="background: ${pinColor};">
-                <div class="pin-atom">
-                    <div class="pin-core"></div>
-                </div>
+                <div class="pin-atom"><div class="pin-core"></div></div>
             </div>
             <div class="pin-stem" style="background: ${pinColor};"></div>
         </div>
     `;
 }
 
-function initStationMarkers() {
-    updateStationMarkers();
-}
+function initStationMarkers() { updateStationMarkers(); }
 
 function updateStationMarkers() {
     if (!map) return;
     stationMarkers.forEach(item => map.removeLayer(item.marker));
     stationMarkers = [];
-
     const bounds = map.getBounds();
 
     allStationsData.forEach(station => {
         if (!isStationVisible(station)) return;
         if (!bounds.contains(station.coords)) return;
 
-        const markerHtml = createStationPinHTML(station.status);
-
         const icon = L.divIcon({
-            html: markerHtml,
-            className: 'custom-marker',
-            iconSize: [25, 40],
-            iconAnchor: [12.5, 40]
+            html: createStationPinHTML(station.status),
+            className: 'custom-marker', iconSize: [25, 40], iconAnchor: [12.5, 40]
         });
 
+        const sName = getLoc(station.name, station.nameJa);
+        const cName = getLoc(station.country.name, station.country.nameJa);
+
         const marker = L.marker(station.coords, {
-            icon: icon,
-            title: station.name,
-            alt: station.name,
-            riseOnHover: true,
-            bubblingMouseEvents: false,
-            autoPanOnFocus: false
+            icon: icon, title: sName, alt: sName, riseOnHover: true,
+            bubblingMouseEvents: false, autoPanOnFocus: false
         })
         .addTo(map)
         .bindTooltip(`
-            <div style="font-weight:bold; font-size:12px;">${station.name}</div>
-            <div>${station.country.flag} ${station.country.name}</div>
+            <div style="font-weight:bold; font-size:12px;">${sName}</div>
+            <div>${station.country.flag} ${cName}</div>
             <div>${getStatusText(station.status)}</div>
-        `, {
-            direction: 'top',
-            offset: [0, -15],
-            className: 'custom-tooltip',
-            sticky: true
-        });
+        `, { direction: 'top', offset: [0, -15], className: 'custom-tooltip', sticky: true });
 
         marker.on('click', function(e) {
-            if (e.originalEvent) {
-                e.originalEvent.preventDefault();
-                e.originalEvent.stopPropagation();
-            }
+            if (e.originalEvent) { e.originalEvent.preventDefault(); e.originalEvent.stopPropagation(); }
             selectStation(station);
         });
 
         marker.on('touchstart', function(e) {
-            if (e.originalEvent) {
-                e.originalEvent.preventDefault();
-                e.originalEvent.stopPropagation();
-            }
+            if (e.originalEvent) { e.originalEvent.preventDefault(); e.originalEvent.stopPropagation(); }
         });
 
-        stationMarkers.push({
-            stationId: station.id,
-            marker: marker
-        });
+        stationMarkers.push({ stationId: station.id, marker: marker });
     });
 }
 
@@ -590,7 +502,6 @@ function clearUnitMarkers() {
 function updateUnitMarkers() {
     clearUnitMarkers();
     if (!map || currentZoom < 6) return;
-
     const bounds = map.getBounds();
 
     allStationsData.forEach(station => {
@@ -598,7 +509,6 @@ function updateUnitMarkers() {
         if (!bounds.contains(station.coords)) return;
 
         station.units.forEach((unit, index) => {
-            // УВЕЛИЧЕННОЕ РАССТОЯНИЕ между маркерами энергоблоков
             const offset = 0.025;
             const angle = (index * (360 / station.units.length)) * (Math.PI / 180);
             const unitCoords = [
@@ -610,79 +520,46 @@ function updateUnitMarkers() {
             const reactorType = getReactorType(unit.type);
             const shapeClass = getReactorShapeClass(unit.type);
 
-            const markerHtml = `
-                <div class="unit-marker ${shapeClass}" style="
-                    background: ${statusConfig.color};
-                    border-color: ${reactorType.color};
-                    font-size: 8px;
-                ">
-                    ${unit.model}
-                </div>
-            `;
-
             const icon = L.divIcon({
-                html: markerHtml,
-                className: 'custom-marker',
-                iconSize: [45, 45],
-                iconAnchor: [22.5, 22.5]
+                html: `<div class="unit-marker ${shapeClass}" style="background: ${statusConfig.color}; border-color: ${reactorType.color}; font-size: 8px;">${unit.model}</div>`,
+                className: 'custom-marker', iconSize: [45, 45], iconAnchor: [22.5, 22.5]
             });
 
+            const uName = getLoc(unit.name, unit.nameJa);
+
             const marker = L.marker(unitCoords, {
-                icon: icon,
-                title: unit.name,
-                alt: unit.name,
-                zIndexOffset: 1000,
-                riseOnHover: true,
-                bubblingMouseEvents: false
+                icon: icon, title: uName, alt: uName, zIndexOffset: 1000,
+                riseOnHover: true, bubblingMouseEvents: false
             })
             .addTo(map)
             .bindTooltip(`
-                <div style="font-weight:bold;">${unit.name}</div>
+                <div style="font-weight:bold;">${uName}</div>
                 <div>${unit.model}</div>
                 <div>${getStatusText(unit.status)}</div>
                 <div>${unit.capacity} ${currentLang === 'ja' ? 'MW' : 'МВт'}</div>
-            `, {
-                direction: 'right',
-                offset: [5, 0],
-                className: 'custom-tooltip'
-            });
+            `, { direction: 'right', offset: [5, 0], className: 'custom-tooltip' });
 
             marker.on('click', function(e) {
-                if (e.originalEvent) {
-                    e.originalEvent.stopPropagation();
-                    e.originalEvent.preventDefault();
-                }
+                if (e.originalEvent) { e.originalEvent.stopPropagation(); e.originalEvent.preventDefault(); }
                 selectStation(station);
                 selectUnit(unit);
             });
 
             marker.on('touchstart', function(e) {
-                if (e.originalEvent) {
-                    e.originalEvent.preventDefault();
-                    e.originalEvent.stopPropagation();
-                }
+                if (e.originalEvent) { e.originalEvent.preventDefault(); e.originalEvent.stopPropagation(); }
             });
 
-            unitMarkers.push({
-                unitId: unit.id,
-                stationId: station.id,
-                marker: marker
-            });
+            unitMarkers.push({ unitId: unit.id, stationId: station.id, marker: marker });
         });
     });
 }
 
 function isStationVisible(station) {
-    if (activeFilters.countries.length > 0 && !activeFilters.countries.includes(station.country.name)) {
-        return false;
-    }
-    if (activeFilters.statuses.length > 0 && !activeFilters.statuses.includes(station.status)) {
-        return false;
-    }
+    if (activeFilters.countries.length > 0 && !activeFilters.countries.includes(station.country.name)) return false;
+    if (activeFilters.statuses.length > 0 && !activeFilters.statuses.includes(station.status)) return false;
     if (activeFilters.types.length > 0) {
         const stationTypes = station.units.map(unit => unit.type);
-        const hasMatchingType = stationTypes.some(type => activeFilters.types.includes(type));
-        if (!hasMatchingType) return false;
+        if (!stationTypes.some(type => activeFilters.types.includes(type))) return false;
     }
     return true;
 }
@@ -693,34 +570,25 @@ function isStationVisible(station) {
 function loadStationPhoto(stationId) {
     const photoContainer = document.getElementById('station-photo-container');
     const photoImg = document.getElementById('station-photo');
+    if (!photoContainer || !photoImg) return;
 
     if (photoCache.has(stationId)) {
         const exists = photoCache.get(stationId);
-        if (exists) {
-            photoImg.src = `PhotoNPP/${stationId}.jpg`;
-            photoContainer.style.display = 'block';
-        } else {
-            photoContainer.style.display = 'none';
-            photoImg.src = '';
-        }
+        if (exists) { photoImg.src = `PhotoNPP/${stationId}.jpg`; photoContainer.style.display = 'block'; } 
+        else { photoContainer.style.display = 'none'; photoImg.src = ''; }
         return;
     }
 
     photoContainer.style.display = 'none';
     photoImg.src = '';
-
     const photoPath = `PhotoNPP/${stationId}.jpg`;
 
     const tempImg = new Image();
     tempImg.onload = function() {
-        photoCache.set(stationId, true);
-        photoImg.src = photoPath;
-        photoContainer.style.display = 'block';
+        photoCache.set(stationId, true); photoImg.src = photoPath; photoContainer.style.display = 'block';
     };
     tempImg.onerror = function() {
-        photoCache.set(stationId, false);
-        photoContainer.style.display = 'none';
-        photoImg.src = '';
+        photoCache.set(stationId, false); photoContainer.style.display = 'none'; photoImg.src = '';
     };
     tempImg.src = photoPath;
 }
@@ -734,16 +602,19 @@ function selectStation(station) {
 
     document.getElementById('sidepanel').classList.add('open');
 
-    document.getElementById('panel-station-name').textContent = station.name;
+    const sName = getLoc(station.name, station.nameJa);
+    const cName = getLoc(station.country.name, station.country.nameJa);
+
+    document.getElementById('panel-station-name').textContent = sName;
     document.getElementById('total-capacity').textContent = (station.totalCapacity || 0).toLocaleString();
     document.getElementById('units-count').textContent = station.units ? station.units.length : 0;
-    document.getElementById('panel-country').textContent = station.country.name + ' ' + station.country.flag;
+    document.getElementById('panel-country').textContent = cName + ' ' + station.country.flag;
     document.getElementById('panel-year').textContent = station.startYear || '—';
 
-    const cleanedDescription = (station.overview || '').replace(/\[citation:\d+\]/g, '');
+    const cleanedDescription = getLoc(station.overview, station.overviewJa).replace(/\[citation:\d+\]/g, '');
     document.getElementById('overview-description').textContent = cleanedDescription || t('selectStationHint');
 
-    let locationText = station.location || t('locationUnknown');
+    let locationText = getLoc(station.location, station.locationJa) || t('locationUnknown');
     document.getElementById('location-text').textContent = locationText;
 
     const statusBadge = document.getElementById('panel-status-badge');
@@ -760,26 +631,28 @@ function selectStation(station) {
 
     switchTab('overview');
 
-    map.flyTo(station.coords, Math.max(currentZoom, 7), {
-        duration: 0.5,
-        easeLinearity: 0.25
-    });
+    map.flyTo(station.coords, Math.max(currentZoom, 7), { duration: 0.5, easeLinearity: 0.25 });
 
     updateAllMarkers();
     hideTooltip();
 }
 
 function renderStationPanel(station) {
-    document.getElementById('panel-station-name').textContent = station.name;
+    const sName = getLoc(station.name, station.nameJa);
+    const cName = getLoc(station.country.name, station.country.nameJa);
+
+    document.getElementById('panel-station-name').textContent = sName;
+    document.getElementById('panel-country').textContent = cName + ' ' + station.country.flag;
+    
     const statusBadge = document.getElementById('panel-status-badge');
     const statusConfig = getStatusConfig(station.status);
     statusBadge.textContent = getStatusText(station.status);
     statusBadge.style.background = statusConfig.gradient;
     statusBadge.style.color = statusConfig.textColor;
 
-    const cleanedDescription = (station.overview || '').replace(/\[citation:\d+\]/g, '');
+    const cleanedDescription = getLoc(station.overview, station.overviewJa).replace(/\[citation:\d+\]/g, '');
     document.getElementById('overview-description').textContent = cleanedDescription || t('selectStationHint');
-    document.getElementById('location-text').textContent = station.location || t('locationUnknown');
+    document.getElementById('location-text').textContent = getLoc(station.location, station.locationJa) || t('locationUnknown');
 
     updateUnitsTab(station);
     updateHistoryTab(station);
@@ -806,7 +679,6 @@ function updateUnitsTab(station) {
 
     if (!unitsList) return;
     unitsList.innerHTML = '';
-
     let operationalCount = 0;
 
     if (!station.units || station.units.length === 0) {
@@ -829,12 +701,13 @@ function updateUnitsTab(station) {
         unitCard.style.setProperty('--unit-color', reactorType.color);
 
         const cleanedDetails = unit.details ? unit.details.replace(/\[citation:\d+\]/g, '') : '';
+        const uName = getLoc(unit.name, unit.nameJa);
 
         unitCard.innerHTML = `
             <div class="unit-header">
                 <div class="unit-name">
                     <span class="unit-shape ${shapeClass}"></span>
-                    ${unit.name}
+                    ${uName}
                 </div>
                 <div class="unit-type-badge">${unit.model}</div>
             </div>
@@ -872,10 +745,7 @@ function updateUnitsTab(station) {
             ` : ''}
         `;
 
-        unitCard.addEventListener('click', () => {
-            selectUnit(unit);
-        });
-
+        unitCard.addEventListener('click', () => { selectUnit(unit); });
         unitsList.appendChild(unitCard);
     });
 
@@ -889,34 +759,28 @@ function updateHistoryTab(station) {
     timeline.innerHTML = '';
 
     if (!station.history || station.history.length === 0) {
-        timeline.innerHTML = `
-            <div class="no-data-message">
-                <i class="fas fa-history"></i>
-                <span>${t('historyEmpty')}</span>
-            </div>
-        `;
+        timeline.innerHTML = `<div class="no-data-message"><i class="fas fa-history"></i><span>${t('historyEmpty')}</span></div>`;
         return;
     }
 
-    const sortedHistory = [...station.history].sort((a, b) => {
-        const yearA = parseInt(a.year) || 0;
-        const yearB = parseInt(b.year) || 0;
-        return yearA - yearB;
-    });
+    const sortedHistory = [...station.history].sort((a, b) => (parseInt(a.year) || 0) - (parseInt(b.year) || 0));
 
     sortedHistory.forEach(event => {
         const eventElement = document.createElement('div');
         eventElement.className = 'history-event';
 
-        const cleanedTitle = ((event.title || event.event) || '').replace(/\[citation:\d+\]/g, '');
-        const cleanedDescription = event.description ? event.description.replace(/\[citation:\d+\]/g, '') : '';
+        const rawTitle = event.title || event.event || '';
+        const title = getLoc(rawTitle, event.titleJa).replace(/\[citation:\d+\]/g, '');
+        
+        const rawDesc = event.description || '';
+        const description = getLoc(rawDesc, event.descriptionJa).replace(/\[citation:\d+\]/g, '');
 
         eventElement.innerHTML = `
             <div class="event-year">
                 <span class="year-highlight">${event.year}</span>
-                <span class="event-title-highlight">${cleanedTitle}</span>
+                <span class="event-title-highlight">${title}</span>
             </div>
-            ${cleanedDescription ? `<div class="event-description">${cleanedDescription}</div>` : ''}
+            ${description ? `<div class="event-description">${description}</div>` : ''}
         `;
 
         timeline.appendChild(eventElement);
@@ -928,20 +792,16 @@ function updateFactsTab(station) {
     if (!factsList) return;
     factsList.innerHTML = '';
 
-    if (!station.facts || station.facts.length === 0) {
-        factsList.innerHTML = `
-            <div class="no-data-message">
-                <i class="fas fa-info-circle"></i>
-                <span>${t('factsEmpty')}</span>
-            </div>
-        `;
+    const facts = (currentLang === 'ja' && station.factsJa) ? station.factsJa : station.facts;
+
+    if (!facts || facts.length === 0) {
+        factsList.innerHTML = `<div class="no-data-message"><i class="fas fa-info-circle"></i><span>${t('factsEmpty')}</span></div>`;
         return;
     }
 
-    station.facts.forEach((fact) => {
+    facts.forEach((fact) => {
         const factElement = document.createElement('div');
         factElement.className = 'fact-item';
-
         const cleanedFact = fact.replace(/\[citation:\d+\]/g, '');
 
         factElement.innerHTML = `
@@ -957,13 +817,8 @@ function updateFactsTab(station) {
 }
 
 function switchTab(tabName) {
-    document.querySelectorAll('.tab').forEach(tab => {
-        tab.classList.remove('active');
-    });
-
-    document.querySelectorAll('.tab-pane').forEach(pane => {
-        pane.classList.remove('active');
-    });
+    document.querySelectorAll('.tab').forEach(tab => { tab.classList.remove('active'); });
+    document.querySelectorAll('.tab-pane').forEach(pane => { pane.classList.remove('active'); });
 
     const activeTab = document.querySelector(`.tab[data-tab="${tabName}"]`);
     const activePane = document.getElementById(`${tabName}-tab`);
@@ -975,27 +830,7 @@ function switchTab(tabName) {
 // ФИЛЬТРЫ
 // ============================================================
 function initFilters() {
-    const countries = [...new Set(allStationsData.map(station => station.country.name))].sort();
-    const countryFiltersContainer = document.getElementById('country-filters');
-
-    if (countryFiltersContainer) {
-        countryFiltersContainer.innerHTML = '';
-        countries.forEach(country => {
-            const option = document.createElement('div');
-            option.className = 'filter-option';
-            option.textContent = country;
-            option.dataset.country = country;
-
-            option.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                this.classList.toggle('active');
-                updateFilters();
-            });
-
-            countryFiltersContainer.appendChild(option);
-        });
-    }
+    rebuildCountryFilters();
 
     const statuses = Object.keys(window.statusConfig);
     const statusFiltersContainer = document.getElementById('status-filters');
@@ -1009,12 +844,10 @@ function initFilters() {
             option.dataset.status = statusId;
 
             option.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
+                e.preventDefault(); e.stopPropagation();
                 this.classList.toggle('active');
                 updateFilters();
             });
-
             statusFiltersContainer.appendChild(option);
         });
     }
@@ -1031,12 +864,10 @@ function initFilters() {
             option.dataset.type = typeId;
 
             option.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
+                e.preventDefault(); e.stopPropagation();
                 this.classList.toggle('active');
                 updateFilters();
             });
-
             typeFiltersContainer.appendChild(option);
         });
     }
@@ -1044,8 +875,7 @@ function initFilters() {
     const resetBtn = document.getElementById('reset-filters');
     if (resetBtn) {
         resetBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
+            e.preventDefault(); e.stopPropagation();
             document.querySelectorAll('.filter-option.active').forEach(option => {
                 option.classList.remove('active');
             });
@@ -1058,8 +888,7 @@ function initFilters() {
 
     if (toggleBtn && filtersPanel) {
         toggleBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
+            e.preventDefault(); e.stopPropagation();
             filtersPanel.classList.toggle('open');
             toggleBtn.classList.toggle('active');
         });
@@ -1074,14 +903,9 @@ function initFilters() {
 }
 
 function updateFilters() {
-    activeFilters.countries = Array.from(document.querySelectorAll('#country-filters .filter-option.active'))
-        .map(option => option.dataset.country);
-
-    activeFilters.statuses = Array.from(document.querySelectorAll('#status-filters .filter-option.active'))
-        .map(option => option.dataset.status);
-
-    activeFilters.types = Array.from(document.querySelectorAll('#type-filters .filter-option.active'))
-        .map(option => option.dataset.type);
+    activeFilters.countries = Array.from(document.querySelectorAll('#country-filters .filter-option.active')).map(o => o.dataset.country);
+    activeFilters.statuses = Array.from(document.querySelectorAll('#status-filters .filter-option.active')).map(o => o.dataset.status);
+    activeFilters.types = Array.from(document.querySelectorAll('#type-filters .filter-option.active')).map(o => o.dataset.type);
 
     updateAllMarkers();
 
@@ -1110,22 +934,26 @@ function initSearch() {
 
         searchTimeout = setTimeout(() => {
             const results = allStationsData.filter(station => {
-                return station.name.toLowerCase().includes(query) ||
-                       (station.locationCity && station.locationCity.toLowerCase().includes(query));
+                const sNameRu = station.name || '';
+                const sNameJa = station.nameJa || '';
+                const cityRu = station.locationCity || '';
+                return sNameRu.toLowerCase().includes(query) || sNameJa.toLowerCase().includes(query) || cityRu.toLowerCase().includes(query);
             });
 
             if (results.length > 0) {
                 results.forEach(station => {
                     const resultItem = document.createElement('div');
                     resultItem.className = 'search-result-item';
+                    const sName = getLoc(station.name, station.nameJa);
+                    const cName = getLoc(station.country.name, station.country.nameJa);
+
                     resultItem.innerHTML = `
-                        <div class="search-result-name">${station.name}</div>
-                        <div class="search-result-country">${station.country.flag} ${station.country.name}</div>
+                        <div class="search-result-name">${sName}</div>
+                        <div class="search-result-country">${station.country.flag} ${cName}</div>
                     `;
 
                     resultItem.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
+                        e.preventDefault(); e.stopPropagation();
                         selectStation(station);
                         searchInput.value = '';
                         searchResults.innerHTML = '';
@@ -1145,9 +973,7 @@ function initSearch() {
         }
     });
 
-    searchInput.addEventListener('touchstart', function(e) {
-        e.stopPropagation();
-    });
+    searchInput.addEventListener('touchstart', function(e) { e.stopPropagation(); });
 }
 
 // ============================================================
@@ -1158,17 +984,12 @@ function initTooltip() {
     const closeButton = document.getElementById('close-tooltip');
     if (!tooltip || !closeButton) return;
 
-    setTimeout(() => {
-        tooltip.style.display = 'flex';
-    }, 2000);
+    setTimeout(() => { tooltip.style.display = 'flex'; }, 2000);
 
-    tooltipTimeout = setTimeout(() => {
-        hideTooltip();
-    }, 12000);
+    tooltipTimeout = setTimeout(() => { hideTooltip(); }, 12000);
 
     closeButton.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
+        e.preventDefault(); e.stopPropagation();
         hideTooltip();
         clearTimeout(tooltipTimeout);
     });
@@ -1225,24 +1046,15 @@ function validateStationsData() {
 
     let issues = 0;
     allStationsData.forEach(station => {
-        if (!station.id) {
-            console.warn('[МИР АЭС] Станция без id:', station.name);
-            issues++;
-        }
-        if (!station.units || !Array.isArray(station.units)) {
-            console.warn('[МИР АЭС] Нет массива units у станции:', station.name);
-            issues++;
-        }
-        if (station.totalCapacity == null) {
-            console.warn('[МИР АЭС] Нет totalCapacity у станции:', station.name);
-            issues++;
-        }
+        if (!station.id) { issues++; }
+        if (!station.units || !Array.isArray(station.units)) { issues++; }
+        if (station.totalCapacity == null) { issues++; }
     });
 
     if (issues === 0) {
         console.log(`[МИР АЭС] Данные OK: ${allStationsData.length} станций`);
     } else {
-        console.warn(`[МИР АЭС] Найдено ${issues} проблем в данных. Смотри предупреждения выше.`);
+        console.warn(`[МИР АЭС] Найдено ${issues} проблем в данных.`);
     }
 }
 
@@ -1250,33 +1062,19 @@ function validateStationsData() {
 // ИНИЦИАЛИЗАЦИЯ
 // ============================================================
 window.addEventListener('DOMContentLoaded', function() {
-    if (typeof stationsData !== 'undefined') {
+    // Ищем данные в window.stationsData или stationsData
+    if (window.stationsData && Array.isArray(window.stationsData)) {
+        allStationsData = window.stationsData;
+    } else if (typeof stationsData !== 'undefined' && Array.isArray(stationsData)) {
         allStationsData = stationsData;
     } else {
         console.error('[МИР АЭС] stationsData не найдена. Проверь data.js');
         allStationsData = [];
     }
 
-    // Пост-обработка
     allStationsData.forEach(station => {
         if (!station.locationCity) {
             station.locationCity = station.location ? station.location.split(',')[0] : '';
-        }
-        if (station.overview) station.overview = station.overview.replace(/\[citation:\d+\]/g, '');
-        if (station.facts) station.facts = station.facts.map(fact => fact.replace(/\[citation:\d+\]/g, ''));
-        if (station.history) {
-            station.history = station.history.map(event => {
-                if (event.title) event.title = event.title.replace(/\[citation:\d+\]/g, '');
-                if (event.event) event.event = event.event.replace(/\[citation:\d+\]/g, '');
-                if (event.description) event.description = event.description.replace(/\[citation:\d+\]/g, '');
-                return event;
-            });
-        }
-        if (station.units) {
-            station.units = station.units.map(unit => {
-                if (unit.details) unit.details = unit.details.replace(/\[citation:\d+\]/g, '');
-                return unit;
-            });
         }
     });
 
@@ -1288,8 +1086,7 @@ window.addEventListener('DOMContentLoaded', function() {
 
     document.querySelectorAll('.tab').forEach(tab => {
         tab.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
+            e.preventDefault(); e.stopPropagation();
             switchTab(this.dataset.tab);
         });
     });
@@ -1297,8 +1094,7 @@ window.addEventListener('DOMContentLoaded', function() {
     const closePanel = document.getElementById('close-panel');
     if (closePanel) {
         closePanel.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
+            e.preventDefault(); e.stopPropagation();
             document.getElementById('sidepanel').classList.remove('open');
             selectedStation = null;
             selectedUnit = null;
@@ -1312,8 +1108,7 @@ window.addEventListener('DOMContentLoaded', function() {
 
     if (mapMode) {
         mapMode.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
+            e.preventDefault(); e.stopPropagation();
             this.classList.add('active');
             if (statsMode) statsMode.classList.remove('active');
         });
@@ -1321,8 +1116,7 @@ window.addEventListener('DOMContentLoaded', function() {
 
     if (statsMode) {
         statsMode.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
+            e.preventDefault(); e.stopPropagation();
             this.classList.add('active');
             if (mapMode) mapMode.classList.remove('active');
             window.location.href = 'statistics.html';
