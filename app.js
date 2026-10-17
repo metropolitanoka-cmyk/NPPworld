@@ -229,8 +229,8 @@ function applyLanguage(lang) {
     updateStationMarkers();
     updateUnitMarkers();
 
-    localStorage.setItem('npp-lang', lang);
-
+    // Сохраняем ТОЛЬКО если пользователь явно переключил (не автоопределение)
+    // Это делает initLanguageToggle, а здесь мы просто ставим флаг, что язык применён
     if (prevLang !== lang) {
         showLangNotice(lang);
     }
@@ -274,13 +274,28 @@ function rebuildCountryFilters() {
 function initLanguageToggle() {
     const btn = document.getElementById('lang-toggle');
     if (!btn) return;
+
+    // ПРИОРИТЕТ: если пользователь ЯВНО выбрал язык — берём его.
+    // Иначе — язык браузера (ja → японский, иначе русский).
     const saved = localStorage.getItem('npp-lang');
     const lang = saved || detectBrowserLang();
+
     applyLanguage(lang);
+
+    // Если язык определён автоматически (не сохранён) — сохраняем его,
+    // чтобы при следующем визите не пересчитывать. Но при этом
+    // автоопределение браузера всё равно имеет приоритет при первом визите.
+    if (!saved) {
+        localStorage.setItem('npp-lang', lang);
+    }
+
     btn.addEventListener('click', function(e) {
-        e.preventDefault(); e.stopPropagation();
+        e.preventDefault();
+        e.stopPropagation();
         const next = currentLang === 'ru' ? 'ja' : 'ru';
         applyLanguage(next);
+        // Явный выбор пользователя — сохраняем
+        localStorage.setItem('npp-lang', next);
     });
 
     const closeNotice = document.getElementById('close-lang-notice');
@@ -583,7 +598,7 @@ function updateUnitMarkers() {
         if (!bounds.contains(station.coords)) return;
 
         station.units.forEach((unit, index) => {
-            // УВЕЛИЧЕННОЕ РАССТОЯНИЕ между маркерами энергоблоков (было 0.015, стало 0.025)
+            // УВЕЛИЧЕННОЕ РАССТОЯНИЕ между маркерами энергоблоков
             const offset = 0.025;
             const angle = (index * (360 / station.units.length)) * (Math.PI / 180);
             const unitCoords = [
