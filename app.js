@@ -7,54 +7,43 @@ let unitMarkers = [];
 let currentZoom = 3;
 let selectedStation = null;
 let selectedUnit = null;
-let activeFilters = {
-    countries: [],
-    statuses: [],
-    types: []
-};
+let activeFilters = { countries: [], statuses: [], types: [] };
 let isDarkTheme = true;
 let allStationsData = [];
 let searchTimeout = null;
 let tooltipTimeout = null;
+let langNoticeTimeout = null;
 let currentLang = 'ru';
 
-// Кэш для фото
 const photoCache = new Map();
 
 // ============================================================
-// I18N — СЛОВАРЬ ПЕРЕВОДОВ
+// I18N
 // ============================================================
 const I18N = {
     ru: {
-        // Статусы
+        mapMode: 'КАРТА',
+        statsMode: 'СТАТИСТИКА',
         statusOperational: 'Работает',
         statusStopped: 'Остановлен',
         statusConstruction: 'Строится',
         statusClosed: 'Закрыт',
         statusAbandoned: 'Заброшена',
         statusAccident: 'Авария',
-
-        // Легенда
         legendOperational: 'Работает',
         legendStopped: 'Остановлен',
         legendConstruction: 'Строится',
         legendClosed: 'Закрыт',
         legendAbandoned: 'Заброшена',
         legendAccident: 'Авария',
-
-        // Фильтры
         filterCountries: 'СТРАНЫ',
         filterStatus: 'СТАТУС АЭС',
         filterType: 'ТИП РЕАКТОРА',
         resetFilters: 'СБРОСИТЬ ФИЛЬТРЫ',
-
-        // Вкладки
         tabOverview: 'ОБЗОР',
         tabUnits: 'БЛОКИ',
         tabHistory: 'ИСТОРИЯ',
         tabFacts: 'ФАКТЫ',
-
-        // Панель
         panelSelectStation: 'Выберите АЭС',
         statCapacity: 'Мощность, МВт',
         statUnits: 'Блоков',
@@ -64,60 +53,46 @@ const I18N = {
         selectStationHint: 'Выберите атомную электростанцию на карте для просмотра подробной информации.',
         locationTitle: 'МЕСТОПОЛОЖЕНИЕ',
         locationUnknown: 'Информация о ближайшем населённом пункте отсутствует',
-
-        // Блоки
         unitsHeader: 'ЭНЕРГОБЛОКИ СТАНЦИИ',
         unitsTotal: 'Всего блоков:',
         unitsOperational: 'Работает:',
         unitStartYear: 'Год пуска:',
         unitEndYear: 'Год остановки:',
-
-        // История / факты
         historyHeader: 'ИСТОРИЯ СТАНЦИИ',
         historyEmpty: 'Историческая информация отсутствует',
         factsHeader: 'ИНТЕРЕСНЫЕ ФАКТЫ',
         factsEmpty: 'Интересные факты отсутствуют',
-
-        // Подсказка
         tooltipClick: 'Нажмите на АЭС для просмотра информации',
-
-        // Поиск
         searchPlaceholder: 'Поиск АЭС...',
-
-        // Ошибки данных
         dataErrorCapacity: 'Мощность не указана',
-        dataErrorUnits: 'Нет данных о блоках'
+        dataErrorUnits: 'Нет данных о блоках',
+        langSwitchedToRu: 'Язык переключён на русский',
+        langSwitchedToJa: '言語を日本語に切り替えました',
+        brandTitle: 'МИР АЭС'
     },
     ja: {
-        // Статусы
+        mapMode: '地図',
+        statsMode: '統計',
         statusOperational: '運転中',
         statusStopped: '停止中',
         statusConstruction: '建設中',
         statusClosed: '閉鎖',
         statusAbandoned: '放棄',
         statusAccident: '事故',
-
-        // Легенда
         legendOperational: '運転中',
         legendStopped: '停止中',
         legendConstruction: '建設中',
         legendClosed: '閉鎖',
         legendAbandoned: '放棄',
         legendAccident: '事故',
-
-        // Фильтры
         filterCountries: '国',
         filterStatus: '運転状況',
         filterType: '原子炉タイプ',
         resetFilters: 'フィルターをリセット',
-
-        // Вкладки
         tabOverview: '概要',
         tabUnits: 'ユニット',
         tabHistory: '歴史',
         tabFacts: '豆知識',
-
-        // Панель
         panelSelectStation: '原発を選択してください',
         statCapacity: '出力（MW）',
         statUnits: 'ユニット数',
@@ -127,79 +102,36 @@ const I18N = {
         selectStationHint: '地図上の原子力発電所を選ぶと、詳しい情報が表示されます。',
         locationTitle: '所在地',
         locationUnknown: '最寄りの自治体情報はありません',
-
-        // Блоки
         unitsHeader: '発電所のユニット',
         unitsTotal: '総ユニット数：',
         unitsOperational: '運転中：',
         unitStartYear: '運転開始：',
         unitEndYear: '運転終了：',
-
-        // История / факты
         historyHeader: '発電所の歴史',
         historyEmpty: '歴史情報はありません',
         factsHeader: '豆知識',
         factsEmpty: '豆知識はありません',
-
-        // Подсказка
         tooltipClick: '原発をクリックすると情報が表示されます',
-
-        // Поиск
         searchPlaceholder: '原発を検索...',
-
-        // Ошибки данных
         dataErrorCapacity: '出力データなし',
-        dataErrorUnits: 'ユニットデータなし'
+        dataErrorUnits: 'ユニットデータなし',
+        langSwitchedToRu: '言語をロシア語に切り替えました',
+        langSwitchedToJa: '言語を日本語に切り替えました',
+        brandTitle: '世界の原子力発電所'
     }
 };
 
 // ============================================================
-// КОНФИГУРАЦИЯ СТАТУСОВ (с поддержкой перевода)
+// КОНФИГУРАЦИЯ
 // ============================================================
 if (typeof window.statusConfig === 'undefined') {
     window.statusConfig = {
-        operational: {
-            name: 'Работает',
-            nameJa: '運転中',
-            color: '#00FF88',
-            gradient: 'linear-gradient(135deg, #00FF88, #00CCAA)',
-            textColor: '#000000'
-        },
-        stopped: {
-            name: 'Остановлен',
-            nameJa: '停止中',
-            color: '#FFCC00',
-            gradient: 'linear-gradient(135deg, #FFCC00, #FFAA33)',
-            textColor: '#000000'
-        },
-        construction: {
-            name: 'Строится',
-            nameJa: '建設中',
-            color: '#00D1FF',
-            gradient: 'linear-gradient(135deg, #00D1FF, #0088FF)',
-            textColor: '#000000'
-        },
-        closed: {
-            name: 'Закрыт',
-            nameJa: '閉鎖',
-            color: '#AAAAAA',
-            gradient: 'linear-gradient(135deg, #AAAAAA, #777777)',
-            textColor: '#000000'
-        },
-        abandoned: {
-            name: 'Заброшена',
-            nameJa: '放棄',
-            color: '#8B4513',
-            gradient: 'linear-gradient(135deg, #8B4513, #A0522D)',
-            textColor: '#FFFFFF'
-        },
-        accident: {
-            name: 'Авария',
-            nameJa: '事故',
-            color: '#FF3366',
-            gradient: 'linear-gradient(135deg, #FF3366, #FF0055)',
-            textColor: '#FFFFFF'
-        }
+        operational: { name: 'Работает', nameJa: '運転中', color: '#00FF88', gradient: 'linear-gradient(135deg, #00FF88, #00CCAA)', textColor: '#000000' },
+        stopped: { name: 'Остановлен', nameJa: '停止中', color: '#FFCC00', gradient: 'linear-gradient(135deg, #FFCC00, #FFAA33)', textColor: '#000000' },
+        construction: { name: 'Строится', nameJa: '建設中', color: '#00D1FF', gradient: 'linear-gradient(135deg, #00D1FF, #0088FF)', textColor: '#000000' },
+        closed: { name: 'Закрыт', nameJa: '閉鎖', color: '#AAAAAA', gradient: 'linear-gradient(135deg, #AAAAAA, #777777)', textColor: '#000000' },
+        abandoned: { name: 'Заброшена', nameJa: '放棄', color: '#8B4513', gradient: 'linear-gradient(135deg, #8B4513, #A0522D)', textColor: '#FFFFFF' },
+        accident: { name: 'Авария', nameJa: '事故', color: '#FF3366', gradient: 'linear-gradient(135deg, #FF3366, #FF0055)', textColor: '#FFFFFF' }
     };
 }
 
@@ -233,83 +165,84 @@ function getReactorTypeName(type) {
 }
 
 function detectBrowserLang() {
-    const langs = (navigator.languages && navigator.languages.length)
-        ? navigator.languages
-        : [navigator.language || navigator.userLanguage || 'ru'];
+    const langs = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language || 'ru'];
     for (const l of langs) {
         if (l && l.toLowerCase().startsWith('ja')) return 'ja';
     }
     return 'ru';
 }
 
+function showLangNotice(lang) {
+    const notice = document.getElementById('lang-notice');
+    const text = document.getElementById('lang-notice-text');
+    if (!notice || !text) return;
+
+    text.textContent = t(lang === 'ru' ? 'langSwitchedToRu' : 'langSwitchedToJa');
+    notice.style.display = 'flex';
+
+    clearTimeout(langNoticeTimeout);
+    langNoticeTimeout = setTimeout(() => {
+        notice.style.display = 'none';
+    }, 10000);
+}
+
 function applyLanguage(lang) {
     if (!I18N[lang]) lang = 'ru';
+    const prevLang = currentLang;
     currentLang = lang;
     document.documentElement.lang = lang;
 
-    // Кнопка языка: показываем ЦЕЛЕВОЙ язык
+    // Кнопка языка
     const langLabel = document.getElementById('lang-label');
-    if (langLabel) {
-        langLabel.textContent = lang === 'ru' ? 'JA' : 'RU';
-    }
+    if (langLabel) langLabel.textContent = lang === 'ru' ? 'JA' : 'RU';
 
-    // data-i18n атрибуты
+    // data-i18n
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         const translated = t(key);
         if (translated) el.textContent = translated;
     });
 
-    // Placeholder поиска
+    // Placeholder
     const searchInput = document.getElementById('station-search');
     if (searchInput) searchInput.placeholder = t('searchPlaceholder');
 
-    // Перерисовываем динамику, если панель открыта
-    if (selectedStation) {
-        // Обновляем заголовок панели и статус
-        document.getElementById('panel-station-name').textContent = selectedStation.name;
-        const statusBadge = document.getElementById('panel-status-badge');
-        const cfg = window.statusConfig[selectedStation.status] || window.statusConfig.operational;
-        statusBadge.textContent = getStatusText(selectedStation.status);
-        statusBadge.style.background = cfg.gradient;
-        statusBadge.style.color = cfg.textColor;
+    // Логотип
+    const brandTitle = document.getElementById('brand-title');
+    if (brandTitle) brandTitle.textContent = t('brandTitle');
 
-        // Перерисовываем вкладки
-        updateUnitsTab(selectedStation);
-        updateHistoryTab(selectedStation);
-        updateFactsTab(selectedStation);
-        // Описание и локация
-        const descEl = document.getElementById('overview-description');
-        if (descEl) descEl.textContent = (selectedStation.overview || '').replace(/\[citation:\d+\]/g, '');
-        const locEl = document.getElementById('location-text');
-        if (locEl) locEl.textContent = selectedStation.location || t('locationUnknown');
+    // Перерисовка панели, если открыта
+    if (selectedStation) {
+        renderStationPanel(selectedStation);
     } else {
-        // Если панель пуста — обновляем подсказку
         const descEl = document.getElementById('overview-description');
         if (descEl) descEl.textContent = t('selectStationHint');
         const locEl = document.getElementById('location-text');
         if (locEl) locEl.textContent = '—';
     }
 
-    // Обновляем фильтры (тексты опций статусов и типов)
+    // Обновляем фильтры
     refreshFilterLabels();
+    rebuildCountryFilters();
 
-    // Обновляем тултипы маркеров
+    // Обновляем маркеры
     updateStationMarkers();
     updateUnitMarkers();
 
     localStorage.setItem('npp-lang', lang);
+
+    if (prevLang !== lang) {
+        showLangNotice(lang);
+    }
 }
 
 function refreshFilterLabels() {
-    // Статусы
     document.querySelectorAll('#status-filters .filter-option').forEach(opt => {
         const statusId = opt.dataset.status;
         if (statusId && window.statusConfig[statusId]) {
             opt.textContent = getStatusText(statusId);
         }
     });
-    // Типы
     document.querySelectorAll('#type-filters .filter-option').forEach(opt => {
         const typeId = opt.dataset.type;
         if (typeId && window.reactorTypes[typeId]) {
@@ -318,20 +251,47 @@ function refreshFilterLabels() {
     });
 }
 
+function rebuildCountryFilters() {
+    const container = document.getElementById('country-filters');
+    if (!container) return;
+    const activeCountries = Array.from(container.querySelectorAll('.filter-option.active')).map(o => o.dataset.country);
+    container.innerHTML = '';
+    const countries = [...new Set(allStationsData.map(s => s.country.name))].sort();
+    countries.forEach(country => {
+        const option = document.createElement('div');
+        option.className = 'filter-option' + (activeCountries.includes(country) ? ' active' : '');
+        option.textContent = country;
+        option.dataset.country = country;
+        option.addEventListener('click', function(e) {
+            e.preventDefault(); e.stopPropagation();
+            this.classList.toggle('active');
+            updateFilters();
+        });
+        container.appendChild(option);
+    });
+}
+
 function initLanguageToggle() {
     const btn = document.getElementById('lang-toggle');
     if (!btn) return;
-
     const saved = localStorage.getItem('npp-lang');
     const lang = saved || detectBrowserLang();
     applyLanguage(lang);
-
     btn.addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
+        e.preventDefault(); e.stopPropagation();
         const next = currentLang === 'ru' ? 'ja' : 'ru';
         applyLanguage(next);
     });
+
+    const closeNotice = document.getElementById('close-lang-notice');
+    if (closeNotice) {
+        closeNotice.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            document.getElementById('lang-notice').style.display = 'none';
+            clearTimeout(langNoticeTimeout);
+        });
+    }
 }
 
 // ============================================================
@@ -623,7 +583,8 @@ function updateUnitMarkers() {
         if (!bounds.contains(station.coords)) return;
 
         station.units.forEach((unit, index) => {
-            const offset = 0.015;
+            // УВЕЛИЧЕННОЕ РАССТОЯНИЕ между маркерами энергоблоков (было 0.015, стало 0.025)
+            const offset = 0.025;
             const angle = (index * (360 / station.units.length)) * (Math.PI / 180);
             const unitCoords = [
                 station.coords[0] + Math.sin(angle) * offset,
@@ -791,6 +752,23 @@ function selectStation(station) {
 
     updateAllMarkers();
     hideTooltip();
+}
+
+function renderStationPanel(station) {
+    document.getElementById('panel-station-name').textContent = station.name;
+    const statusBadge = document.getElementById('panel-status-badge');
+    const statusConfig = getStatusConfig(station.status);
+    statusBadge.textContent = getStatusText(station.status);
+    statusBadge.style.background = statusConfig.gradient;
+    statusBadge.style.color = statusConfig.textColor;
+
+    const cleanedDescription = (station.overview || '').replace(/\[citation:\d+\]/g, '');
+    document.getElementById('overview-description').textContent = cleanedDescription || t('selectStationHint');
+    document.getElementById('location-text').textContent = station.location || t('locationUnknown');
+
+    updateUnitsTab(station);
+    updateHistoryTab(station);
+    updateFactsTab(station);
 }
 
 function selectUnit(unit) {
@@ -1222,7 +1200,7 @@ function initClock() {
 }
 
 // ============================================================
-// ПРОВЕРКА ДАННЫХ (диагностика)
+// ПРОВЕРКА ДАННЫХ
 // ============================================================
 function validateStationsData() {
     if (!Array.isArray(allStationsData) || allStationsData.length === 0) {
@@ -1257,7 +1235,6 @@ function validateStationsData() {
 // ИНИЦИАЛИЗАЦИЯ
 // ============================================================
 window.addEventListener('DOMContentLoaded', function() {
-    // Загружаем данные
     if (typeof stationsData !== 'undefined') {
         allStationsData = stationsData;
     } else {
@@ -1288,15 +1265,12 @@ window.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Проверка данных
     validateStationsData();
 
-    // Инициализация
-    initLanguageToggle();   // ставит язык ПЕРЕД картой
+    initLanguageToggle();
     initMap();
     initClock();
 
-    // Табы
     document.querySelectorAll('.tab').forEach(tab => {
         tab.addEventListener('click', function(e) {
             e.preventDefault();
@@ -1305,7 +1279,6 @@ window.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Закрытие панели
     const closePanel = document.getElementById('close-panel');
     if (closePanel) {
         closePanel.addEventListener('click', function(e) {
@@ -1319,7 +1292,6 @@ window.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Режимы
     const mapMode = document.getElementById('map-mode');
     const statsMode = document.getElementById('stats-mode');
 
