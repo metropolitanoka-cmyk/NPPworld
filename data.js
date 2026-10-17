@@ -6892,46 +6892,7 @@ const stationsData = [
 // ==================== ЮЖНАЯ КОРЕЯ (ПРОДОЛЖЕНИЕ) =========================
 // ==========================================================================
 
-// ---------- 30. ヨングァン原子力発電所 ----------
-{
-    id: 601,
-    name: "АЭС Йонван",
-    nameJa: "ヨングァン原子力発電所",
-    country: { name: "Южная Корея", nameJa: "韓国", flag: "🇰🇷" },
-    coords: [35.4097, 126.425],
-    status: "operational",
-    totalCapacity: 5875,
-    startYear: 1986,
-    overview: "Одна из крупнейших атомных станций Южной Кореи, ранее известная как АЭС Йонгван.",
-    overviewJa: "韓国最大級の原子力発電所の一つで、以前はヨングァン原発と呼ばれていました。",
-    location: "Йонван, Чолла-Намдо, Южная Корея",
-    locationJa: "韓国・全羅南道霊光",
-    city: "Йонван",
-    cityJa: "霊光",
-    units: [
-        { id: 1, name: "Йонван-1", nameJa: "ヨングァン1号機", type: "pwr", model: "OPR-1000", capacity: 1000, status: "operational", startYear: 1986 },
-        { id: 2, name: "Йонван-2", nameJa: "ヨングァン2号機", type: "pwr", model: "OPR-1000", capacity: 1000, status: "operational", startYear: 1987 },
-        { id: 3, name: "Йонван-3", nameJa: "ヨングァン3号機", type: "pwr", model: "OPR-1000", capacity: 1000, status: "operational", startYear: 1995 },
-        { id: 4, name: "Йонван-4", nameJa: "ヨングァン4号機", type: "pwr", model: "OPR-1000", capacity: 1000, status: "operational", startYear: 1996 },
-        { id: 5, name: "Йонван-5", nameJa: "ヨングァン5号機", type: "pwr", model: "OPR-1000", capacity: 1000, status: "operational", startYear: 2002 },
-        { id: 6, name: "Йонван-6", nameJa: "ヨングァン6号機", type: "pwr", model: "OPR-1000", capacity: 1000, status: "operational", startYear: 2002 }
-    ],
-    history: [
-        { year: "1981", title: "СТРОИТЕЛЬСТВО", titleJa: "建設開始", description: "Начало строительства", descriptionJa: "建設が始まる。" },
-        { year: "1986", title: "ПУСК", titleJa: "運転開始", description: "Первый блок подключен к сети", descriptionJa: "1号機が送電網に接続。" },
-        { year: "2002", title: "ПОЛНАЯ МОЩНОСТЬ", titleJa: "全出力運転", description: "Ввод последних блоков", descriptionJa: "最終号機が運転開始。" }
-    ],
-    facts: [
-        "Одна из самых мощных АЭС Южной Кореи",
-        "Все блоки используют стандартизированную корейскую конструкцию OPR-1000",
-        "Производит около 10% всей электроэнергии Южной Кореи"
-    ],
-    factsJa: [
-        "韓国最大級の原発。",
-        "全号機が韓国標準型OPR-1000を採用。",
-        "韓国全体の電力の約10%を発電。"
-    ]
-},
+
 
 // ---------- 31. ハンビット原子力発電所 ----------
 {
@@ -7175,100 +7136,9 @@ const stationsData = [
 },
 
 // ---------- 37. タラプール原子力発電所 ----------
-{
-    id: 1401,
-    name: "АЭС Тарапур",
-    nameJa: "タラプール原子力発電所",
-    country: { name: "Индия", nameJa: "インド", flag: "🇮🇳" },
-    coords: [19.8333, 72.6667],
-    status: "operational",
-    totalCapacity: 1400,
-    startYear: 1969,
-    overview: "Первая атомная электростанция в Индии, расположенная в штате Махараштра. Исторически использовала кипящие водо-водяные реакторы (BWR) американской поставки, сейчас также включает тяжеловодные реакторы индийского дизайна.",
-    overviewJa: "インド初の原発で、マハーラーシュトラ州に位置します。当初は米国製BWRを採用し、現在はインド設計の重水炉も備えています。",
-    location: "Тарапур, Махараштра, Индия",
-    locationJa: "インド・マハーラーシュトラ州タラプール",
-    city: "Тарапур",
-    cityJa: "タラプール",
-    units: [
-        { id: 1, name: "Тарапур-1", nameJa: "タラプール1号機", type: "bwr", model: "BWR (GE)", capacity: 160, status: "operational", startYear: 1969 },
-        { id: 2, name: "Тарапур-2", nameJa: "タラプール2号機", type: "bwr", model: "BWR (GE)", capacity: 160, status: "operational", startYear: 1969 },
-        { id: 3, name: "Тарапур-3", nameJa: "タラプール3号機", type: "phwr", model: "PHWR-540", capacity: 540, status: "operational", startYear: 2006 },
-        { id: 4, name: "Тарапур-4", nameJa: "タラプール4号機", type: "phwr", model: "PHWR-540", capacity: 540, status: "operational", startYear: 2005 }
-    ],
-    history: [
-        { year: "1964", title: "СОГЛАШЕНИЕ", titleJa: "協定", description: "Индийско-американское соглашение о строительстве", descriptionJa: "米印の建設協定。" },
-        { year: "1969", title: "ИСТОРИЧЕСКИЙ ПУСК", titleJa: "歴史的運転開始", description: "Пуск первых двух блоков — начало атомной энергетики Индии", descriptionJa: "1・2号機が運転開始、インド原子力の幕開け。" },
-        { year: "2005", title: "РАСШИРЕНИЕ", titleJa: "拡張", description: "Ввод тяжеловодных блоков индийского производства", descriptionJa: "インド製重水炉が運転開始。" }
-    ],
-    facts: [
-        "Первая АЭС в Азии за пределами СССР",
-        "Первоначальные реакторы BWR поставлялись США по программе «Атом для мира»",
-        "Несмотря на истечение первоначального проектного срока, блоки 1 и 2 продолжают работу",
-        "Блоки 3 и 4 — тяжеловодные реакторы индийского дизайна"
-    ],
-    factsJa: [
-        "ソ連以外のアジアで初の原発。",
-        "初期のBWRは米国の「平和のための原子力」計画で供給された。",
-        "当初の設計寿命を超えて1・2号機は運転を継続。",
-        "3・4号機はインド設計の重水炉。"
-    ]
-},
 
 // ---------- 38. ラジャスタン原子力発電所 ----------
-{
-    id: 1402,
-    name: "АЭС Раджастан",
-    nameJa: "ラジャスタン原子力発電所",
-    country: { name: "Индия", nameJa: "インド", flag: "🇮🇳" },
-    coords: [24.8722, 75.5861],
-    status: "operational",
-    totalCapacity: 1180,
-    startYear: 1973,
-    overview: "Первая АЭС в Индии, построенная с использованием тяжеловодных реакторов канадского типа CANDU. Стала основой для развития собственного индийского направления PHWR.",
-    overviewJa: "カナダ型CANDU重水炉を採用したインド初の原発。インド独自のPHWR路線の基礎となりました。",
-    location: "Раватбхата, Раджастан, Индия",
-    locationJa: "インド・ラージャスターン州ラワトバタ",
-    city: "Раватбхата",
-    cityJa: "ラワトバタ",
-    units: [
-        { id: 1, name: "RAPS-1", nameJa: "RAPS 1号機", type: "phwr", model: "CANDU", capacity: 100, status: "closed", startYear: 1973, endYear: 2004 },
-        { id: 2, name: "RAPS-2", nameJa: "RAPS 2号機", type: "phwr", model: "CANDU", capacity: 200, status: "operational", startYear: 1981 },
-        { id: 3, name: "RAPS-3", nameJa: "RAPS 3号機", type: "phwr", model: "PHWR-220", capacity: 220, status: "operational", startYear: 2000 },
-        { id: 4, name: "RAPS-4", nameJa: "RAPS 4号機", type: "phwr", model: "PHWR-220", capacity: 220, status: "operational", startYear: 2000 },
-        { id: 5, name: "RAPS-5", nameJa: "RAPS 5号機", type: "phwr", model: "PHWR-220", capacity: 220, status: "operational", startYear: 2010 },
-        { id: 6, name: "RAPS-6", nameJa: "RAPS 6号機", type: "phwr", model: "PHWR-220", capacity: 220, status: "operational", startYear: 2010 },
-        { id: 7, name: "RAPS-7", nameJa: "RAPS 7号機", type: "phwr", model: "PHWR-700", capacity: 700, status: "construction", startYear: 2021, expectedYear: 2027 },
-        { id: 8, name: "RAPS-8", nameJa: "RAPS 8号機", type: "phwr", model: "PHWR-700", capacity: 700, status: "construction", startYear: 2022, expectedYear: 2028 }
-    ],
-    history: [
-        { year: "1965", title: "СОГЛАШЕНИЕ", titleJa: "協定", description: "Индийско-канадское соглашение о сотрудничестве", descriptionJa: "印加の協力協定。" },
-        { year: "1973", title: "ПУСК ПЕРВОГО БЛОКА", titleJa: "1号機運転開始", description: "Пуск первого канадского реактора CANDU", descriptionJa: "初のカナダ型CANDU炉が運転開始。" },
-        { year: "1990-е", title: "САНКЦИИ", titleJa: "制裁", description: "Замораживание сотрудничества после ядерных испытаний Индии", descriptionJa: "インドの核実験を受け協力が凍結。" },
-        { year: "2010", title: "РАСШИРЕНИЕ", titleJa: "拡張", description: "Ввод блоков 5 и 6 собственной индийской разработки", descriptionJa: "インド独自開発の5・6号機が運転開始。" }
-    ],
-    facts: [
-        "Плутоний, полученный на первом блоке, был использован в первом индийском ядерном испытании 1974 года («Улыбающийся Будда»)",
-        "После испытаний Канада прекратила ядерное сотрудничество",
-        "Станция является полигоном для развития национальных ядерных технологий"
-    ],
-    factsJa: [
-        "1号機で得られたプルトニウムは1974年のインド初の核実験「笑う仏陀」に使われた。",
-        "実験後、カナダは原子力協力を停止。",
-        "インド独自の原子力技術開発の試験場。"
-    ]
-},
 
-// ==========================================================================
-// ==================== ПАКИСТАН ============================================
-// ==========================================================================
-
-// ---------- 39. チャシュマ原子力
-// ==========================================================================
-// ==================== ПАКИСТАН ===========================================
-// ==========================================================================
-
-// ---------- 30. チャシュマ原子力発電所 ----------
 {
     id: 1450,
     name: "АЭС Чашма",
@@ -8654,7 +8524,7 @@ const stationsData = [
 // ==========================================================================
 
 {
-    id: 3400,
+    id: 3402,
     name: "Научно-исследовательский центр в Йонбёне",
     nameJa: "寧辺核科学研究センター",
     country: { name: "КНДР", nameJa: "北朝鮮", flag: "🇰🇵" },
