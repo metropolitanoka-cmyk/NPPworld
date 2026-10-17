@@ -9140,7 +9140,8 @@ const chinaNuclearStations = [
 // ==========================================================================
 // ==================== ГЛОБАЛЬНАЯ СТАТИСТИКА ===============================
 // ==========================================================================
-
+// Объединяем основной массив с китайскими станциями
+window.stationsData = [...stationsData, ...chinaNuclearStations];
 const globalStats = {
     totalPlants: stationsData.length,
     totalCapacity: stationsData.reduce((sum, station) => sum + (station.totalCapacity || 0), 0),
