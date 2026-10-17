@@ -14,7 +14,7 @@ html, body {
     overflow: hidden;
 }
 
-/* Японский шрифт: подключаем Noto Sans JP как основной для html[lang="ja"] */
+/* Японский шрифт */
 html[lang="ja"] * {
     font-family: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Segoe UI', Tahoma, sans-serif;
 }
@@ -25,7 +25,6 @@ html[lang="ja"] .nav-btn,
 html[lang="ja"] .filter-title {
     letter-spacing: 0;
 }
-/* Длинные японские строки не должны вылезать */
 html[lang="ja"] .overview-description,
 html[lang="ja"] .event-description,
 html[lang="ja"] .fact-text,
@@ -36,7 +35,6 @@ html[lang="ja"] .unit-description {
 }
 
 :root {
-    /* Темная тема (по умолчанию) */
     --bg-primary: #0A0E14;
     --bg-secondary: #141923;
     --bg-tertiary: #1E2532;
@@ -101,7 +99,7 @@ body {
     bottom: 0;
 }
 
-/* ===== НОВАЯ ШАПКА (ДЕСКТОП) ===== */
+/* ===== ШАПКА ===== */
 .header {
     height: 70px;
     background: var(--bg-secondary);
@@ -118,7 +116,6 @@ body {
     padding: 0 20px;
 }
 
-/* Левый сектор: Логотип и название */
 .brand-section {
     display: flex;
     align-items: center;
@@ -177,7 +174,6 @@ body {
     white-space: nowrap;
 }
 
-/* Центральный сектор: Навигация и поиск */
 .header-center {
     display: flex;
     align-items: center;
@@ -299,7 +295,6 @@ body {
     color: var(--text-tertiary);
 }
 
-/* Правый сектор: Часы и управление */
 .header-right {
     display: flex;
     align-items: center;
@@ -381,33 +376,36 @@ body {
     border-color: var(--accent-blue);
 }
 
-/* ===== КНОПКА ЯЗЫКА ===== */
-/* Чуть шире обычной control-btn, с флагом и текстом */
+/* ===== КНОПКА ЯЗЫКА (УВЕЛИЧЕНА) ===== */
 #lang-toggle {
     width: auto;
-    min-width: 60px;
-    padding: 0 12px;
-    gap: 6px;
+    min-width: 80px;
+    padding: 0 16px;
+    gap: 8px;
     font-family: 'Orbitron', 'Noto Sans JP', sans-serif;
     font-weight: 700;
     letter-spacing: 0.5px;
     position: relative;
     overflow: hidden;
+    font-size: 15px;
+    border: 2px solid var(--accent-yellow);
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    box-shadow: 0 0 8px rgba(255, 204, 0, 0.2);
 }
 
 #lang-toggle:hover {
     border-color: var(--accent-yellow);
-    box-shadow: 0 0 12px rgba(255, 204, 0, 0.4);
+    box-shadow: 0 0 16px rgba(255, 204, 0, 0.5);
     transform: translateY(-1px);
 }
 
-/* Лёгкий жёлтый блик, чтобы кнопку было заметно, но не вырвиглазно */
 #lang-toggle::before {
     content: '';
     position: absolute;
     top: 0; left: -100%;
     width: 100%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 204, 0, 0.2), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255, 204, 0, 0.3), transparent);
     transition: left 0.5s ease;
     pointer-events: none;
 }
@@ -416,20 +414,54 @@ body {
 }
 
 #lang-toggle #lang-label {
-    font-size: 12px;
+    font-size: 14px;
     line-height: 1;
     white-space: nowrap;
 }
 
-/* На мобильных кнопка чуть компактнее, но текст "JA"/"RU" остаётся */
-@media (max-width: 767px) {
-    #lang-toggle {
-        min-width: 44px;
-        padding: 0 8px;
-    }
-    #lang-toggle #lang-label {
-        font-size: 11px;
-    }
+/* ===== ЖЁЛТОЕ УВЕДОМЛЕНИЕ ===== */
+.lang-notice {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: 3000;
+    background: linear-gradient(135deg, #FFCC00, #FFAA33);
+    color: #1A202C;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 14px;
+    box-shadow: 0 4px 20px rgba(255, 204, 0, 0.5);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    animation: slideInRight 0.4s ease;
+    max-width: 90vw;
+}
+
+.lang-notice .close-notice {
+    background: rgba(0,0,0,0.2);
+    border: none;
+    color: #1A202C;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    transition: background 0.2s;
+    flex-shrink: 0;
+}
+
+.lang-notice .close-notice:hover {
+    background: rgba(0,0,0,0.4);
+}
+
+@keyframes slideInRight {
+    from { transform: translateX(120%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
 }
 
 /* ===== ПИНЫ АЭС ===== */
@@ -515,26 +547,10 @@ body {
     z-index: 1001;
 }
 
-/* Формы для разных типов реакторов */
-.unit-vver { 
-    border-radius: 50%; 
-    clip-path: none;
-}
-
-.unit-rbmk { 
-    border-radius: 8px; 
-    clip-path: none;
-}
-
-.unit-bwr { 
-    border-radius: 8px;
-    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-}
-
-.unit-fast { 
-    border-radius: 8px;
-    clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
-}
+.unit-vver { border-radius: 50%; }
+.unit-rbmk { border-radius: 8px; }
+.unit-bwr { border-radius: 8px; clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); }
+.unit-fast { border-radius: 8px; clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%); }
 
 /* Легенда */
 .legend-container {
@@ -596,7 +612,6 @@ body {
     touch-action: pan-x pan-y pinch-zoom;
 }
 
-/* Оптимизация Leaflet */
 .leaflet-container {
     font: inherit;
     -webkit-tap-highlight-color: transparent;
@@ -623,13 +638,11 @@ body {
     color: white !important;
 }
 
-/* Кастомные маркеры Leaflet */
 .custom-marker {
     background: none;
     border: none;
 }
 
-/* Tooltip стили */
 .custom-tooltip {
     background: var(--card-bg);
     border: 1px solid var(--border-color);
@@ -710,7 +723,6 @@ body {
     color: white;
 }
 
-/* Вкладки */
 .tabs {
     display: flex;
     background: var(--bg-tertiary);
@@ -741,7 +753,6 @@ body {
     background: rgba(0, 209, 255, 0.05);
 }
 
-/* Контент вкладок */
 .tab-content {
     flex: 1;
     overflow-y: auto;
@@ -767,7 +778,6 @@ body {
     gap: 8px;
 }
 
-/* Блок фото */
 .station-photo-container {
     margin-bottom: 15px;
     border-radius: 8px;
@@ -784,7 +794,6 @@ body {
     transition: all 0.3s;
 }
 
-/* Обзор */
 .overview-stats {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -848,7 +857,6 @@ body {
     font-size: 13px;
 }
 
-/* Энергоблоки */
 .units-header {
     margin-bottom: 15px;
     padding-bottom: 10px;
@@ -957,7 +965,6 @@ body {
     width: 16px;
 }
 
-/* История */
 .timeline {
     position: relative;
     padding-left: 20px;
@@ -990,7 +997,6 @@ body {
     line-height: 1.4;
 }
 
-/* Факты */
 .facts-grid {
     display: flex;
     flex-direction: column;
@@ -1105,7 +1111,7 @@ body {
     color: white;
 }
 
-/* ===== ВСПЛЫВАЮЩАЯ ПОДСКАЗКА ===== */
+/* ===== ПОДСКАЗКА ===== */
 .floating-tooltip {
     position: fixed;
     bottom: 20px;
@@ -1169,113 +1175,128 @@ body {
         padding: 10px 15px;
         gap: 10px;
     }
-    
+
     .brand-section {
         width: 100%;
         justify-content: space-between;
     }
-    
+
     .brand-title {
         font-size: 18px;
     }
-    
+
     .header-center {
         width: 100%;
         margin: 0;
         gap: 10px;
         flex-direction: column;
     }
-    
+
     .nav-buttons {
         width: 100%;
         justify-content: space-between;
     }
-    
+
     .nav-btn {
         flex: 1;
         text-align: center;
         padding: 8px 5px;
         font-size: 12px;
     }
-    
+
     .search-container {
         width: 100%;
         max-width: 100%;
     }
-    
+
     .header-right {
         width: 100%;
         justify-content: space-between;
     }
-    
+
     .vfd-clock {
         min-width: 100px;
         font-size: 12px;
         padding: 5px 8px;
     }
-    
+
     .segment-display {
         font-size: 12px;
     }
-    
+
     .desktop-controls {
         display: flex;
         gap: 8px;
     }
-    
+
     .map-controls {
         display: flex;
         gap: 5px;
     }
-    
+
     .legend-container {
         top: 120px;
     }
-    
+
     .map-container {
         top: 120px;
         height: calc(100vh - 120px);
     }
-    
+
     .sidepanel {
         top: 120px;
         height: calc(100vh - 120px);
     }
-    
+
     .toggle-filters {
         bottom: 150px;
     }
-    
+
     .filters-panel {
         bottom: 210px;
     }
+
+    #lang-toggle {
+        min-width: 60px;
+        padding: 0 10px;
+    }
+    #lang-toggle #lang-label {
+        font-size: 12px;
+    }
+
+    .lang-notice {
+        top: 130px;
+        right: 10px;
+        left: 10px;
+        font-size: 13px;
+        padding: 10px 15px;
+    }
 }
 
-/* Планшеты (768px и выше) */
 @media (min-width: 768px) {
     .sidepanel {
         width: 400px;
     }
-    
+
     .legend-container {
         left: 20px;
         right: auto;
         width: auto;
         max-width: 500px;
     }
-    
+
     .toggle-filters {
         bottom: 100px;
         left: 20px;
     }
-    
+
     .filters-panel {
         bottom: 160px;
         left: 20px;
         width: 300px;
         right: auto;
     }
-    
+
     .floating-tooltip {
         left: auto;
         right: 20px;
@@ -1283,78 +1304,75 @@ body {
     }
 }
 
-/* Десктоп (1024px и выше) */
 @media (min-width: 1024px) {
     .header {
         height: 70px;
         padding: 0 30px;
     }
-    
+
     .brand-title {
         font-size: 22px;
     }
-    
+
     .nav-buttons {
         gap: 10px;
     }
-    
+
     .nav-btn {
         padding: 10px 20px;
         font-size: 14px;
     }
-    
+
     .search-container {
         max-width: 400px;
     }
-    
+
     .vfd-clock {
         min-width: 140px;
     }
-    
+
     .map-container {
         top: 70px;
         height: calc(100vh - 70px);
     }
-    
+
     .sidepanel {
         top: 70px;
         width: 450px;
         height: calc(100vh - 70px);
     }
-    
+
     .legend-container {
         top: 80px;
         left: 30px;
     }
-    
+
     .toggle-filters {
         bottom: 110px;
         left: 30px;
     }
-    
+
     .filters-panel {
         bottom: 170px;
         left: 30px;
     }
-    
+
     .floating-tooltip {
         right: 30px;
         width: 350px;
     }
 }
 
-/* Большие экраны (1440px и выше) */
 @media (min-width: 1440px) {
     .sidepanel {
         width: 500px;
     }
-    
+
     .legend-container {
         max-width: 600px;
     }
 }
 
-/* ===== АНИМАЦИИ ===== */
 @keyframes orbit1 {
     0% { transform: rotate(0deg) translateX(10px) rotate(0deg); }
     100% { transform: rotate(360deg) translateX(10px) rotate(-360deg); }
@@ -1368,4 +1386,19 @@ body {
 @keyframes orbit3 {
     0% { transform: rotate(240deg) translateX(10px) rotate(0deg); }
     100% { transform: rotate(600deg) translateX(10px) rotate(-360deg); }
+}
+
+.no-data-message {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-tertiary);
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+.no-data-message i {
+    font-size: 32px;
+    opacity: 0.5;
 }
