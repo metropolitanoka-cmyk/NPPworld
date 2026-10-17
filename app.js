@@ -164,7 +164,7 @@ function getReactorTypeName(type) {
     return currentLang === 'ja' ? (cfg.nameJa || cfg.name) : cfg.name;
 }
 
-// ХЕЛПЕР ДЛЯ ВЫБОРА ЯЗЫКА
+// Универсальный хелпер для выбора локализованной строки
 function getLoc(fieldRu, fieldJa) {
     if (currentLang === 'ja' && fieldJa) return fieldJa;
     return fieldRu || '';
@@ -198,21 +198,33 @@ function applyLanguage(lang) {
     currentLang = lang;
     document.documentElement.lang = lang;
 
+    // Динамическое изменение Title для вкладки браузера
+    if (lang === 'ja') {
+        document.title = "世界の原子力発電所 | インタラクティブマップ";
+    } else {
+        document.title = "МИР АЭС | Интерактивная карта атомных электростанций мира";
+    }
+
+    // Кнопка языка
     const langLabel = document.getElementById('lang-label');
     if (langLabel) langLabel.textContent = lang === 'ru' ? 'JA' : 'RU';
 
+    // data-i18n элементы
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         const translated = t(key);
         if (translated) el.textContent = translated;
     });
 
+    // Placeholder поиска
     const searchInput = document.getElementById('station-search');
     if (searchInput) searchInput.placeholder = t('searchPlaceholder');
 
+    // Логотип
     const brandTitle = document.getElementById('brand-title');
     if (brandTitle) brandTitle.textContent = t('brandTitle');
 
+    // Перерисовка панели, если открыта
     if (selectedStation) {
         renderStationPanel(selectedStation);
     } else {
@@ -222,9 +234,11 @@ function applyLanguage(lang) {
         if (locEl) locEl.textContent = '—';
     }
 
+    // Обновление фильтров
     refreshFilterLabels();
     rebuildCountryFilters();
 
+    // Обновление маркеров
     updateStationMarkers();
     updateUnitMarkers();
 
